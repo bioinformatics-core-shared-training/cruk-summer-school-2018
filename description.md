@@ -22,14 +22,20 @@ More specific requirements and references can be found [here](http://www.cruk.ca
 
 
 # Aims
+During this course you will learn about:-
 
 - To provide an understanding of how aligned sequencing reads, genome sequences and genomic regions are represented in R.
-- To encourage confidence in reading sequencing reads into R, performing quality assessment and executing standard pipelines for RNA-Seq and ChIP-Seq analysis 
+- To encourage confidence in reading sequencing reads into R, performing quality assessment and executing standard pipelines for (bulk) RNA-Seq and ChIP-Seq analysis 
+- Analysis of transcription factor (TF) and epigenomic (histone mark) ChIP-seq data 
+- Recent advances in single-cell sequencing and analysis
 
 # Objectives
+After the course you should be able to:-
+
 
 - Know what tools are available in Bioconductor for HTS analysis and understand the basic object-types that are utilised.
-- Given a set of gene identifiers, find out whereabouts in the genome they are located, and vice-versa (i.e. go from genomic coordinates to genes).
+- Process and quality control short read sequencing data 
+- Given a set of gene identifiers, find out whereabouts in the genome they are located, and vice-versa 
 - Produce a list of differentially expressed genes from an RNA-Seq experiment.
 - Import a set of ChIP-Seq peaks and investigate their biological context.
 
