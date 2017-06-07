@@ -3,8 +3,10 @@
 - 09:30 - 10:30; Introduction to Functional Genomics (RS)
 - 10:30 - 12:30; Introduction (Recap) of R (MD)
 - 12:30 - 13:30; LUNCH
-- 13:30 - 17:00; Data Processing for Next Generation Sequencing (SS / DB)
-
+- 13:30 - 17:00; (SS / DB)
+    + Data Processing for Next Generation Sequencing
+    + Alignment to reference genomes and QC 
+    
 # Day 2
 
 - 09:30 - 10:30; Introduction to RNA-seq (AS / AM / SB)
