@@ -1,3 +1,7 @@
+# CRUk Autumn School 2017: Functional Genomics
+
+## 18th - 22nd September 2017: Crail-Marshall Room, Downing Site, University of Cambridge
+
 
 # Overview
 
