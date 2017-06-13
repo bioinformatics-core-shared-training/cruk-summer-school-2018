@@ -55,3 +55,46 @@ After the course you should be able to:-
 - Produce a list of differentially expressed genes from an RNA-Seq experiment.
 - Import a set of ChIP-Seq peaks and investigate their biological context.
 - Appreciate the differences between bulk and single-cell RNA-seq analyses, and why the same methodologies might not be applicable
+
+# Accomodation
+
+If required, free bed and breakfast accommodation will be provided for attendees in Murray-Edwards College. Please let us know on the registration form if you need accommodation and when you plan to check-in and check-out. Please note that the course ends at 13:30 on Friday 22nd September and accommodation is not provided for Friday night.
+
+# Timetable (approximate)
+
+
+## Day zero
+
+Informal get-together the day before the course at a local pub
+
+## Day one 09:30 - 17:00
+
+- Overview of Functional Genomics
+- Review of the R programming language
+- Data Processing for Next Generation Sequencing
+- Alignment to reference genomes and QC
+
+## Day two 09:30 - 17:00
+
+- Introduction to (bulk) RNA-seq
+- Importing and QC of RNA-seq data
+- Differential Expression
+
+## Day three 09:30 - 17:00
+
+- Annotation and visualisation of Differential Expression
+- Gene set Analysis and Gene Ontology testing
+- Introduction to ChIP-seq
+- Quality control methods for ChIP-seq
+
+
+## Day four 09:30 - 17:00
+
+- Downloading public ChIP-seq datasets
+- Downstream analysis of ChIP-seq data
+- Differential Binding analysis
+- Introduction to the analysis of long distance interactions
+
+## Day five 09:30 - 12:30
+
+- Introduction to single-cell sequencing 
