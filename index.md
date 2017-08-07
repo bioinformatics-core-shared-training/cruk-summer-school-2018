@@ -28,13 +28,13 @@ More specific requirements and references can be found [here](http://www.cruk.ca
 
 # Instructors
 
-- [Rory Stark (CRUK CI)]((http://www.cruk.cam.ac.uk/core-facilities/bioinformatics-core)
+- [Rory Stark (CRUK CI)](http://www.cruk.cam.ac.uk/core-facilities/bioinformatics-core)
 - [Mark Dunning (CRUK CI)](http://markdunning.github.io/)
 - [Shamith Samarajiwa (MRC CU)](http://www.mrc-cu.cam.ac.uk/research/Shamith-Samarajiwa-folder)
 - [Dora Bihary (MRC CU)](http://www.mrc-cu.cam.ac.uk/research/Shamith-Samarajiwa-folder)
 - [Ashley Sawle (CRUK CI)](http://www.cruk.cam.ac.uk/core-facilities/bioinformatics-core)
-- Alistair Martin (CRUK CI)
-- [Stephane Ballereau (CRUK CI)]((http://www.cruk.cam.ac.uk/core-facilities/bioinformatics-core)
+- [Alistair Martin (CRUK CI)](http://www.cruk.cam.ac.uk/research-groups/caldas-group)
+- [Stephane Ballereau (CRUK CI)](http://www.cruk.cam.ac.uk/core-facilities/bioinformatics-core)
 - [Davis McCarthy (EBI)](https://sites.google.com/site/davismcc/home)
 
 
