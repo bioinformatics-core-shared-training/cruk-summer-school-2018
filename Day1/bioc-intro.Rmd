@@ -2,6 +2,7 @@
 title: "R and Bioconductor Introduction"
 author: "Mark Dunning"
 date: '`r format(Sys.time(), "Last modified: %d %b %Y")`'
+output: html_notebook
 ---
 
 # About R
@@ -53,5 +54,170 @@ On the [Bioconductor website](www.bioconductor.org),. you will find
 
 For this session, we will introduce the Bioconductor project as a means of analysing high-throughput data
 
+## Installing a package
+
+- [edgeR landing page](http://bioconductor.org/packages/release/bioc/html/edgeR.html)
+
+```{r eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite("edgeR")
+```
+
+```{r}
+library(edgeR)
+edgeRUsersGuide()
+```
+
+also check the Help tab
+
+## Structures for data analysis
+
+```{r eval=FALSE}
+biocLite("breastCancerVDX")
+```
+
+```{r}
+library(breastCancerVDX)
+data("vdx")
+vdx
+```
+
+Complex data structures are used in Bioconductor to represent high-throughput data, but we often have simple functions that we can use to access the data. The expression values can be obtained by the `exprs` function:-
+
+```{r}
+eValues <- exprs(vdx)
+class(eValues)
+
+```
+
+- the data are stored in a `matrix` in R
+- two-dimensional object
+  + rows for genes
+  + columns for samples
+- each entry is a *normalised* log$_2$ intensity value for a particular gene in a given sample
+- subsetting a matrix is done using the `[row, column]` notation
+  + the function `c` is used to make a one-dimensional *vector*
+  + the shortcut `:` can used to stand for a sequence of consecutive numbers
+  
+```{r}
+eValues[c(1,2,3),c(1,2,3,4)]
+eValues[1:3,1:4]
+```
+
+A diagnostic plot such as a *boxplot* can be used to
+```{r}
+boxplot(eValues)
+```
+
+The *metadata*, or phenotypic data, for the samples is retrieve using the `pData` function.
+
+
+```{r}
+metadata <- pData(vdx)
+metadata
+class(metadata)
+```
+
+```{r}
+colnames(metadata)
+metadata$samplename
+metadata$samplename == colnames(eValues)
+```
+
+Plot the size distribution
+Look at tumour grade stats
+
+```{r}
+hist(metadata$age)
+table(metadata$grade)
+table(metadata$grade,metadata$er)
+```
+
+Lets say we're interested in high-grade tumours
+
+- `==` is used to make a logical comparison
+- result is a `TRUE` or `FALSE`
+
+
+```{r}
+metadata$grade == 3
+```
+
+```{r}
+metadata[which(metadata$grade == 3),]
+```
+
+Can use same expression to subset the columns of the expression matrix
+
+```{r}
+eValues[,metadata$grade==3]
+```
+
+******
+******
+******
+
+
+## Exercise
+
+- Find samples with age < 
+- Write to a `.csv` file
+
+******
+******
+******
+
+```{r}
+
+```
+
+can plot individual genes wrt metadata
+
+```{r}
+boxplot(eValues[1,]~metadata$er)
+```
+
+
+```{r}
+features <- fData(nki)
+class(features)
+features[1:10,]
+```
+
+could use `grep`, `match` or `==` to find
+
+******
+******
+******
+
+## Exercise
+
+- Use the table of features to find the probes for your favourite gene
+  + use `BRCA1` if you don't have one
+
+******
+******
+******
+
+
+
+## Simple testing
+
+```{r}
+boxplot(eValues[1,]~metadata$er)
+t.test(eValues[1,]~metadata$er)
+```
+
+```{r}
+library(genefilter)
+tstats <- rowttests(eValues, as.factor(metadata$er))
+head(tstats)
+hist(tstats$statistic)
+```
+
+```{r}
+pvalues <- p.adjust(tstats$p.value)
+sum(pvalues < 0.05)
+```
 
 
