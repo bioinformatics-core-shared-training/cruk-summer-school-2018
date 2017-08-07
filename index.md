@@ -98,3 +98,7 @@ After the course you should be able to:-
 # Day 5
 
 - 09:30 - 12:30; Introduction to single-cell sequencing (DM)
+
+## Data
+
+- Mouse mammary data (counts): [https://figshare.com/s/1d788fd384d33e913a2a](https://figshare.com/s/1d788fd384d33e913a2a)
