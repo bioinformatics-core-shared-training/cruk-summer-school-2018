@@ -2,7 +2,10 @@
 title: "R and Bioconductor Introduction"
 author: "Mark Dunning"
 date: '`r format(Sys.time(), "Last modified: %d %b %Y")`'
-output: html_notebook
+output: 
+  html_notebook: 
+    toc: yes
+    toc_float: yes
 ---
 
 # About R
@@ -19,6 +22,9 @@ If you haven't done so already, you can check out our [R crash course](https://b
 - [The BBC](https://github.com/BBC-Data-Unit/music-festivals) makes code available for some of their stories (e.g. gender bias in music festivals)
 
 
+
+
+
 R's role in promoting reproducible research cannot be overstated.
 
 ![](images/rep-research-nyt.png)
@@ -28,6 +34,42 @@ Two Biostatiscians (later termed '*Forensic Bioinformaticians*') from M.D. Ander
 Keith Baggerly's talk on the subject is highly-recommended.
 
 <iframe width="420" height="315" src="https://www.youtube.com/embed/7gYIs7uYbMo" frameborder="0" allowfullscreen></iframe>
+
+## About the practicals for this workshop
+
+- The traditional way to enter R commands is via the Terminal, or using the console in RStudio (bottom-left panel when RStudio opens for first time).
+- However, for this course we will use a relatively new feature called *R-notebooks*.
+- An R-notebook mixes plain text with R code
+
+Markdown is a very simple way of writing a template to produce a pdf, HTML or word document. The compiled version of this document is available online and is more convenient to browse [here](https://bioinformatics-core-shared-training.github.io/cruk-autumn-school-2017/Day1/bioc-intro.nb.html).
+
+- "chunks" of R code can be added using the *insert* option from the toolbar, or the CTRL + ALT + I shortcut
+- Each line of R can be executed by clicking on the line and pressing CTRL and ENTER
+- Or you can press the green triangle on the right-hand side to run everything in the chunk
+- Try this now!
+- The code might have different options which dictate how the output is displayed in the compiled document (e.g. HTML)
+    + e.g. you might see `EVAL = FALSE` or `echo = FALSE`
+    + you don't have to worry about this if stepping through the markdown interactively
+
+```{r}
+print("Hello World")
+
+```
+
+*This will be displayed in italic*
+
+**This will be displayed in bold**
+
+
+- this 
+- is 
+- a 
+- list
+    + this is a *sub-list*
+
+You can also add hyperlinks, images and tables. More help is available through RStudio **Help -> Markdown Quick Reference**
+
+
 
 
 # About the Bioconductor project
@@ -49,7 +91,7 @@ On the [Bioconductor website](www.bioconductor.org),. you will find
 - [Example datasets](http://bioconductor.org/packages/release/BiocViews.html#___ExperimentData)
 - [Annotation Resources](http://bioconductor.org/packages/release/BiocViews.html#___AnnotationData)
 - Conferences
-    + upcoming conference in Cambridge - December 2017
+    + upcoming conference in Cambridge - [December 2017](https://bioconductor.github.io/EuroBioc2017/)
     
 
 For this session, we will introduce the Bioconductor project as a means of analysing high-throughput data
@@ -71,7 +113,7 @@ biocLite("edgeR")
 
 Once installed, a Bioconductor package can be loaded in the usual way with the `library` function. All packages are required to have a *vignette* which gives detailed instructions on how to use the package and the workflow of commands. Some packages such as `edgeR` have very comprehensive *user guides* with lots of use-cases.
 
-```{r}
+```{r message=FALSE,eval=FALSE}
 library(edgeR)
 vignette("edgeR")
 edgeRUsersGuide()
@@ -100,7 +142,7 @@ To make the dataset accessible in R, we need to load the library and use the `da
 
 ```{r message=FALSE}
 library(breastCancerVDX)
-data("vdx")
+data(vdx)
 vdx
 ```
 
@@ -131,11 +173,33 @@ eValues[1:3,1:4]
 ```
 
 A diagnostic plot such as a *boxplot* can be used to visualise the distribution of expression values for each patient
+
 - we would expect *roughly* the same distribution for each patient and no obvious trends or outlying patients
 
 ```{r fig.width=12}
 boxplot(eValues,outline=FALSE)
 ```
+
+### Downloading data from GEO
+
+An alternative
+
+```{r eval=FALSE}
+## If not installed already, install GEOquery with
+## source("http://www.bioconductor.org/biocLite.R")
+## biocLite("GEOquery")
+
+
+library(GEOquery)
+mydata <- getGEO("GSE1729")
+mydata
+
+
+```
+
+
+For more detailed information on microarrays, [see our course](http://bioinformatics-core-shared-training.github.io/microarray-analysis/)
+
 ## Accessing patient data
 
 The *metadata*, or phenotypic data, for the samples is retrieve using the `pData` function.
