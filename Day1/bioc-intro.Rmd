@@ -419,7 +419,11 @@ tstats[order(tstats$p.value,decreasing = FALSE),]
 
 ```
 
-However, this isn't immediately useful
+However, this isn't immediately useful unless we can recognise the manufacturer probe IDs
+
+- to provide extra annotation to the table, we can *bind* the columns of test statistic with those from the feature matrix
+- however, we can only do this in cases where the rows are in direct correspondence
+
 
 ```{r}
 all(rownames(tstats) == rownames(features))
@@ -430,11 +434,25 @@ tstats.annotated
 
 ```
 
+Now when we order by p-value, the extra columns that we just added allow us to interpret the results more easily
+
 ```{r}
 tstats.ordered <- tstats.annotated[order(tstats$p.value,decreasing = FALSE),]
 tstats.ordered
 
 ```
+
+We can also query this table to look for our favourite genes of interest
+
+- `%in%` is a simplified way to perform matches to multiple items in a vector
+
+```{r}
+
+tstats.ordered[grep("ESR1",tstats.ordered$Gene.symbol),]
+tstats.ordered[tstats.ordered$Gene.symbol %in% c("ESR1","GATA3","FOXA1"),]
+
+```
+
 
 
 ******
