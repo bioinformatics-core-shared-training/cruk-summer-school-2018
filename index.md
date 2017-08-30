@@ -71,14 +71,16 @@ After the course you should be able to:-
 # Day 2
 
 - 09:30 - 10:30; [Introduction to RNA-seq (AS)](RNASeq/slides/rnaSeq_May2017.pdf)
-- 10:30 - 12:30; Importing and QC of RNA-seq data (AS)
+- 10:30 - 12:30; [Importing and QC of RNA-seq data (AS)](RNASeq/rna-seq-preprocessing.nb.html
+ + [source file](RNASeq/slides/rna-seq-preprocessing.nb.Rmd)
 - 12:30 - 13:30; LUNCH
 - 13:30 - 17:00; Differential Expression (DM)
 
 # Day 3
 
-- 09:30 - 11:00; Annotation and Visualisation of Differential Expression (SB)
-- 11:00 - 12:30; Gene set analysis and Gene Ontology testing (AM)
+- 09:30 - 11:00; [Annotation and Visualisation of Differential Expression (AM)](RNASeq/rna-seq-annotation-visualisation.nb.html)
+ + [source file](RNASeq/rna-seq-annotation-visualisation.nb.Rmd)
+- 11:00 - 12:30; [Gene set analysis and Gene Ontology testing (SB)](RNASeq/rna-seq-gene-set-testing.nb.html)
 - 12:30 - 13:30; LUNCH
 - 13:30 - 17:00; (SS / DB)
   + Introduction to ChIP-seq
