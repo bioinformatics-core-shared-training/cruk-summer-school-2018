@@ -1,3 +1,6 @@
 [submodule "RNASeq"]
 	path = RNASeq
 	url = https://github.com/bioinformatics-core-shared-training/RNAseq-R
+[submodule "ChIPSeq"]
+	path = ChIPSeq
+	url = https://github.com/shamith-s/CRUK_AutumnSchool_2017
