@@ -99,7 +99,7 @@ After the course you should be able to:-
   
 # Day 5
 
-- 09:30 - 12:30; Introduction to single-cell sequencing (DM)
+- 09:30 - 12:30; [Introduction to single-cell sequencing](SingleCell/index.Rmd)
 
 ## Data
 
