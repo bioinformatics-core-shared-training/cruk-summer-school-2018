@@ -4,3 +4,6 @@
 [submodule "ChIPSeq"]
 	path = ChIPSeq
 	url = https://github.com/shamith-s/CRUK_AutumnSchool_2017
+[submodule "SingleCell"]
+	path = SingleCell
+	url = https://github.com/hemberg-lab/scRNA.seq.course
