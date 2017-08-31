@@ -1,0 +1,12 @@
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("ChIPQC",
+           "ChIPseeker",
+           "TxDb.Hsapiens.UCSC.hg38.knownGene",
+           "ChIPpeakAnno",
+           "ensembldb",
+           "EnsDb.Hsapiens.v86",
+           "rGREAT",
+           "DiffBind",
+           "rgl",
+           "biomaRt",
+           "Rcade"))

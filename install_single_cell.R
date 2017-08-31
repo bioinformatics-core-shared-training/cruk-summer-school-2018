@@ -1,4 +1,5 @@
 source("http://www.bioconductor.org/biocLite.R")
+install.packages("devtools")
 devtools::install_github('hemberg-lab/scRNA.seq.funcs')
 devtools::install_github('hemberg-lab/SC3')
 devtools::install_github('JustinaZ/pcaReduce')
