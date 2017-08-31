@@ -1,0 +1,16 @@
+source("http://www.bioconductor.org/biocLite.R")
+biocLite(c("limma", 
+         "edgeR", 
+         "gplots", 
+         "org.Mm.eg.db", 
+         "RColorBrewer", 
+         "Glimma",
+         "ggplot2",
+         "SRAdb",
+         "Rsubread",
+         "BiasedUrn",
+         "TxDb.Mmusculus.UCSC.mm10.knownGene",
+         "GEOquery",
+         "goseq",
+         "fgsea",
+          "ggbio"))
