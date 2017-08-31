@@ -1,0 +1,29 @@
+source("http://www.bioconductor.org/biocLite.R")
+devtools::install_github('hemberg-lab/scRNA.seq.funcs')
+devtools::install_github('hemberg-lab/SC3')
+devtools::install_github('JustinaZ/pcaReduce')
+devtools::install_github('satijalab/seurat')
+devtools::install_github('jw156605/SLICER')
+biocLite(c('devtools',
+           'bookdown',
+           'knitr',
+           'pheatmap',
+           'scater',
+           'statmod',
+           'mvoutlier',
+           'scran',
+           'RUVseq',
+           'SC3',
+           'pcaMethods',
+           'M3Drop',
+           'TSCAN',
+           'monocle',
+           'destiny',
+           'ROCR',
+           'DESeq2',
+           'edgeR',
+           'MAST',
+           'MultiAssayExperiment',
+           'SummarizedExperiment'))
+
+           
