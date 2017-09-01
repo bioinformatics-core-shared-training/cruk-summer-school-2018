@@ -31,9 +31,11 @@ RUN sudo python get-pip.py
 RUN sudo pip install cython
 RUN sudo pip install --user --upgrade cutadapt
 RUN rm get-pip.py
-RUN wget https://github.com/samtools/htslib/releases/download/1.3.1/htslib-1.3.1.tar.bz2
 RUN pip install numpy
 RUN pip install MACS2
+
+RUN chmod +x ~/.local/bin/cutadapt
+RUN ln -s ~/.local/bin/cutadapt /usr/bin/cutadapt
 
 # Install samstat
 RUN wget https://sourceforge.net/projects/samstat/files/latest/samstat-1.5.1.tar.gz
