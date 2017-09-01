@@ -73,6 +73,9 @@ COPY install_single_cell.R /home/participant/Course_Materials/
 COPY install_chip.R /home/participant/Course_Materials/
 
 # Add a couple of packages required by intro section
+# Commented-out for now so I can test the command line tools first
+#
+
 #RUN Rscript -e "source('https://bioconductor.org/biocLite.R');biocLite('genefilter')"
 #RUN Rscript -e "source('https://bioconductor.org/biocLite.R');biocLite('breastCancerVDX')"
 
