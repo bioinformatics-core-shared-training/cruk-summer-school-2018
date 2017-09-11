@@ -60,21 +60,24 @@ After the course you should be able to:-
 
 # Day 1
 
-- 09:30 - 10:30; Introduction to Functional Genomics (RS)
-- 10:30 - 12:30; [Introduction (Recap) of R and Bioconductor (MD)](Introduction/bioc-intro.nb.html)
+- 09:30 - 10:30; Introduction to Functional Genomics
+- 10:30 - 12:30; [Introduction (Recap) of R and Bioconductor](Introduction/bioc-intro.nb.html)
 - 12:30 - 13:30; LUNCH
-- 13:30 - 14:30 Principles of Experimental Design (RS)
-- 14:30 - 17:00; (SS / DB)
+- 13:30 - 14:30 Principles of Experimental Design
+- 14:30 - 17:00;
     + Data Processing for Next Generation Sequencing
     + Alignment to reference genomes and QC 
     
 # Day 2
 
-- 09:30 - 10:30; [Introduction to RNA-seq (AS)](RNASeq/slides/rnaSeq_May2017.pdf)
-- 10:30 - 12:30; [Importing and QC of RNA-seq data (AS)](RNASeq/rna-seq-preprocessing.nb.html)
+- 09:30 - 10:30; [Introduction to RNA-seq](RNASeq/slides/rnaSeq_May2017.pdf)
+- 10:30 - 12:30; [Importing and QC of RNA-seq data](RNASeq/rna-seq-preprocessing.nb.html)
   + [source file](RNASeq/slides/rna-seq-preprocessing.nb.Rmd)
 - 12:30 - 13:30; LUNCH
-- 13:30 - 17:00; Differential Expression (DM)
+- 13:30 - 17:00; Differential Expression
+  + Slides
+  + [Practical](DifferentialExpression/rna-seq-de.nb.html)
+  + [Source](DifferentialExpression/rna-seq.Rmd)
 
 # Day 3
 
