@@ -76,12 +76,12 @@ COPY install_chip.R /home/participant/Course_Materials/
 # Commented-out for now so I can test the command line tools first
 #
 
-#RUN Rscript -e "source('https://bioconductor.org/biocLite.R');biocLite('genefilter')"
-#RUN Rscript -e "source('https://bioconductor.org/biocLite.R');biocLite('breastCancerVDX')"
+RUN Rscript -e "source('https://bioconductor.org/biocLite.R');biocLite('genefilter')"
+RUN Rscript -e "source('https://bioconductor.org/biocLite.R');biocLite('breastCancerVDX')"
 
-#RUN R -f /home/participant/Course_Materials/install_rna_packages.R
-#RUN R -f /home/participant/Course_Materials/install_single_cell.R
-#RUN R -f /home/participant/Course_Materials/install_chip.R
+RUN R -f /home/participant/Course_Materials/install_rna_packages.R
+RUN R -f /home/participant/Course_Materials/install_single_cell.R
+RUN R -f /home/participant/Course_Materials/install_chip.R
 
 RUN rm -rf /tmp
 RUN chown rstudio /home/participant/Course_Materials/
