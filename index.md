@@ -81,19 +81,19 @@ After the course you should be able to:-
 
 # Day 3
 
-- 09:30 - 11:00; [Annotation and Visualisation of Differential Expression (AM)](RNASeq/rna-seq-annotation-visualisation.nb.html)
+- 09:30 - 11:00; [Annotation and Visualisation of Differential Expression](RNASeq/rna-seq-annotation-visualisation.nb.html)
   + [source file](RNASeq/rna-seq-annotation-visualisation.nb.Rmd)
-- 11:00 - 12:30; [Gene set analysis and Gene Ontology testing (SB)](RNASeq/rna-seq-gene-set-testing.nb.html)
+- 11:00 - 12:30; [Gene set analysis and Gene Ontology testing](RNASeq/rna-seq-gene-set-testing.nb.html)
   + [source file](RNASeq/rna-seq-gene-set-testing.Rmd)
 - 12:30 - 13:30; LUNCH
-- 13:30 - 17:00; (SS / DB)
+- 13:30 - 17:00; 
   + Introduction to ChIP-seq
   + Quality control methods for ChIP-seq 
   + Introduction to BedTools, GenomicRanges et al 
 
 # Day 4
 
-- 09:30 - 17:00; (SS / DB)
+- 09:30 - 17:00; 
   + Downloading public ChIP-seq data
   + Downstream analysis of public ChIP-seq datasets
   + Differential binding analysis
