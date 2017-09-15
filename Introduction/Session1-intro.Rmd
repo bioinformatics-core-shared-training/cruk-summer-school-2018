@@ -6,16 +6,17 @@ output: html_document
 
 ---
 
-
-
 # Welcome!
 
 ![](images/you-are-here.png)
 
-We're based at [Cancer Research Uk Cambridge Institute](http://www.cruk.cam.ac.uk/), about 2 miles south of here
+We're based at [Cancer Research Uk Cambridge Institute](http://www.cruk.cam.ac.uk/) and [MRC Cancer Unit](https://www.mrc-cu.cam.ac.uk/) on the [Cambridge Biomedical campus](http://cambridge-biomedical.com/) about 2 miles south of here
 
-![](http://www.cruk.cam.ac.uk/sites/default/files/styles/leading/public/basic-pages/CRUK-CI-external-autumn.jpg?itok=849P8Q53)    
+![](https://upload.wikimedia.org/wikipedia/commons/6/68/Cmglee_Cambridge_aerial_Addenbrookes.jpg)
 
+...and the European Bioinformatics Institute
+
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/EBI_2.jpg/1200px-EBI_2.jpg)
 
 # Who's who 
 
@@ -39,11 +40,14 @@ Huge thanks too to Kelly O'Reilly (CRUK) for admin support, and Gabriella, Paul 
 library(dplyr)
 library(ggplot2)
 library(gridExtra)
-ppl <- tbl_df(read.csv("../Summer School 2017 Attendees - Sheet1.csv"))
-p1 <- ggplot(ppl, aes(x = Institute)) + geom_bar(fill=rgb(29,0,150,maxColorValue=255)) + coord_flip()
+ppl <- tbl_df(read.csv("../all_applicants.csv",header=TRUE)) %>% filter(Accept == "Y")
+p1 <- ggplot(ppl, aes(x = Institute)) + geom_bar(fill=rgb(29,0,150,maxColorValue=255))+ coord_flip() 
 p2 <- ggplot(ppl, aes(x=Position)) + geom_bar(fill=rgb(236,0,140,maxColorValue=255)) + coord_flip()
 p3 <- ggplot(ppl, aes(x=Gender,fill=Gender)) + geom_bar() + scale_fill_manual(values=c(rgb(29,0,150,maxColorValue=255),rgb(236,0,140,maxColorValue=255))) + coord_flip()
-grid.arrange(p1,p2,p3,ncol=1)
+p1
+p2
+p3
+
 ```
 
 
