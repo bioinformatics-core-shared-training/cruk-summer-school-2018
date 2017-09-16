@@ -58,7 +58,7 @@ After the course you should be able to:-
 
 # Materials
 
-# Day 1
+# Day 1 (September 18th)
 
 - 09:30 [Course Introduction](Introduction/Session1-intro.html)
 - 09:30 - 10:30; Introduction to Functional Genomics
@@ -70,7 +70,7 @@ After the course you should be able to:-
     + Data Processing for Next Generation Sequencing
     + Alignment to reference genomes and QC 
     
-# Day 2
+# Day 2 (September 19th)
 
 - 09:30 - 10:30; [Introduction to RNA-seq](RNASeq/slides/rnaSeq_Sept2017.pdf)
 - 10:30 - 12:30; 
@@ -83,7 +83,7 @@ After the course you should be able to:-
   + [Practical](DifferentialExpression/rna-seq-de.nb.html)
   + [Source](DifferentialExpression/rna-seq.Rmd)
 
-# Day 3
+# Day 3 (September 20th)
 
 - 09:30 - 11:00; [Annotation and Visualisation of Differential Expression](RNASeq/rna-seq-annotation-visualisation.nb.html)
   + [source file](RNASeq/rna-seq-annotation-visualisation.nb.Rmd)
@@ -95,7 +95,7 @@ After the course you should be able to:-
   + Quality control methods for ChIP-seq 
   + Introduction to BedTools, GenomicRanges et al 
 
-# Day 4
+# Day 4 (September 21st)
 
 - 09:30 - 17:00; 
   + Downloading public ChIP-seq data
@@ -105,7 +105,7 @@ After the course you should be able to:-
   + Introduction to the analysis of long distance interactions (Hi-C)
   + Introduction to the analysis of specialised interaction data
   
-# Day 5
+# Day 5 (September 22nd)
 
 - 09:30 - 12:30; [Introduction to single-cell sequencing](SingleCell/index.html)
 
