@@ -72,8 +72,10 @@ After the course you should be able to:-
     
 # Day 2
 
-- 09:30 - 10:30; [Introduction to RNA-seq](RNASeq/slides/rnaSeq_May2017.pdf)
-- 10:30 - 12:30; [Importing and QC of RNA-seq data](RNASeq/rna-seq-preprocessing.nb.html)
+- 09:30 - 10:30; [Introduction to RNA-seq](RNASeq/slides/rnaSeq_Sept2017.pdf)
+- 10:30 - 12:30; 
+  + [Counting](RNASeq/count.nb.html)
+  + [Importing and QC of RNA-seq data](RNASeq/rna-seq-preprocessing.nb.html)
   + [source file](RNASeq/slides/rna-seq-preprocessing.nb.Rmd)
 - 12:30 - 13:30; LUNCH
 - 13:30 - 17:00; Differential Expression
