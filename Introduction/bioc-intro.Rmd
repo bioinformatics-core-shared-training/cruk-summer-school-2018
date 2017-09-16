@@ -10,7 +10,7 @@ output:
 
 # About R
 
-If you haven't done so already, you can check out our [R crash course](https://bioinformatics-core-shared-training.github.io/r-crash-course/) for an overview of wh R is great and some of the basic syntax. Here are some great examples of people that have used R to do cool stuff with data
+If you haven't done so already, you can check out our [R crash course](https://bioinformatics-core-shared-training.github.io/r-crash-course/) for an overview of why R is great and some of the basic syntax. Here are some great examples of people that have used R to do cool stuff with data
 
 - [Facebook](http://blog.revolutionanalytics.com/2010/12/analysis-of-facebook-status-updates.html),
 - [google](http://blog.revolutionanalytics.com/2009/05/google-using-r-to-analyze-effectiveness-of-tv-ads.html),
@@ -20,10 +20,6 @@ If you haven't done so already, you can check out our [R crash course](https://b
 - The [New Zealand Tourist Board](https://mbienz.shinyapps.io/tourism_dashboard_prod/) have R running in the background of their website
 - [Airbnb](https://medium.com/airbnb-engineering/using-r-packages-and-education-to-scale-data-science-at-airbnb-906faa58e12d)
 - [The BBC](https://github.com/BBC-Data-Unit/music-festivals) makes code available for some of their stories (e.g. gender bias in music festivals)
-
-
-
-
 
 R's role in promoting reproducible research cannot be overstated.
 
@@ -40,8 +36,9 @@ Keith Baggerly's talk on the subject is highly-recommended.
 - The traditional way to enter R commands is via the Terminal, or using the console in RStudio (bottom-left panel when RStudio opens for first time).
 - However, for this course we will use a relatively new feature called *R-notebooks*.
 - An R-notebook mixes plain text with R code
+    + we use the terms notebook and markdown interchangeably; they are pretty much the same thing
 
-Markdown is a very simple way of writing a template to produce a pdf, HTML or word document. The compiled version of this document is available online and is more convenient to browse [here](https://bioinformatics-core-shared-training.github.io/cruk-autumn-school-2017/Day1/bioc-intro.nb.html).
+*Markdown* is a very simple way of writing a template to produce a pdf, HTML or word document. The compiled version of this document is available online and is more convenient to browse [here](https://bioinformatics-core-shared-training.github.io/cruk-autumn-school-2017/Day1/bioc-intro.nb.html).
 
 - "chunks" of R code can be added using the *insert* option from the toolbar, or the CTRL + ALT + I shortcut
 - Each line of R can be executed by clicking on the line and pressing CTRL and ENTER
@@ -69,7 +66,7 @@ print("Hello World")
 
 You can also add hyperlinks, images and tables. More help is available through RStudio **Help -> Markdown Quick Reference**
 
-
+To create markdown files for your own analysis; File -> New File -> R Markdown...
 
 
 # About the Bioconductor project
@@ -107,6 +104,7 @@ All Bioconductor software packages are listed under
 - you only need to run this procedure once for each version of R
 
 ```{r eval=FALSE}
+## You don't need to run this, edgeR should already be installed for the course
 source("http://www.bioconductor.org/biocLite.R")
 biocLite("edgeR")
 ```
@@ -125,7 +123,7 @@ Package documentation can also be accessed via the *Help* tab in RStudio.
 
 Complex data structures are used in Bioconductor to represent high-throughput data, but we often have simple functions that we can use to access the data. We will use some example data available through Bioconductor to demonstrate how high-throughput data can be represented, and also to review some basic concepts in data manipulation in R.
 
-- the data are from a microarray experiment. We will be concentrating on more-modern techniques in this class, but most of the R techniques required will be the same.
+- the data are from a *microarray* experiment. We will be concentrating on more-modern technologies in this class, but most of the R techniques required will be similar
 - [experimental data](http://bioconductor.org/packages/release/BiocViews.html#___ExperimentData) packages are available through Bioconductor, and can be installed in the way we just described
   + the package should already be installed on your computer, so you won't need to run this.
 
@@ -136,20 +134,28 @@ Complex data structures are used in Bioconductor to represent high-throughput da
 biocLite("breastCancerVDX")
 ```
 
-To make the dataset accessible in R, we need to load the library and use the `data` function.
-
-- typing the name of the object provides a summary
+To make the dataset accessible in R, we first need to load the package. If we navigate to the documentation for `breastCancerVDX` in RStudio, we find that it provides an object called `vdx` which we load into R's memory using the `data` function.
 
 ```{r message=FALSE}
 library(breastCancerVDX)
 data(vdx)
+```
+
+The object `vdx` is a representation of breast cancer dataset that has been converted for use with standard Bioconductor tools. The package authors don't envisage that we will want to view the entire dataset at once, so have provided a number of ways to interact with the data
+
+- typing the name of the object provides a summary
+    + how many genes in the dataset, how many samples etc
+    
+```{r}
 vdx
 ```
+
 
 ## Accessing expression values
 
 The expression values can be obtained by the `exprs` function:-
 
+- remember, `<-` is used for assignment to create a new variable
 - the data are stored in a `matrix` in R
     + it is a good idea to check the dimensions using `dim`, `ncol`, `nrow` etc
     
@@ -167,6 +173,7 @@ nrow(eValues)
 - the rownames are the manufacturer-assigned ID for a particular probe
 - the column names are the identifiers for each patient in the study
 - each entry is a *normalised* log$_2$ intensity value for a particular gene in a given sample
+    + we won't talk about normalisation here, but basicallly the data have been processed to eliminate technical variation
 - subsetting a matrix is done using the `[row, column]` notation
     + the function `c` is used to make a one-dimensional *vector*
     + the shortcut `:` can used to stand for a sequence of consecutive numbers
@@ -174,6 +181,8 @@ nrow(eValues)
 ```{r}
 eValues[c(1,2,3),c(1,2,3,4)]
 eValues[1:3,1:4]
+
+
 ```
 
 - we can also omit certain rows or columns from the output by prefixing the indices with a `-`
@@ -199,24 +208,17 @@ plot(eValues[1,])
 ```
 
 
-The *boxplot* is a common plotting tool in R to compare distributions
 
 - one possible use is to compare the values in a vector with respect to a given factor
-- as we don't know the clinical variables in our dataset yet (to come later), we have to make something up
-
-```{r}
-fac <- rep(c("A","B"),each=172)
-boxplot(eValues[1,] ~ fac)
-
-```
-
-
-A boxplot can also accept a matrix of data frame as an argument
-
+- but we don't know the clinical variables in our dataset yet (to come later)
+- a boxplot can also accept a matrix or data frame as an argument
 - what do you think the following plot shows?
 
 ```{r fig.width=12}
 boxplot(eValues,outline=FALSE)
+
+
+
 ```
 
 
@@ -224,11 +226,21 @@ boxplot(eValues,outline=FALSE)
 
 The *metadata*, or phenotypic data, for the samples is retrieved using the `pData` function.
 
-Indivdual columns can be accessed using the `$` notation. 
+```{r}
+metadata <- pData(vdx)
+metadata
+```
 
+
+- indivdual columns can be accessed using the `$` notation. 
 - *auto-complete* is available in RStudio; once you type the `$`it should give you a list of possible options.
 - the data are returned as a *vector*, which can be fed-into other standard plotting and analysis functions 
 
+```{r eval=FALSE}
+metadata$samplename
+
+
+```
 
 
 ******
@@ -243,8 +255,8 @@ Indivdual columns can be accessed using the `$` notation.
 - use the square bracket notation `[]` to print
     + the first 10 rows of the metadata object, first five columns
     + last 10 rows of the metadata object, columns 7 to 9
-- visualise the distribution of the patients ages using a histogram
-- Calculate the average age of patients in the study with the `mean` function
+- visualise the distribution of the patient ages using a histogram
+- calculate the average age of patients in the study with the `mean` function
     + what do you notice about the result?
     + can you change the arguments to mean to get a more meaningful result
 
@@ -254,15 +266,14 @@ Indivdual columns can be accessed using the `$` notation.
 
 
 ```{r}
-metadata <- pData(vdx)
-metadata
+
 
 ```
 
 
 
 
-So far we have been able to print out a subset of our data by specifying a set of numeric indices. Lets say we're interested in high-grade tumours, in which case we might not know in advance which rows / columns these correspond to
+So far we have been able to print out a subset of our data by specifying a set of numeric indices (e.g. first 10 rows etc). Lets say we're interested in high-grade tumours, in which case we might not know in advance which rows these correspond to
 
 - `==` `>`, `<`, `!=` can used to make a *logical comparison*
 - result is a `TRUE` or `FALSE` indicating whether each entry satisfies the test condition, or not.
@@ -281,6 +292,7 @@ Such a logical vector can then be used for subsetting
 - here, we don't specify any column indices inside the `[]`
     + R will print all the columns
     + however, don't forget the ,!
+    + if you do, R will still try and do something. It almost certainly be what you expected
 
 ```{r}
 metadata[which(metadata$grade == 3),]
@@ -310,17 +322,25 @@ write.csv(highGradeExpression, file="highGradeTumours.csv")
 
 ```
 
+- in fact, we can subset the entire `vdx` object by sample subsets if we wish
 
+```{r}
+
+vdx[,metadata$grade==3]
+
+```
 
 
 Previously, we used a boxplot to visualise the expression levels of all genes in a given sample to look for trends across the dataset. Another use for a boxplot is to visualise the expression level of a particular gene with respect to the sample metadata
 
 - we can extract the column of interest with a `$` and use the *formula* syntax
+    + `table` in this case will tell us how many observations of each category are present
 - R will be clever and convert the factor into a `factor` type if required
 
 ```{r}
 
 fac <- metadata$er
+table(fac)
 boxplot(eValues[1,] ~ fac,
         xlab="ER Status",
         ylab="Expression Level",
@@ -332,7 +352,7 @@ Performing a test to assess significance follows similar syntax
 - `t.test` is the generic function to perform a t-test, and can be adapted to different circumstances
     + e.g. if our data are paired, or not
     + see the help for `t.test` for more details
-- for now, we will skip over testing assumptions on the data such as requiring a *normal* (Gaussian) distribtion
+- for now, we will gloss over testing assumptions on the data such as requiring a *normal* (Gaussian) distribtion and multiple testing correction
     
 
 ```{r}
@@ -345,6 +365,9 @@ We could be lucky, and the first row in the expression matrix could be our favou
 
 - we can use another aspect of the `nki` object; the *feature data*
 - there is a handy `fData` function to access these data
+- again, this gives us a *data frame*
+- this is a pre-built table supplied with the dataset
+    + later in the course we will look at using online services and databases for annotation and converting between identifiers
 
 ```{r}
 features <- fData(vdx)
@@ -364,9 +387,10 @@ We could inspect the data frame manually (e.g. using `View(features)`) and ident
 - `==` to test for exact matching
 - `match` will return the *index* of the first match
 - `grep` can be used for partial matches
+- each of the above will give an *vector* that can be used to subset the expression values
 
 ```{r}
-features$Gene.symbol == "BRCA1"
+which(features$Gene.symbol == "BRCA1")
 match("BRCA1",features$Gene.symbol)
 grep("BRCA1",features$Gene.symbol)
 grep("BRCA",features$Gene.symbol)
@@ -392,42 +416,74 @@ grep("BRCA",features$Gene.symbol)
 ******
 ******
 
+```{r}
+
+
+
+```
+
+
 ## Testing all genes for significance
 
 Later in the course we will see how to execute a *differential expression* analysis for RNA-seq data, and discuss some of the issues surrounding this. For now we will perform a simple two-sample t-test for all genes in our study, and derive a results table
 
-- firstly, we load the `genefilter` package which has a very convenient function
+- firstly, we load the `genefilter` package which has a very convenient function for performing many t tests in parallel
 - `rowttests` will run a t-test for each row in a given matrix and produce an output table
     + `statistic`; test statistic
     + `dm`; difference in means
     + `p.value`; the p-value
+- `rowttests` expects a *factor* as the second argument, so we have to use `as.factor`
+    + as usual, we can get help by doing `?rowttests`
     
 ```{r}
 library(genefilter)
 tstats <- rowttests(eValues, as.factor(metadata$er))
 head(tstats)
 hist(tstats$statistic)
+?rowttests
 ```
 
 The rows are ordered in the same way as the input matrix
 
 - to change this to increasing significance we can use the `order` function
+- when given a vector, `order` will return a vector of the same length giving the permutation that rearranges that vector into ascending or descending order
+    + how can we find out what the default way of ordering is?
 
+```{r}
+
+x <- c(9, 3, 4, 2, 1, 6,5, 10,8,7)
+x
+order(x)
+x[order(x)]
+```
+
+- so if we want to order by p-value we first use order on the p-value vector
+- this can then be used to re-arrange the rows of the table
 
 ```{r}
 tstats[order(tstats$p.value,decreasing = FALSE),]
 
 ```
 
-However, this isn't immediately useful unless we can recognise the manufacturer probe IDs
+- note that we could save the result of `order` as a variable and then use in the subsetting
+    + either is fine, it's a matter of personal preference
 
-- to provide extra annotation to the table, we can *bind* the columns of test statistic with those from the feature matrix
-- however, we can only do this in cases where the rows are in direct correspondence
+```{r}
+p.order <- order(tstats$p.value,decreasing = FALSE)
+tstats[p.order,]
+
+  
+```
+
+
+However, the table we get isn't immediately useful unless we can recognise the manufacturer probe IDs
+
+- to provide extra annotation to the table, we can *column bind* (`cbind`) the columns of test statistic with those from the feature matrix
+- be careful though, we can only do this in cases where the rows are in direct correspondence
 
 
 ```{r}
 all(rownames(tstats) == rownames(features))
-rownames(tstats) <- features$Gene.symbol
 
 tstats.annotated <- cbind(tstats, features[,c("Gene.symbol","EntrezGene.ID","Chromosome.location")])
 tstats.annotated                        
@@ -451,6 +507,7 @@ We can also query this table to look for our favourite genes of interest
 tstats.ordered[grep("ESR1",tstats.ordered$Gene.symbol),]
 tstats.ordered[tstats.ordered$Gene.symbol %in% c("ESR1","GATA3","FOXA1"),]
 
+
 ```
 
 
@@ -464,11 +521,17 @@ tstats.ordered[tstats.ordered$Gene.symbol %in% c("ESR1","GATA3","FOXA1"),]
 
 - From the annotated table above, select all genes with p-values less than 0.05
 - Write this data frame as a `csv` file
+- (OPTIONAL) Use the `p.adjust` to produce a vector of p-values that are adjusted. Add this as an extra column to your table of results and write as a file
 
 ******
 ******
 ******
 
+```{r}
+tstats.ordered$p.value.adjusted <- p.adjust(tstats.ordered$p.value)
+tstats.ordered
+
+```
 
 
 ### (Optional) Downloading data from GEO
