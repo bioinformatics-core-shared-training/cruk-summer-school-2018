@@ -61,11 +61,11 @@ After the course you should be able to:-
 # Day 1 (September 18th)
 
 - 09:30 [Course Introduction](Introduction/Session1-intro.html)
-- 09:30 - 10:30; Introduction to Functional Genomics
+- 09:30 - 10:30; [Introduction to Functional Genomics](Introduction/Functional Genomics Overview.pdf)
 - 10:30 - 12:30; [Introduction (Recap) of R and Bioconductor](Introduction/bioc-intro.nb.html)
   + [source](Introduction/bioc-intro.Rmd)
 - 12:30 - 13:30; LUNCH
-- 13:30 - 14:30 Principles of Experimental Design
+- 13:30 - 14:30 [Principles of Experimental Design](Introduction/Experimental Design.pdf)
 - 14:30 - 17:00;
     + Data Processing for Next Generation Sequencing
     + Alignment to reference genomes and QC 
