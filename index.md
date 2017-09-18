@@ -82,7 +82,7 @@ After the course you should be able to:-
   + [source file](RNASeq/slides/rna-seq-preprocessing.nb.Rmd)
 - 12:30 - 13:30; LUNCH
 - 13:30 - 17:00; Differential Expression
-  + Slides
+  + [Slides](RNASeq/slides/LinearModels.pdf)
   + [Practical](DifferentialExpression/rna-seq-de.nb.html)
   + [Source](DifferentialExpression/rna-seq.Rmd)
 
