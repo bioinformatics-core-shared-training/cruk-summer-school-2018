@@ -1,12 +1,15 @@
-source("http://www.bioconductor.org/biocLite.R")
-biocLite(c("ChIPQC",
-           "ChIPseeker",
-           "TxDb.Hsapiens.UCSC.hg38.knownGene",
-           "ChIPpeakAnno",
-           "ensembldb",
-           "EnsDb.Hsapiens.v86",
-           "rGREAT",
-           "DiffBind",
-           "rgl",
-           "biomaRt",
-           "Rcade"))
+source("https://bioconductor.org/biocLite.R")
+biocLite("ChIPQC")
+biocLite("TxDb.Hsapiens.UCSC.hg38.knownGene")
+biocLite("DiffBind")
+biocLite("ChIPseeker")
+biocLite("GenomicRanges")
+biocLite("chipenrich")
+biocLite("ChIPpeakAnno")
+biocLite("rGREAT")
+biocLite("DiffBind")
+biocLite("Rcade")
+biocLite("DiffHiC")
+biocLite("biomaRt")
+require(devtools)
+devtools::install_github('hms-dbmi/spp', build_vignettes = FALSE)
