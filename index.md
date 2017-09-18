@@ -67,11 +67,11 @@ After the course you should be able to:-
 - 12:30 - 13:30; LUNCH
 - 13:30 - 14:30 [Principles of Experimental Design](Introduction/Experimental Design.pdf)
 - 14:30 - 17:00;
-    + [File formats (lecture)](Introduction/Lectures/Lecture1_fileFormats_DB.pdf)
-    + [Quality Control and artefacts (lecture)](Introduction/Lectures/Lecture2_qualityControl_artefactRemoval_DB.pdf)
-    + [Quality Control and artefacts (practical)](Introduction/Practicals/Practical1_qualityControl_artefactRemoval_DB.pdf)
-    + [Short Read Alignment (lecture)](Introduction/Lectures/Lecture3_ShortRead_Alignment_SS.pdf)
-    + [Short Read Alignment (practical)](Introduction/Practicals/Practical2_Sequence_Alignment_SS.html)
+    + [File formats (lecture)](Introduction/Lectures/SS_DB/Lecture1_fileFormats_DB.pdf)
+    + [Quality Control and artefacts (lecture)](Introduction/Lectures/SS_DB/Lecture2_qualityControl_artefactRemoval_DB.pdf)
+    + [Quality Control and artefacts (practical)](Introduction/Practicals/SS_DB/Practical1_qualityControl_artefactRemoval_DB.pdf)
+    + [Short Read Alignment (lecture)](Introduction/Lectures/SS_DB/Lecture3_ShortRead_Alignment_SS.pdf)
+    + [Short Read Alignment (practical)](Introduction/Practicals/SS_DB/Practical2_Sequence_Alignment_SS.html)
     
 # Day 2 (September 19th)
 
