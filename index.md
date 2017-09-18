@@ -69,7 +69,7 @@ After the course you should be able to:-
 - 14:30 - 17:00;
     + [File formats (lecture)](Introduction/SS_DB/Materials/Lectures/Lecture1_fileFormats_DB.pdf)
     + [Quality Control and artefacts (lecture)](Introduction/SS_DB/Materials/Lectures/Lecture2_qualityControl_artefactRemoval_DB.pdf)
-    + [Quality Control and artefacts (practical)](Introduction/SS_DB/Materials/Practicals/SS_DB/Practical1_qualityControl_artefactRemoval_DB.pdf)
+    + [Quality Control and artefacts (practical)](Introduction/SS_DB/Materials/Practicals/Practical1_qualityControl_artefactRemoval_DB.pdf)
     + [Short Read Alignment (lecture)](Introduction/SS_DB/Materials/Lectures/Lecture3_ShortRead_Alignment_SS.pdf)
     + [Short Read Alignment (practical)](Introduction/SS_DB/Materials/Practicals/Practical2_Sequence_Alignment_SS.html)
     
