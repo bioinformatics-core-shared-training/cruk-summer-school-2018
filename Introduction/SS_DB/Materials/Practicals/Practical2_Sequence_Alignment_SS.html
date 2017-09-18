@@ -148,7 +148,7 @@ bwa index -p hg38chr3bwaidx \
 # -t = number of processor cores
 
 bwa mem -M -t 4 hg38chr3bwaidx \
-/home/participant/Course_Materials/Introduction/SS_DB/Raw_Data/ChIPseq/tp53_r2.fastq.gz \
+/home/participant/Course_Materials/Introduction/SS_DB/RawData/ChIPseq/tp53_r2.fastq.gz \
 &gt; tp53_r2.fastq.sam
 </code></pre>
 </div>
@@ -159,7 +159,7 @@ bwa mem -M -t 4 hg38chr3bwaidx \
 head tp53_r2.fastq.sam
 
 #convert to BAM
-samtools view -bT hg38_chr3.fa tp53_r2.fastq.sam &gt; tp53_r2.fastq.bam
+samtools view -bT ~/Course_Materials/Introduction/SS_DB/Reference/BWA/hg38_chr3.fa tp53_r2.fastq.sam &gt; tp53_r2.fastq.bam
 </code></pre>
 <p>Sort BAM file</p>
 <pre class="bash"><code>
@@ -211,7 +211,7 @@ tp53_r2.fastq_sorted.bam tp53_r2.fastq_sorted.tdf hg38
 <div id="sequence-alignment-with-bowtie2" class="section level1">
 <h1><span class="header-section-number">5</span> Sequence alignment with bowtie2</h1>
 <pre class="bash"><code>
-cd /home/participant/Course_Materials/Introduction/SS_DB/Alignment/bowtie
+cd /home/participant/Course_Materials/Introduction/SS_DB/Alignment/Bowtie
 </code></pre>
 <p>To get a list of options</p>
 <pre class="bash"><code>
@@ -233,7 +233,7 @@ bowtie2 -x hg38_chr3 \
 </code></pre>
 <pre class="bash"><code>
 samtools view -Sb tp53_r2.sam &gt; tp53_r2.bam
-samtools sort tp53_r2.bam tp53_r2_sorted.bam
+samtools sort tp53_r2.bam &gt; tp53_r2_sorted.bam
 samtools index tp53_r2_sorted.bam
 </code></pre>
 </div>
