@@ -100,8 +100,6 @@ After the course you should be able to:-
   + [Quality control methods for ChIP-seq (lecture)](ChIP/Materials/Lectures/Lecture6_chipqc_DB.pdf)
   + [Quality control methods for ChIP-seq (practical)](ChIP/Materials/Practicals/Practical5_chipqc_DB.pdf)
   
-  + Introduction to BedTools, GenomicRanges et al 
-
 # Day 4 (September 21st)
 
 - 09:30 - 11:00; 
