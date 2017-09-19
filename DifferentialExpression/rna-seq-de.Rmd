@@ -3,10 +3,10 @@ title: "RNA-seq differential expression analysis in R"
 author: "Davis McCarthy, Stephane Ballereau, Mark Dunning, Oscar Rueda, Ashley Sawle"
 date: '`r format(Sys.time(), "Last modified: %d %b %Y")`'
 output:
-  html_document:
+  html_notebook:
     toc: yes
     toc_float: yes
-  html_notebook:
+  html_document:
     toc: yes
     toc_float: yes
 minutes: 300
