@@ -94,10 +94,11 @@ After the course you should be able to:-
   + [source file](RNASeq/rna-seq-gene-set-testing.Rmd)
 - 12:30 - 13:30; LUNCH
 - 13:30 - 14:00 [Introduction to ChIP-Seq (lecture)](ChIP/Materials/Lectures/Lecture4_Introduction to ChIP-seq and ATAC-seq_SS.pdf)
-- 14:00 - 15:00; 
+- 14:00 - 15:30; 
   + [Peak Calling (lecture)](ChIP/Materials/Lectures/Lecture5_Peak Calling_SS.pdf)
-  + [Peak Calling (practical)](ChIP/Materials/Practicals/Prctical4_PeakCalling_SS.pdf)  
-- 15:00 - 17:00  
+  + [Peak Calling (practical)](ChIP/Materials/Practicals/Prctical4_PeakCalling_SS.pdf)
+  + [Viewing ChIP-seq results in IGV (practical)](ChIP/Materials/Practicals/Practical3_IGV_DB.pdf)
+- 15:30 - 17:00  
   + [Quality control methods for ChIP-seq (lecture)](ChIP/Materials/Lectures/Lecture6_chipqc_DB.pdf)
   + [Quality control methods for ChIP-seq (practical)](ChIP/Materials/Practicals/Practical5_chipqc_DB.pdf)
   
