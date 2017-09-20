@@ -93,7 +93,8 @@ After the course you should be able to:-
 - 11:00 - 12:30; [Gene set analysis and Gene Ontology testing](RNASeq/rna-seq-gene-set-testing.nb.html)
   + [source file](RNASeq/rna-seq-gene-set-testing.Rmd)
 - 12:30 - 13:30; LUNCH
-- 14:30 - 15:00; 
+- 13:30 - 14:00 [Introduction to ChIP-Seq (lecture)](ChIP/Materials/Lectures/Lecture4_Introduction to ChIP-seq and ATAC-seq_SS.pdf)
+- 14:00 - 15:00; 
   + [Peak Calling (lecture)](ChIP/Materials/Lectures/Lecture5_Peak Calling_SS.pdf)
   + [Peak Calling (practical)](ChIP/Materials/Practicals/Prctical4_PeakCalling_SS.pdf)  
 - 15:00 - 17:00  
@@ -104,12 +105,11 @@ After the course you should be able to:-
 
 - 09:30 - 11:00; 
   + [Useful software for the analysis of genomic data (lecture)](ChIP/Materials/Lectures/Lecture7_Useful_software_utilities_ for_computational_genomics_SS.pdf)
-  + [Useful software for the analysis of genomic data (practical)]()
+  + [Useful software for the analysis of genomic data (practical)](ChIP/Materials/Practicals/)
 - 11:00 - 12:30;
-  + [Downstream analysis of ChIP-seq (lecture)](ChIP/Materials/Lectures/)
+  + [Downstream analysis of ChIP-seq (lecture)](ChIP/Materials/Lectures/Lecture_8_and_9_Downstream_Analysis_of_ChIPseq_SS.pdf)
   + [Downstream analysis of ChIP-seq (practical)](ChIP/Materials/Practicals/)
 - 13:30 - 14:30;  
-  + [Identifying direct targets of Transcription Factors (lecture)](ChIP/Materials/Lectures/)
   + [Identifying direct targets of Transcription Factors (practical)](ChIP/Materials/Practicals/Practical8_Rcade_SS.pdf)
 - 14:30 - 15:30;  
   + [Differential binding analysis (lecture)](ChIP/Materials/Lectures/Lecture10_differential_binding_DB.pdf)
