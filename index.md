@@ -106,14 +106,14 @@ After the course you should be able to:-
 
 - 09:30 - 11:00; 
   + [Useful software for the analysis of genomic data (lecture)](ChIP/Materials/Lectures/Lecture7_Useful_software_utilities_ for_computational_genomics_SS.pdf)
-  + [Useful software for the analysis of genomic data (practical)](ChIP/Materials/Practicals/)
+  + [Useful software for the analysis of genomic data (practical)](ChIP/Materials/Practicals/Practical6_Useful_Utilities_for_Genomics.pdf)
 - 11:00 - 12:30;
   + [Downstream analysis of ChIP-seq (lecture)](ChIP/Materials/Lectures/Lecture_8_and_9_Downstream_Analysis_of_ChIPseq_SS.pdf)
-  + [Downstream analysis of ChIP-seq (practical)](ChIP/Materials/Practicals/)
+  + [Downstream analysis of ChIP-seq (practical)](ChIP/Materials/Practicals/Practical7_DownStreamAnalysis.pdf)
 - 13:30 - 14:30;  
   + [Identifying direct targets of Transcription Factors (practical)](ChIP/Materials/Practicals/Practical8_Rcade_SS.pdf)
 - 14:30 - 15:30;  
-  + [Differential binding analysis (lecture)](ChIP/Materials/Lectures/Lecture10_differential_binding_DB.pdf)
+  + [Differential binding analysis (lecture)](ChIP/Materials/Lectures/Lecture10_Differential_binding.pdf)
   + [Differential binding analysis (practical)](ChIP/Materials/Practicals/Practical9_diffbind_DB.pdf)
 - 15:30 - 16:30; 
   + [Introduction to Epigenomics and Chromatin Interactions (lecture)](ChIP/Materials/Lectures/Lecture11_Intro_to_Epigenomics_SS.pdf)
