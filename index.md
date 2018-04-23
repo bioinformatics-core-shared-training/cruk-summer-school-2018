@@ -1,6 +1,6 @@
-# CRUK Bioinformatics Autumn School 2017: Functional Genomics
+# CRUK Bioinformatics Autumn School 2018: Functional Genomics
 
-## 18th - 22nd September 2017: Craik-Marshall Room, Downing Site, University of Cambridge
+## 23rd - 27th July 2018: Craik-Marshall Room, Downing Site, University of Cambridge
 
 
 # Overview
@@ -17,25 +17,25 @@ Enthusiastic and motivated wet-lab biologists who want to gain more of an unders
 
 # Pre-requisites
 
-The course will include a great deal of hands-on work in R and at the command line. In order for you to make the most of the course we strongly recommend that you take an introductory course, or have sufficient experience in the following areas:
+**The course will include a great deal of hands-on work in R and at the command line. In order for you to make the most of the course we strongly recommend that you take an introductory course, or have sufficient experience in the following areas:**
 
 - R
- - Unix
- - Introductory statistics
+- Unix
+- Introductory statistics
 
-More specific requirements and references can be found [here](http://www.cruk.cam.ac.uk/bioinformatics-summer-school-prerequisites)
+**More specific requirements and references can be found [here](http://www.cruk.cam.ac.uk/bioinformatics-summer-school-prerequisites)**
 
 
 # Instructors
 
 - [Rory Stark (CRUK CI)](http://www.cruk.cam.ac.uk/core-facilities/bioinformatics-core)
-- [Mark Dunning (CRUK CI)](http://markdunning.github.io/)
+- [Mark Fernandes (CRUK CI)](http://www.cruk.cam.ac.uk/core-facilities/bioinformatics-core)
 - [Shamith Samarajiwa (MRC CU)](http://www.mrc-cu.cam.ac.uk/research/Shamith-Samarajiwa-folder)
-- [Dora Bihary (MRC CU)](http://www.mrc-cu.cam.ac.uk/research/Shamith-Samarajiwa-folder)
+[//]: # - [Dora Bihary (MRC CU)](http://www.mrc-cu.cam.ac.uk/research/Shamith-Samarajiwa-folder)
 - [Ashley Sawle (CRUK CI)](http://www.cruk.cam.ac.uk/core-facilities/bioinformatics-core)
 - [Alistair Martin (CRUK CI)](http://www.cruk.cam.ac.uk/research-groups/caldas-group)
 - [Stephane Ballereau (CRUK CI)](http://www.cruk.cam.ac.uk/core-facilities/bioinformatics-core)
-- [Davis McCarthy (EBI)](https://sites.google.com/site/davismcc/home)
+[//]: # - [Davis McCarthy (EBI)](https://sites.google.com/site/davismcc/home)
 
 
 # Aims
@@ -58,7 +58,7 @@ After the course you should be able to:-
 
 # Materials
 
-# Day 1 (September 18th)
+# Day 1 (July 23rd)
 
 - 09:30 [Course Introduction](Introduction/Session1-intro.html)
 - 09:30 - 10:30; [Introduction to Functional Genomics](Introduction/Functional Genomics Overview.pdf)
@@ -73,7 +73,7 @@ After the course you should be able to:-
     + [Short Read Alignment (lecture)](Introduction/SS_DB/Materials/Lectures/Lecture3_ShortRead_Alignment_SS.pdf)
     + [Short Read Alignment (practical)](Introduction/SS_DB/Materials/Practicals/Practical2_Sequence_Alignment_SS.html)
     
-# Day 2 (September 19th)
+# Day 2 (July 24th)
 
 - 09:30 - 10:30; [Introduction to RNA-seq](RNASeq/slides/rnaSeq_Sept2017.pdf)
 - 10:30 - 12:30; 
@@ -86,7 +86,7 @@ After the course you should be able to:-
   + [Practical](DifferentialExpression/rna-seq-de.nb.html)
   + [Source](DifferentialExpression/rna-seq.Rmd)
 
-# Day 3 (September 20th)
+# Day 3 (July 25th)
 
 - 09:30 - 11:00; [Annotation and Visualisation of Differential Expression](RNASeq/rna-seq-annotation-visualisation.nb.html)
   + [source file](RNASeq/rna-seq-annotation-visualisation.nb.Rmd)
@@ -102,7 +102,7 @@ After the course you should be able to:-
   + [Quality control methods for ChIP-seq (lecture)](ChIP/Materials/Lectures/Lecture6_chipqc_DB.pdf)
   + [Quality control methods for ChIP-seq (practical)](ChIP/Materials/Practicals/Practical5_chipqc_DB.pdf)
   
-# Day 4 (September 21st)
+# Day 4 (July 26th)
 
 - 09:30 - 11:00; 
   + [Useful software for the analysis of genomic data (lecture)](ChIP/Materials/Lectures/Lecture7_Useful_software_utilities_ for_computational_genomics_SS.pdf)
@@ -119,7 +119,7 @@ After the course you should be able to:-
   + [Introduction to Epigenomics and Chromatin Interactions (lecture)](ChIP/Materials/Lectures/Lecture11_Intro_to_Epigenomics_SS.pdf)
   
   
-# Day 5 (September 22nd)
+# Day 5 (July 27th)
 
 - 09:30 - 12:30; [Introduction to single-cell sequencing](SingleCell/index.html)
 
