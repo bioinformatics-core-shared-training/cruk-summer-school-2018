@@ -3,4 +3,4 @@
 	url = https://github.com/bioinformatics-core-shared-training/RNAseq-R
 [submodule "SingleCell"]
 	path = SingleCell
-	url = https://github.com/hemberg-lab/scRNA.seq.course
+	url = https://github.com/hemberg-lab/scRNA.seq.course/tree/master
