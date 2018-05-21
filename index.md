@@ -37,7 +37,6 @@ Enthusiastic and motivated wet-lab biologists who want to gain more of an unders
 - [Alistair Martin (CRUK CI)](http://www.cruk.cam.ac.uk/research-groups/caldas-group)
 - [Stephane Ballereau (CRUK CI)](http://www.cruk.cam.ac.uk/core-facilities/bioinformatics-core)
 - [Michael Morgan (CRUK CI)](http://www.cruk.cam.ac.uk/).  
-[//]: # - [Davis McCarthy (EBI)](https://sites.google.com/site/davismcc/home)
 
 
 # Aims
