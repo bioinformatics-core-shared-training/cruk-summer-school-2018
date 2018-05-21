@@ -2,7 +2,6 @@
 
 ## 23rd - 27th July 2018: Craik-Marshall Room, Downing Site, University of Cambridge
 
-
 # Overview
 
 Functional genomics looks at the dynamic aspects of how the genome functions within cells,
