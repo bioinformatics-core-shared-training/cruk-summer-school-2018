@@ -97,10 +97,10 @@ After the course you should be able to:-
 
 # Day 4 (July 26th)
 
-- 09:30 - 10:00 [Introduction to ChIP-Seq (lecture)](ChIP/Materials/Lectures/Lecture4_Introduction to ChIP-seq and ATAC-seq_SS.pdf)
+- 09:30 - 10:00 [Introduction to ChIP-Seq (lecture)](ChIP/Materials/Lectures/Lecture4_Introduction to ChIP-seq and ATAC-seq_SS.pdf). 
 - 10:00 - 11:30; 
-  + [Peak Calling (lecture)](ChIP/Materials/Lectures/Lecture5_Peak Calling_SS.pdf)
-  + [Peak Calling (practical)](ChIP/Materials/Practicals/Prctical4_PeakCalling_SS.pdf)
+  + [Peak Calling (lecture)](ChIP/Materials/Lectures/Lecture5_Peak Calling_SS.pdf). 
+  + [Peak Calling (practical)](ChIP/Materials/Practicals/Prctical4_PeakCalling_SS.pdf)
   + [Viewing ChIP-seq results in IGV (practical)](ChIP/Materials/Practicals/Practical3_IGV_DB.pdf)
 - 11:30 - 12:30;
   + [Quality control methods for ChIP-seq (lecture)](ChIP/Materials/Lectures/Lecture6_chipqc_DB.pdf)
@@ -109,8 +109,8 @@ After the course you should be able to:-
 - 13:30 -14:00;
   + [Finish off: Quality control methods for ChIP-seq (practical)](ChIP/Materials/Practicals/Practical5_chipqc_DB.pdf)
 - 14:00 - 15:30; 
-  + [Useful software for the analysis of genomic data (lecture)](ChIP/Materials/Lectures/Lecture7_Useful_software_utilities_ for_computational_genomics_SS.pdf)
-  + [Useful software for the analysis of genomic data (practical)](ChIP/Materials/Practicals/Practical6_Useful_Utilities_for_Genomics.pdf)
+  + [Useful software for the analysis of genomic data (lecture)](ChIP/Materials/Lectures/Lecture7_Useful_software_utilities_ for_computational_genomics_SS.pdf). 
+  + [Useful software for the analysis of genomic data (practical)](ChIP/Materials/Practicals/Practical6_Useful_Utilities_for_Genomics.pdf)
 - 15:30 - 17:00;
   + [Downstream analysis of ChIP-seq (lecture)](ChIP/Materials/Lectures/Lecture_8_and_9_Downstream_Analysis_of_ChIPseq_SS.pdf)
   + [Downstream analysis of ChIP-seq (practical)](ChIP/Materials/Practicals/Practical7_DownStreamAnalysis.pdf)
