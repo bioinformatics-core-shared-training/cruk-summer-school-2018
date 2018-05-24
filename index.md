@@ -93,7 +93,9 @@ After the course you should be able to:-
 - 11:00 - 12:30; [Gene set analysis and Gene Ontology testing](RNASeq/rna-seq-gene-set-testing.nb.html)
   + [source file](RNASeq/rna-seq-gene-set-testing.Rmd)
 - 12:30 - 13:30; LUNCH
-- 13:30 - 16:30; [Introduction to single-cell sequencing](SingleCell/index.html)
+- 13:30 - 16:30; [Introduction to single-cell sequencing](SingleCell/index.html) NB We do not have sufficient time
+to teach this entire course in half a day. However, some concepts are covered in the Bulk RNASeq course and we provide
+access to the full materials. We will teach topics such as PCA which should be of interest even to those not interested in single-cell work.
 
 # Day 4 (July 26th)
 
