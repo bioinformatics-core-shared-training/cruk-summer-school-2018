@@ -1,0 +1,285 @@
+---
+output: html_document
+---
+
+## Clustering example {#clust-methods}
+
+```{r, echo=FALSE}
+library(knitr)
+opts_chunk$set(fig.align = "center")
+```
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+library(pcaMethods)
+library(pcaReduce)
+library(SC3)
+library(scater)
+library(SingleCellExperiment)
+library(pheatmap)
+library(mclust)
+set.seed(1234567)
+```
+
+To illustrate clustering of scRNA-seq data, we consider the `Deng` dataset of cells from developing mouse embryo [@Deng2014-mx]. We have preprocessed the dataset and created a `SingleCellExperiment` object in advance. We have also annotated the cells with the cell types identified in the original publication (it is the `cell_type2` column in the `colData` slot).
+
+### Deng dataset
+
+Let's load the data and look at it:
+```{r}
+deng <- readRDS("deng/deng-reads.rds")
+deng
+```
+
+Let's look at the cell type annotation:
+```{r}
+table(colData(deng)$cell_type2)
+```
+
+A simple PCA analysis already separates some strong cell types and provides some insights in the data structure:
+```{r}
+plotPCA(deng, colour_by = "cell_type2")
+```
+As you can see, the early cell types separate quite well, but the three blastocyst timepoints are more difficult to distinguish.
+
+### SC3
+
+Let's run `SC3` clustering on the Deng data. The advantage of the `SC3` is that it can directly ingest a `SingleCellExperiment` object.
+
+Now let's image we do not know the number of clusters _k_ (cell types). `SC3` can estimate a number of clusters for you:
+```{r}
+deng <- sc3_estimate_k(deng)
+metadata(deng)$sc3$k_estimation
+```
+
+Interestingly, the number of cell types predicted by `SC3` is smaller than in the original data annotation. However, early, mid and late stages of different cell types together, we will have exactly 6 cell types. We store the merged cell types in `cell_type1` column of the `colData` slot:
+```{r}
+plotPCA(deng, colour_by = "cell_type1")
+```
+
+Now we are ready to run `SC3` (we also ask it to calculate biological properties of the clusters): 
+```{r}
+deng <- sc3(deng, ks = 10, biology = TRUE)
+```
+
+`SC3` result consists of several different outputs (please look in [@Kiselev2016-bq] and [SC3 vignette](http://bioconductor.org/packages/release/bioc/vignettes/SC3/inst/doc/my-vignette.html) for more details). Here we show some of them:
+
+Consensus matrix:
+```{r, fig.height=6}
+sc3_plot_consensus(deng, k = 10, show_pdata = "cell_type2")
+```
+
+Silhouette plot:
+```{r, fig.height=9}
+sc3_plot_silhouette(deng, k = 10)
+```
+
+Heatmap of the expression matrix:
+```{r, fig.height=6}
+sc3_plot_expression(deng, k = 10, show_pdata = "cell_type2")
+```
+
+Identified marker genes:
+```{r, fig.height=11}
+sc3_plot_markers(deng, k = 10, show_pdata = "cell_type2")
+```
+
+PCA plot with highlighted `SC3` clusters:
+```{r}
+plotPCA(deng, colour_by = "sc3_10_clusters")
+```
+
+Compare the results of `SC3` clustering with the original publication cell type labels:
+```{r}
+adjustedRandIndex(colData(deng)$cell_type2, colData(deng)$sc3_10_clusters)
+```
+
+__Note__ `SC3` can also be run in an interactive `Shiny` session:
+```{r, eval=FALSE}
+sc3_interactive(deng)
+```
+
+This command will open `SC3` in a web browser.
+
+__Note__ Due to direct calculation of distances `SC3` becomes very slow when the number of cells is $>5000$. For large datasets containing up to $10^5$ cells we recomment using `Seurat` (see chapter \@ref(seurat-chapter)).
+
+* __Exercise 1__: Run `SC3` for $k$ from 8 to 12 and explore different clustering solutions in your web browser.
+
+* __Exercise 2__: Which clusters are the most stable when $k$ is changed from 8 to 12? (Look at the "Stability" tab)
+
+* __Exercise 3__: Check out differentially expressed genes and marker genes for the obtained clusterings. Please use $k=10$.
+
+* __Exercise 4__: Change the marker genes threshold (the default is 0.85). Does __SC3__ find more marker genes?
+
+### pcaReduce
+
+`pcaReduce` operates directly on the expression matrix. It is recommended to use a gene filter and log transformation before running `pcaReduce`. We will use the default `SC3` gene filter (note that the `exprs` slot of a `scater` object is log-transformed by default).
+
+```{r}
+# use the same gene filter as in SC3
+input <- logcounts(deng[rowData(deng)$sc3_gene_filter, ])
+```
+
+There are several parameters used by `pcaReduce`:
+* `nbt` defines a number of `pcaReduce` runs (it is stochastic and may have different solutions after different runs)
+* `q` defines number of dimensions to start clustering with. The output will contain partitions for all $k$ from 2 to q+1.
+* `method` defines a method used for clustering. `S` - to perform sampling based merging, `M` - to perform merging based on largest probability.
+
+We will run `pcaReduce` 1 time:
+```{r}
+# run pcaReduce 1 time creating hierarchies from 1 to 30 clusters
+pca.red <- PCAreduce(t(input), nbt = 1, q = 30, method = 'S')[[1]]
+```
+
+```{r}
+colData(deng)$pcaReduce <- as.character(pca.red[,32 - 10])
+plotPCA(deng, colour_by = "pcaReduce")
+```
+
+__Exercise 5__: Run pcaReduce for $k=2$ and plot a similar PCA plot. Does it look good?
+
+__Hint__: When running pcaReduce for different $k$s you do not need to rerun PCAreduce function, just use already calculated `pca.red` object.
+
+__Our solution__:
+```{r clust-pca-reduce2, fig.cap = "Clustering solutions of pcaReduce method for $k=2$.", echo=FALSE}
+colData(deng)$pcaReduce <- as.character(pca.red[,32 - 2])
+plotPCA(deng, colour_by = "pcaReduce")
+```
+
+__Exercise 6__: Compare the results between `pcaReduce` and the original publication cell types for $k=10$.
+
+__Our solution__:
+```{r, echo=FALSE}
+colData(deng)$pcaReduce <- as.character(pca.red[,32 - 10])
+adjustedRandIndex(colData(deng)$cell_type2, colData(deng)$pcaReduce)
+```
+
+### tSNE + kmeans
+
+[tSNE](https://lvdmaaten.github.io/tsne/) plots that we saw before (\@ref(visual-tsne)) when used the __scater__ package are made by using the [Rtsne](https://cran.r-project.org/web/packages/Rtsne/index.html) and [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html) packages. Here we will do the same:
+```{r clust-tsne, fig.cap = "tSNE map of the patient data"}
+deng <- plotTSNE(deng, rand_seed = 1, return_SCE = TRUE)
+```
+
+Note that all points on the plot above are black. This is different from what we saw before, when the cells were coloured based on the annotation. Here we do not have any annotation and all cells come from the same batch, therefore all dots are black.
+
+Now we are going to apply _k_-means clustering algorithm to the cloud of points on the tSNE map. How many groups do you see in the cloud?
+
+We will start with $k=8$:
+```{r clust-tsne-kmeans2, fig.cap = "tSNE map of the patient data with 8 colored clusters, identified by the k-means clustering algorithm"}
+colData(deng)$tSNE_kmeans <- as.character(kmeans(deng@reducedDims$TSNE, centers = 8)$clust)
+plotTSNE(deng, rand_seed = 1, colour_by = "tSNE_kmeans")
+```
+
+__Exercise 7__: Make the same plot for $k=10$.
+
+__Exercise 8__: Compare the results between `tSNE+kmeans` and the original publication cell types. Can the results be improved by changing the `perplexity` parameter?
+
+__Our solution__:
+```{r, echo=FALSE}
+colData(deng)$tSNE_kmeans <- as.character(kmeans(deng@reducedDims$TSNE, centers = 10)$clust)
+adjustedRandIndex(colData(deng)$cell_type2, colData(deng)$tSNE_kmeans)
+```
+
+As you may have noticed, both `pcaReduce` and `tSNE+kmeans` are stochastic
+and give different results every time they are run. To get a better
+overview of the solutions, we need to run the methods multiple times. `SC3` is also stochastic, but thanks to the consensus step, it is more robust and less likely to produce different outcomes.
+
+### SNN-Cliq
+
+Here we run SNN-cliq with te default parameters provided in the author's example:
+
+```{r}
+distan <- "euclidean"
+par.k <- 3
+par.r <- 0.7
+par.m <- 0.5
+# construct a graph
+scRNA.seq.funcs::SNN(
+    data = t(input),
+    outfile = "snn-cliq.txt",
+    k = par.k,
+    distance = distan
+)
+# find clusters in the graph
+snn.res <- 
+    system(
+        paste0(
+            "python utils/Cliq.py ", 
+            "-i snn-cliq.txt ",
+            "-o res-snn-cliq.txt ",
+            "-r ", par.r,
+            " -m ", par.m
+        ),
+        intern = TRUE
+    )
+cat(paste(snn.res, collapse = "\n"))
+snn.res <- read.table("res-snn-cliq.txt")
+# remove files that were created during the analysis
+system("rm snn-cliq.txt res-snn-cliq.txt")
+
+colData(deng)$SNNCliq <- as.character(snn.res[,1])
+plotPCA(deng, colour_by = "SNNCliq")
+```
+
+__Exercise 9__: Compare the results between `SNN-Cliq` and the original publication cell types.
+
+__Our solution__:
+```{r, echo=FALSE}
+adjustedRandIndex(colData(deng)$cell_type2, colData(deng)$SNNCliq)
+```
+
+### SINCERA
+
+As mentioned in the previous chapter [SINCERA](https://research.cchmc.org/pbge/sincera.html) is based on hierarchical clustering. One important thing to keep in mind is that it performs a gene-level z-score transformation before doing clustering:
+
+```{r, echo=TRUE, fig.height=7, fig.width=7}
+# perform gene-by-gene per-sample z-score transformation
+dat <- apply(input, 1, function(y) scRNA.seq.funcs::z.transform.helper(y))
+# hierarchical clustering
+dd <- as.dist((1 - cor(t(dat), method = "pearson"))/2)
+hc <- hclust(dd, method = "average")
+```
+
+If the number of cluster is not known [SINCERA](https://research.cchmc.org/pbge/sincera.html) can identify __k__ as the minimum height of the hierarchical tree that generates no more than a specified number of singleton clusters (clusters containing only 1 cell)
+```{r, echo=TRUE}
+num.singleton <- 0
+kk <- 1
+for (i in 2:dim(dat)[2]) {
+    clusters <- cutree(hc, k = i)
+    clustersizes <- as.data.frame(table(clusters))
+    singleton.clusters <- which(clustersizes$Freq < 2)
+    if (length(singleton.clusters) <= num.singleton) {
+        kk <- i
+    } else {
+        break;
+    }
+}
+cat(kk)
+```
+
+Let's now visualize the SINCERA results as a heatmap:
+```{r clust-sincera, fig.cap = "Clustering solutions of SINCERA method using found $k$"}
+pheatmap(
+    t(dat),
+    cluster_cols = hc,
+    cutree_cols = kk,
+    kmeans_k = 100,
+    show_rownames = FALSE
+)
+```
+
+__Exercise 10__: Compare the results between `SINCERA` and the original publication cell types.
+
+__Our solution__:
+```{r, echo=FALSE}
+colData(deng)$SINCERA <- as.character(cutree(hc, k = kk))
+adjustedRandIndex(colData(deng)$cell_type2, colData(deng)$SINCERA)
+```
+
+__Exercise 11__: Is using the singleton cluster criteria for finding __k__ a good idea?
+
+### sessionInfo()
+
+```{r echo=FALSE}
+sessionInfo()
+```

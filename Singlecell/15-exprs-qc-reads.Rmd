@@ -1,0 +1,203 @@
+---
+output: html_document
+---
+
+## Expression QC (Reads)
+
+```{r, echo=FALSE}
+library(knitr)
+opts_chunk$set(out.width='90%', fig.align = 'center')
+```
+
+```{r, message=FALSE, warning=FALSE}
+library(SingleCellExperiment)
+library(scater)
+options(stringsAsFactors = FALSE)
+```
+
+```{r}
+reads <- read.table("tung/reads.txt", sep = "\t")
+anno <- read.table("tung/annotation.txt", sep = "\t", header = TRUE)
+```
+
+```{r}
+head(reads[ , 1:3])
+head(anno)
+```
+
+```{r}
+reads <- SingleCellExperiment(
+    assays = list(counts = as.matrix(reads)), 
+    colData = anno
+)
+```
+
+```{r}
+keep_feature <- rowSums(counts(reads) > 0) > 0
+reads <- reads[keep_feature, ]
+```
+
+```{r}
+isSpike(reads, "ERCC") <- grepl("^ERCC-", rownames(reads))
+isSpike(reads, "MT") <- rownames(reads) %in% 
+    c("ENSG00000198899", "ENSG00000198727", "ENSG00000198888",
+    "ENSG00000198886", "ENSG00000212907", "ENSG00000198786",
+    "ENSG00000198695", "ENSG00000198712", "ENSG00000198804",
+    "ENSG00000198763", "ENSG00000228253", "ENSG00000198938",
+    "ENSG00000198840")
+```
+
+```{r}
+reads <- calculateQCMetrics(
+    reads,
+    feature_controls = list(
+        ERCC = isSpike(reads, "ERCC"), 
+        MT = isSpike(reads, "MT")
+    )
+)
+```
+
+```{r total-counts-hist-reads, fig.cap = "Histogram of library sizes for all cells"}
+hist(
+    reads$total_counts,
+    breaks = 100
+)
+abline(v = 1.3e6, col = "red")
+```
+
+```{r}
+filter_by_total_counts <- (reads$total_counts > 1.3e6)
+```
+
+```{r}
+table(filter_by_total_counts)
+```
+
+```{r total-features-hist-reads, fig.cap = "Histogram of the number of detected genes in all cells"}
+hist(
+    reads$total_features,
+    breaks = 100
+)
+abline(v = 7000, col = "red")
+```
+
+```{r}
+filter_by_expr_features <- (reads$total_features > 7000)
+```
+
+```{r}
+table(filter_by_expr_features)
+```
+
+```{r mt-vs-counts-reads, fig.cap = "Percentage of counts in MT genes"}
+plotPhenoData(
+    reads,
+    aes_string(
+        x = "total_features",
+        y = "pct_counts_MT",
+        colour = "batch"
+    )
+)
+```
+
+```{r ercc-vs-counts-reads, fig.cap = "Percentage of counts in ERCCs"}
+plotPhenoData(
+    reads,
+    aes_string(
+        x = "total_features",
+        y = "pct_counts_ERCC",
+        colour = "batch"
+    )
+)
+```
+
+```{r}
+filter_by_ERCC <- 
+    reads$batch != "NA19098.r2" & reads$pct_counts_ERCC < 25
+table(filter_by_ERCC)
+filter_by_MT <- reads$pct_counts_MT < 30
+table(filter_by_MT)
+```
+
+```{r}
+reads$use <- (
+    # sufficient features (genes)
+    filter_by_expr_features &
+    # sufficient molecules counted
+    filter_by_total_counts &
+    # sufficient endogenous RNA
+    filter_by_ERCC &
+    # remove cells with unusual number of reads in MT genes
+    filter_by_MT
+)
+```
+
+```{r}
+table(reads$use)
+```
+
+```{r auto-cell-filt-reads, fig.align='center', fig.cap="PCA plot used for automatic detection of cell outliers", message=FALSE, warning=FALSE, out.width='90%'}
+reads <- plotPCA(
+    reads,
+    size_by = "total_features", 
+    shape_by = "use",
+    pca_data_input = "pdata",
+    detect_outliers = TRUE,
+    return_SCE = TRUE
+)
+```
+
+```{r}
+table(reads$outlier)
+```
+
+```{r cell-filt-comp-reads, fig.cap = "Comparison of the default, automatic and manual cell filters"}
+library(limma)
+auto <- colnames(reads)[reads$outlier]
+man <- colnames(reads)[!reads$use]
+venn.diag <- vennCounts(
+    cbind(colnames(reads) %in% auto,
+    colnames(reads) %in% man)
+)
+vennDiagram(
+    venn.diag,
+    names = c("Automatic", "Manual"),
+    circle.col = c("blue", "green")
+)
+```
+
+```{r top50-gene-expr-reads, fig.cap = "Number of total counts consumed by the top 50 expressed genes", fig.asp = 1}
+plotQC(reads, type = "highest-expression")
+```
+
+```{r}
+filter_genes <- apply(
+    counts(reads[, colData(reads)$use]), 
+    1, 
+    function(x) length(x[x > 1]) >= 2
+)
+rowData(reads)$use <- filter_genes
+```
+
+```{r}
+table(filter_genes)
+```
+
+```{r}
+dim(reads[rowData(reads)$use, colData(reads)$use])
+```
+
+```{r}
+assay(reads, "logcounts_raw") <- log2(counts(reads) + 1)
+reducedDim(reads) <- NULL
+```
+
+```{r}
+saveRDS(reads, file = "tung/reads.rds")
+```
+
+By comparing Figure \@ref(fig:cell-filt-comp) and Figure \@ref(fig:cell-filt-comp-reads), it is clear that the reads based filtering removed more cells than the UMI based analysis. If you go back and compare the results you should be able to conclude that the ERCC and MT filters are more strict for the reads-based analysis.
+
+```{r}
+sessionInfo()
+```
