@@ -1,4 +1,4 @@
-# CRUK Bioinformatics Autumn School 2018: Functional Genomics
+# CRUK Bioinformatics Summer School 2018: Functional Genomics
 
 ## 23rd - 27th July 2018: Craik-Marshall Room, Downing Site, University of Cambridge
 
