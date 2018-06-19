@@ -56,6 +56,12 @@ After the course you should be able to:-
 - Import a set of ChIP-Seq peaks and investigate their biological context.
 - Appreciate the differences between bulk and single-cell RNA-seq analyses, and why the same methodologies might not be applicable
 
+# Day Zero (July 22nd )
+18:00 - ..
+Informal get-together at The Grain and Hop Store (close to accomodation Downing College)
+Join us for a drink and dinner (self-paying), and to meet your colleagues for the next few days
+http://www.grainandhopstore-cambridge.co.uk/
+
 # Materials
 
 # Day 1 (July 23rd)
