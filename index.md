@@ -58,12 +58,12 @@ After the course you should be able to:-
 
 # Day 0 (July 22nd )
 18:00 - ..
-Informal get-together at The Grain and Hop Store (close to accomodation Downing College)
+Informal get-together at The Grain and Hop Store (close to accommodation in Downing College)
 Join us for a drink and dinner (self-paying), and to meet your colleagues for the next few days
 http://www.grainandhopstore-cambridge.co.uk/
 
 # Materials
-
+Note Training Room in Craik-Marshall building (1st Floor) will be open from 9am.
 # Day 1 (July 23rd)
 
 - 09:30 [Course Introduction](Introduction/Session1-intro.html)
