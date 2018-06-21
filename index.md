@@ -133,6 +133,7 @@ access to the full materials. We will teach topics such as PCA which should be o
   + [Differential binding analysis (practical)](ChIP/Materials/Practicals/Practical9_diffbind_DB.pdf)
 - 11:30 - 12:30; 
   + [Introduction to Epigenomics and Chromatin Interactions (lecture)](ChIP/Materials/Lectures/Lecture11_Intro_to_Epigenomics_SS.pdf)
+- 12:30 - 13:30; LUNCH
   
 <!--
 ## Data
