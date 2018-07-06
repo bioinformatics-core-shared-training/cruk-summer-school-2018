@@ -1,6 +1,6 @@
-# CRUK Bioinformatics Autumn School 2017: Functional Genomics
+# CRUK Bioinformatics Summer School 2018: Functional Genomics
 
-## 18th - 22nd September 2017: Craik-Marshall Room, Downing Site, University of Cambridge
+## 23rd - 27th July 2018: Craik-Marshall Room, Downing Site, University of Cambridge
 
 
 # Overview
@@ -28,14 +28,14 @@ More specific requirements and references can be found [here](http://www.cruk.ca
 
 # Instructors
 
-- Rory Stark (CRUK CI)
-- Mark Dunning (CRUK CI)
+- Mark Fernandes (CRUK CI)
 - Shamith Samarajiwa (MRC CU)
 - Dora Bihary (MRC CU)
 - Ashley Sawle (CRUK CI)
 - Alistair Martin (CRUK CI)
 - Stephane Ballereau (CRUK CI)
-- Davis McCarthy (EBI)
+- Michael Morgan (CRUK CI)
+- Abigail Edwards (CRUK CI)
 
 
 # Aims
