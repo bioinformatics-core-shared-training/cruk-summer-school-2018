@@ -58,7 +58,7 @@ After the course you should be able to:-
 
 # Accomodation
 
-If required, free bed and breakfast accommodation will be provided for attendees in Murray-Edwards College. Please let us know on the registration form if you need accommodation and when you plan to check-in and check-out. Please note that the course ends at 13:30 on Friday 22nd September and accommodation is not provided for Friday night.
+If required, free bed and breakfast accommodation will be provided for attendees in Downing College. Please let us know on the registration form if you need accommodation and when you plan to check-in and check-out. Please note that the course ends at 13:30 on Friday and accommodation is not provided for Friday night.
 
 # Timetable (approximate)
 
