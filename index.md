@@ -106,7 +106,7 @@ access to the full materials. We will teach topics such as PCA which should be o
 
 - 09:30 - 10:00; [Introduction to ChIP-Seq (lecture)](ChIP/Materials/Lectures/Lecture4_Introduction_to_ChIP-seq_and_ATAC-seq_SS.pdf). 
 - 10:00 - 11:30; Peak calling and Visualisation  
-  + [Peak Calling (lecture) ](ChIP/Materials/Lectures/Lecture5_Peak Calling_SS.pdf). 
+  + [Peak Calling (lecture) ](ChIP/Materials/Lectures/Lecture5_Peak_Calling_SS.pdf). 
   + [Peak Calling (practical) ](ChIP/Materials/Practicals/Prctical4_PeakCalling_SS.pdf). 
   + [Viewing ChIP-seq results in IGV (practical) ](ChIP/Materials/Practicals/Practical3_IGV_DB.pdf)
 - 11:30 - 12:30;
