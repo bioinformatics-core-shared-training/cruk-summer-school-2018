@@ -27,7 +27,6 @@ Enthusiastic and motivated wet-lab biologists who want to gain more of an unders
 
 # Instructors
 
-- [Rory Stark (CRUK CI)](http://www.cruk.cam.ac.uk/core-facilities/bioinformatics-core)
 - [Mark Fernandes (CRUK CI)](http://www.cruk.cam.ac.uk/core-facilities/bioinformatics-core)
 - [Shamith Samarajiwa (MRC CU)](http://www.mrc-cu.cam.ac.uk/research/Shamith-Samarajiwa-folder)
 - [Dora Bihary (MRC CU)](http://www.mrc-cu.cam.ac.uk/research/Shamith-Samarajiwa-folder)
@@ -67,7 +66,7 @@ Note Training Room in Craik-Marshall building (1st Floor) will be open from 9am.
 # Day 1 (July 23rd)
 
 - 09:30 [Course Introduction](Introduction/Session1-intro.html)
-- 09:30 - 10:30; [Introduction to Functional Genomics](Introduction/Functional Genomics Overview.pdf)
+- 09:30 - 10:30; [Introduction to Functional Genomics](Introduction/Functional_Genomics_Overview.pdf)
 - 10:30 - 12:30; [Introduction (Recap) of R and Bioconductor](Introduction/bioc-intro.nb.html)
   + [source](Introduction/bioc-intro.Rmd)
 - 12:30 - 13:30; LUNCH
