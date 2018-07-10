@@ -70,7 +70,7 @@ Note Training Room in Craik-Marshall building (1st Floor) will be open from 9am.
 - 10:30 - 12:30; [Introduction (Recap) of R and Bioconductor](Introduction/bioc-intro.nb.html)
   + [source](Introduction/bioc-intro.Rmd)
 - 12:30 - 13:30; LUNCH
-- 13:30 - 14:30 [Principles of Experimental Design](Introduction/Experimental Design.pdf)
+- 13:30 - 14:30 [Principles of Experimental Design](Introduction/Experimental_Design.pdf)
 - 14:30 - 17:00;
     + [File formats (lecture)](Introduction/SS_DB/Materials/Lectures/Lecture1_fileFormats_DB.pdf)
     + [Quality Control and artefacts (lecture)](Introduction/SS_DB/Materials/Lectures/Lecture2_qualityControl_artefactRemoval_DB.pdf)
