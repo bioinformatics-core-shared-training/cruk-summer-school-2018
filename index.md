@@ -80,13 +80,15 @@ Note Training Room in Craik-Marshall building (1st Floor) will be open from 9am.
     
 # Day 2 (July 24th)
 
-- 09:30 - 10:30; [Introduction to RNA-seq](RNASeq/slides/rnaSeq_Sept2017.pdf)
-- 10:30 - 12:30; 
+- 09:00 - 09:30; [Introduction to RNA-seq](RNASeq/slides/rnaSeq_Sept2017.pdf)
+- 09:30 - 11:00; 
   + [Counting](RNASeq/count.nb.html)
   + [Importing and QC of RNA-seq data](RNASeq/rna-seq-preprocessing.nb.html)
   + [source file](RNASeq/slides/rna-seq-preprocessing.nb.Rmd)
+- 11:00 - 12:30 Linear models & differential expression
 - 12:30 - 13:30; LUNCH
-- 13:30 - 17:00; Differential Expression
+- 13:30 - 15:00; Linear models & differential expression
+- 15:00 - 17:00 Differential expression analysis with DESeq2
   + [Slides](RNASeq/slides/LinearModels.pdf)
   + [Practical](DifferentialExpression/rna-seq-de.nb.html)
   + [Source](DifferentialExpression/rna-seq.Rmd)
