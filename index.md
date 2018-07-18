@@ -98,7 +98,7 @@ Day 1: Data processing for Next Generation Sequencing
 - 12:30 - 13:30; LUNCH
 - 13:30 - 15:00; Linear models & differential expression
 - 15:00 - 17:00 Differential expression analysis with DESeq2
-  + [Slides](RNASeq/slides/LinearModels.pdf)
+  + [Slides](RNASeq2018/slides/LinearModels.pdf)
   + [Practical](DifferentialExpression/rna-seq-de.nb.html)
   + [Source](DifferentialExpression/rna-seq.Rmd)
 
