@@ -72,6 +72,15 @@ Note Training Room in Craik-Marshall building (1st Floor) will be open from 9am.
 - 12:30 - 13:30; LUNCH
 - 13:30 - 14:30 [Principles of Experimental Design](Introduction/Experimental_Design.pdf)
 - 14:30 - 17:00;
+Day 1: Data processing for Next Generation Sequencing
+
+    + Lecture 1: [Introduction to next generation sequencing]() (2.30- 2.45pm)
+    + Lecture 2: [Brief introduction to file formats]() (2.45- 3.00pm)
+    + Lecture 3: [Quality control and artefact removal]() (3.00- 3.45pm)
+    + Practical 1: [learn to use FastQC and Cutadapt]() (20 min) on a sample dataset
+    + Lecture 4: [Short read alignment and Quality Control]() (3.45-5.00pm)
+    + Practical 2: [Alignment of a ChIP-seq dataset to a reference genome using BWA OR Bowtie2 and a RNA-seq dataset to STAR]() (45 min)
+
     + [File formats (lecture)](Introduction/SS_DB/Materials/Lectures/Lecture1_fileFormats_DB.pdf)
     + [Quality Control and artefacts (lecture)](Introduction/SS_DB/Materials/Lectures/Lecture2_qualityControl_artefactRemoval_DB.pdf)
     + [Quality Control and artefacts (practical)](Introduction/SS_DB/Materials/Practicals/Practical1_qualityControl_artefactRemoval_DB.pdf)
@@ -106,6 +115,22 @@ access to the full materials. We will teach topics such as PCA which should be o
 
 # Day 4 (July 26th)
 
+- ChIP-seq data analysis
+
+    + Lecture 5: [Introduction to ChIP-seq]() (9.30-10.00pm)
+    + Lecture 6: [Peak Calling]() (10.00-11.00pm)
+    + Practical 3: [Peak calling using MACS2]() (30 min)
+    + Lecture 7: [Differential binding analysis]() (11.00-12.30pm)
+    + Practical 4: [THOR (and Diffbind)]() (20 min)
+    + Lecture 8: [Quality control methods for ChIP-seq]() (1 hr)
+    + Practical 5: [ChIPQC package]() (30 min)
+    + Practical 6: [Integrative Genome Viewer]() (30 min)
+    LUNCH (12.30-1.30pm)
+    + Lecture 9: [Downstream analysis of ChIP-seq]() (1.30-3.15pm)
+    + Practical 7: [Downstream analysis of ChIP-seq]() (30 min)
+    + Practical 8: [Identifying direct targets of transcription factors with Rcade]() (30 min)
+    + Lecture 10:: [Useful software utilities for the analysis of genomic data]() (4.30-5.00pm)
+
 - 09:30 - 10:00; [Introduction to ChIP-Seq (lecture)](ChIP/Materials/Lectures/Lecture4_Introduction_to_ChIP-seq_and_ATAC-seq_SS.pdf). 
 - 10:00 - 11:30; Peak calling and Visualisation  
   + [Peak Calling (lecture) ](ChIP/Materials/Lectures/Lecture5_Peak_Calling_SS.pdf). 
@@ -125,7 +150,13 @@ access to the full materials. We will teach topics such as PCA which should be o
   + [Downstream analysis of ChIP-seq (practical)](ChIP/Materials/Practicals/Practical7_DownStreamAnalysis.pdf)
   
 # Day 5 (July 27th)
+- ATAC-seq and Epigenomics
 
+  +  Practical 9: [Useful software utilities for the analysis of genomic data]() (9.30-10.30am)
+  +  Lecture 11 [ATAC-seq data analysis]() (10.30-11.30am)
+  +  Practical 10: [ATAC-seq analysis]() (30 min)
+  +  Lecture 12 [Introduction to Epigenomics and Chromatin Interactions]() (11.30-12.30)
+  
 - 09:30 - 12:30; 
 - 09:30 - 10:30;  
   + [Identifying direct targets of Transcription Factors (practical)](ChIP/Materials/Practicals/Practical8_Rcade_SS.pdf)
