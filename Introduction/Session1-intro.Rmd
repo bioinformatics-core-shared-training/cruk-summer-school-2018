@@ -87,7 +87,7 @@ p3
 
 # Live note-taking and documentation
 
-- We have an "etherpad" at https://public.etherpad-mozilla.org/p/2017-09-18-functional-genomics
+- We have an "etherpad" at https://public.etherpad-mozilla.org/p/2018-07-23-functional-genomics
 - Use this to ask questions during the talks
 - We can post code snippets, links and corrections here too
 
