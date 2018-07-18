@@ -1,2 +1,2 @@
-# CRUK_AutumnSchool_2017
+# CRUK_SummerSchool_2018
 Course material 
