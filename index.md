@@ -89,7 +89,7 @@ Day 1: Data processing for Next Generation Sequencing
     
 # Day 2 (July 24th)
 
-- 09:00 - 09:30; [Introduction to RNA-seq](RNASeq/slides/rnaSeq_Sept2017.pdf)
+- 09:00 - 09:30; [Introduction to RNA-seq](RNASeq2018/slides/rnaSeq_Sept2017.pdf)
 - 09:30 - 11:00; 
   + [Counting](RNASeq/count.nb.html)
   + [Importing and QC of RNA-seq data](RNASeq/rna-seq-preprocessing.nb.html)
