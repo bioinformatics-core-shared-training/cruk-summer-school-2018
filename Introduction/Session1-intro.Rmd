@@ -31,17 +31,17 @@ Huge thanks too to Kelly O'Reilly (CRUK) for admin support, and Gabriella, Paul 
 
 # Who are you?
 
-```{r echo=FALSE, message=FALSE,fig.width=12,fig.height=8}
-library(dplyr)
-library(ggplot2)
-library(gridExtra)
-ppl <- tbl_df(read.csv("../all_applicants.csv",header=TRUE)) %>% filter(Accept == "Y")
-p1 <- ggplot(ppl, aes(x = Institute)) + geom_bar(fill=rgb(29,0,150,maxColorValue=255))+ coord_flip() 
-p2 <- ggplot(ppl, aes(x=Position)) + geom_bar(fill=rgb(236,0,140,maxColorValue=255)) + coord_flip()
-p3 <- ggplot(ppl, aes(x=Gender,fill=Gender)) + geom_bar() + scale_fill_manual(values=c(rgb(29,0,150,maxColorValue=255),rgb(236,0,140,maxColorValue=255))) + coord_flip()
-p1
-p2
-p3
+#```{r echo=FALSE, message=FALSE,fig.width=12,fig.height=8}
+#library(dplyr)
+#library(ggplot2)
+#library(gridExtra)
+#ppl <- tbl_df(read.csv("../all_applicants.csv",header=TRUE)) %>% filter(Accept == "Y")
+#p1 <- ggplot(ppl, aes(x = Institute)) + geom_bar(fill=rgb(29,0,150,maxColorValue=255))+ coord_flip() 
+#p2 <- ggplot(ppl, aes(x=Position)) + geom_bar(fill=rgb(236,0,140,maxColorValue=255)) + coord_flip()
+#p3 <- ggplot(ppl, aes(x=Gender,fill=Gender)) + geom_bar() + scale_fill_manual(values=c(rgb(29,0,150,maxColorValue=255),rgb(236,0,140,maxColorValue=255))) + coord_flip()
+#p1
+#p2
+#p3
 
 ```
 ![](images/2018_Inst.png)
