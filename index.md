@@ -94,7 +94,7 @@ Day 1: Data processing for Next Generation Sequencing
 - 09:00 - 09:30; [Introduction to RNA-seq](RNASeq2018/slides/rnaSeq_intro.pdf)
 - 09:30 - 11:00; 
   + [Counting](RNASeq2018/html/01_Read_Counts_with_Subread.html)
-  + [Importing and QC of RNA-seq data](RNASeq2018/html/02_Preproces
+  + [Importing and QC of RNA-seq data](RNASeq2018/html/02_Preprocessing_Data.nb.html
 - 11:00 - 12:30 Linear models & differential expression
   + [Slides](RNASeq2018/slides/LinearModels.pdf)
   + [Linear models html nb](RNASeq2018/html/03_Linear_Models.nb.html)
