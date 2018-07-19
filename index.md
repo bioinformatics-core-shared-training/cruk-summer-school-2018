@@ -89,33 +89,24 @@ Day 1: Data processing for Next Generation Sequencing
     
 # Day 2 (July 24th)
 
+**Please note we use several Rstudio Notebook html files as material for the RNAseq course. To obtain the source code
+(.Rmd file) you can simply click on the code button in the top right-hand corner).**
 - 09:00 - 09:30; [Introduction to RNA-seq](RNASeq2018/slides/rnaSeq_intro.pdf)
 - 09:30 - 11:00; 
   + [Counting](RNASeq2018/html/01_Read_Counts_with_Subread.html)
-  + [Importing and QC of RNA-seq data](RNASeq2018/html/02_Preprocessing_Data.nb.html)
-  + [Read counts practical](RNASeq2018/Course_Materials/01_Read_Counts_with_Subread.Rmd)
-  + [Pre-processing practical](RNASeq2018/Course_Materials/02_Preprocessing_Data.Rmd)
-  + [OLD source file](RNASeq/slides/rna-seq-preprocessing.nb.Rmd)
+  + [Importing and QC of RNA-seq data](RNASeq2018/html/02_Preproces
 - 11:00 - 12:30 Linear models & differential expression
   + [Slides](RNASeq2018/slides/LinearModels.pdf)
   + [Linear models html nb](RNASeq2018/html/03_Linear_Models.nb.html)
-  + [Linear Models practical](RNASeq2018/Course_Materials/03_Linear_Models.Rmd)
 - 12:30 - 13:30; LUNCH
 - 13:30 - 15:00; Linear models & differential expression
 - 15:00 - 17:00 
   + [Differential expression analysis with DESeq2](RNASeq2018/html/04_DE_analysis_with_DESeq2.nb.html)
-  + [DESeq2 practical source file](RNASeq2018/Course_Materials/04_DE_analysis_with_DESeq2.Rmd)
-
-  + [OLD Practical](DifferentialExpression/rna-seq-de.nb.html)
-  + [OLD Source](DifferentialExpression/rna-seq.Rmd)
 
 # Day 3 (July 25th)
 
 - 09:30 - 11:00; [Annotation and Visualisation of Differential Expression](RNASeq2018/html/05_Annotation_and_Visualisation.nb.html)
-  + [Annotation & Visualisation Practical source file](RNASeq2018/Course_Materials/05_Annotation_and_Visualisation.Rmd)
 - 11:00 - 12:30; [Gene set analysis and Gene Ontology testing](RNASeq2018/html/06_Gene_set_testing.nb.html)
-  + [Gene-set practical source file](RNASeq2018/Course_Materials/06_Gene_set_testing.Rmd)
-  + [Gene-set practical (Cluster profiler) source file](RNASeq2018/Course_Materials/06_Gene_set_testing_cluster_profiler.Rmd)
 
 - 12:30 - 13:30; LUNCH
 - 13:30 - 16:30; [Introduction to single-cell sequencing](SingleCell/index.html) NB We do not have sufficient time
