@@ -98,23 +98,25 @@ Day 1: Data processing for Next Generation Sequencing
   + [OLD source file](RNASeq/slides/rna-seq-preprocessing.nb.Rmd)
 - 11:00 - 12:30 Linear models & differential expression
   + [Slides](RNASeq2018/slides/LinearModels.pdf)
-  + {Linera models html nb](RNASeq2018/html/03_Linear_Models.nb.html)
-  + [Linera Models practical](RNASeq2018/Course_Materials/03_Linear_Models.Rmd)
+  + [Linear models html nb](RNASeq2018/html/03_Linear_Models.nb.html)
+  + [Linear Models practical](RNASeq2018/Course_Materials/03_Linear_Models.Rmd)
 - 12:30 - 13:30; LUNCH
 - 13:30 - 15:00; Linear models & differential expression
 - 15:00 - 17:00 
   + [Differential expression analysis with DESeq2](RNASeq2018/html/04_DE_analysis_with_DESeq2.nb.html)
-  + [DESeq2 practical](RNASeq2018/Course_Materials/04_DE_analysis_with_DESeq2.Rmd)
+  + [DESeq2 practical source file](RNASeq2018/Course_Materials/04_DE_analysis_with_DESeq2.Rmd)
 
   + [OLD Practical](DifferentialExpression/rna-seq-de.nb.html)
   + [OLD Source](DifferentialExpression/rna-seq.Rmd)
 
 # Day 3 (July 25th)
 
-- 09:30 - 11:00; [Annotation and Visualisation of Differential Expression](RNASeq/rna-seq-annotation-visualisation.nb.html)
-  + [source file](RNASeq/rna-seq-annotation-visualisation.nb.Rmd)
-- 11:00 - 12:30; [Gene set analysis and Gene Ontology testing](RNASeq/rna-seq-gene-set-testing.nb.html)
-  + [source file](RNASeq/rna-seq-gene-set-testing.Rmd)
+- 09:30 - 11:00; [Annotation and Visualisation of Differential Expression](RNASeq2018/html/05_Annotation_and_Visualisation.nb.html)
+  + [Annotation & Visualisation Practical source file](RNASeq2018/Course_Materials/05_Annotation_and_Visualisation.Rmd)
+- 11:00 - 12:30; [Gene set analysis and Gene Ontology testing](RNASeq2018/html/06_Gene_set_testing.nb.html)
+  + [Gene-set practical source file](RNASeq2018/Course_Materials/06_Gene_set_testing.Rmd)
+  + [Gene-set practical (Cluster profiler) source file](RNASeq2018/Course_Materials/06_Gene_set_testing_cluster_profiler.Rmd)
+
 - 12:30 - 13:30; LUNCH
 - 13:30 - 16:30; [Introduction to single-cell sequencing](SingleCell/index.html) NB We do not have sufficient time
 to teach this entire course in half a day. However, some concepts are covered in the Bulk RNASeq course and we provide
