@@ -92,15 +92,22 @@ Day 1: Data processing for Next Generation Sequencing
 - 09:00 - 09:30; [Introduction to RNA-seq](RNASeq2018/slides/rnaSeq_intro.pdf)
 - 09:30 - 11:00; 
   + [Counting](RNASeq2018/html/01_Read_Counts_with_Subread.html)
-  + [Importing and QC of RNA-seq data](RNASeq/rna-seq-preprocessing.nb.html)
-  + [source file](RNASeq/slides/rna-seq-preprocessing.nb.Rmd)
+  + [Importing and QC of RNA-seq data](RNASeq2018/html/02_Preprocessing_Data.nb.html)
+  + [Read counts practical](RNASeq2018/Course_Materials/01_Read_Counts_with_Subread.Rmd)
+  + [Pre-processing practical](RNASeq2018/Course_Materials/02_Preprocessing_Data.Rmd)
+  + [OLD source file](RNASeq/slides/rna-seq-preprocessing.nb.Rmd)
 - 11:00 - 12:30 Linear models & differential expression
+  + [Slides](RNASeq2018/slides/LinearModels.pdf)
+  + {Linera models html nb](RNASeq2018/html/03_Linear_Models.nb.html)
+  + [Linera Models practical](RNASeq2018/Course_Materials/03_Linear_Models.Rmd)
 - 12:30 - 13:30; LUNCH
 - 13:30 - 15:00; Linear models & differential expression
-- 15:00 - 17:00 Differential expression analysis with DESeq2
-  + [Slides](RNASeq2018/slides/LinearModels.pdf)
-  + [Practical](DifferentialExpression/rna-seq-de.nb.html)
-  + [Source](DifferentialExpression/rna-seq.Rmd)
+- 15:00 - 17:00 
+  + [Differential expression analysis with DESeq2](RNASeq2018/html/04_DE_analysis_with_DESeq2.nb.html)
+  + [DESeq2 practical](RNASeq2018/Course_Materials/04_DE_analysis_with_DESeq2.Rmd)
+
+  + [OLD Practical](DifferentialExpression/rna-seq-de.nb.html)
+  + [OLD Source](DifferentialExpression/rna-seq.Rmd)
 
 # Day 3 (July 25th)
 
