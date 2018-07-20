@@ -1,6 +1,6 @@
 # CRUK Bioinformatics Summer School 2018: Functional Genomics
 
-## 23rd - 27th July 2018: Craik-Marshall Room, Downing Site, University of Cambridge
+**23rd - 27th July 2018: Craik-Marshall Room, Downing Site, University of Cambridge**
 
 # Overview
 
@@ -63,7 +63,7 @@ Join us for a drink and dinner (self-paying), and to meet your colleagues for th
 http://www.grainandhopstore-cambridge.co.uk/
 
 ## Materials
-### Note Training Room in Craik-Marshall building (1st Floor) will be open from 9am.
+**Note Training Room in Craik-Marshall building (1st Floor) will be open from 9am. **
 # Day 1 (July 23rd)
 
 - 09:30 [Course Introduction](Introduction/Session1-intro.html)
