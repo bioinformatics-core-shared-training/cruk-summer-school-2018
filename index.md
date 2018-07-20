@@ -10,11 +10,11 @@ current methods for functional genomics using high-throughput technologies.
 
 High-throughput technologies such as next generation sequencing (NGS) can routinely produce massive amounts of data. However, such datasets pose new challenges in the way the data have to be analyzed, annotated and interpreted which are not trivial and are daunting to the wet-lab biologist. This course covers state-of-the-art and best-practice tools for bulk RNA-seq and ChIP-seq data analysis, and will also introduce approaches for analysing data arising from single-cell RNA-seq studies.
 
-## Audience
+### Audience
 
 Enthusiastic and motivated wet-lab biologists who want to gain more of an understanding of NGS data and eventually progress to analysing their own data
 
-## Pre-requisites
+### Pre-requisites
 
 **The course will include a great deal of hands-on work in R and at the command line. In order for you to make the most of the course we strongly recommend that you take an introductory course, or have sufficient experience in the following areas:**
 
@@ -25,7 +25,7 @@ Enthusiastic and motivated wet-lab biologists who want to gain more of an unders
 **More specific requirements and references can be found [here](http://www.cruk.cam.ac.uk/bioinformatics-summer-school-prerequisites)**
 
 
-## Instructors
+### Instructors
 
 - [Mark Fernandes (CRUK CI)](http://www.cruk.cam.ac.uk/core-facilities/bioinformatics-core)
 - [Shamith Samarajiwa (MRC CU)](http://www.mrc-cu.cam.ac.uk/research/Shamith-Samarajiwa-folder)
@@ -37,7 +37,7 @@ Enthusiastic and motivated wet-lab biologists who want to gain more of an unders
 - [Michael Morgan (CRUK CI)](http://www.cruk.cam.ac.uk/).  
 
 
-## Aims
+### Aims
 During this course you will learn about:-
 
 - To provide an understanding of how aligned sequencing reads, genome sequences and genomic regions are represented in R.
@@ -45,7 +45,7 @@ During this course you will learn about:-
 - Analysis of transcription factor (TF) and epigenomic (histone mark) ChIP-seq data 
 - Recent advances in single-cell sequencing
 
-## Objectives
+### Objectives
 After the course you should be able to:-
 
 - Know what tools are available in Bioconductor for HTS analysis and understand the basic object-types that are utilised.
@@ -56,13 +56,13 @@ After the course you should be able to:-
 - Appreciate the differences between bulk and single-cell RNA-seq analyses, and why the same methodologies might not be applicable
 
 # Day 0 (July 22nd )
-### SOCIAL
+**SOCIAL
 18:00 - ..
 Informal get-together at The Grain and Hop Store (close to accommodation in Downing College)
 Join us for a drink and dinner (self-paying), and to meet your colleagues for the next few days
-http://www.grainandhopstore-cambridge.co.uk/
+http://www.grainandhopstore-cambridge.co.uk/ **
 
-## Materials
+### Materials
 **Note Training Room in Craik-Marshall building (1st Floor) will be open from 9am. **
 # Day 1 (July 23rd)
 
@@ -172,6 +172,7 @@ access to the full materials. We will teach topics such as PCA which should be o
 - 11:30 - 12:30; 
   + [Introduction to Epigenomics and Chromatin Interactions (lecture)](ChIP/Materials/Lectures/Lecture11_Intro_to_Epigenomics_SS.pdf)
 - 12:30 - 13:30; LUNCH
+- Safe Journey home (Thank you for participating in the Summer School)
   
 <!--
 ## Data
