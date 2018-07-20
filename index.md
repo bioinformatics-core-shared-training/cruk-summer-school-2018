@@ -2,7 +2,7 @@
 
 **23rd - 27th July 2018: Craik-Marshall Room, Downing Site, University of Cambridge**
 
-# Overview
+#3 Overview
 
 Functional genomics looks at the dynamic aspects of how the genome functions within cells,
 particularly in the form of gene expression (transcription) and gene regulation. This workshop surveys
@@ -56,14 +56,15 @@ After the course you should be able to:-
 - Appreciate the differences between bulk and single-cell RNA-seq analyses, and why the same methodologies might not be applicable
 
 # Day 0 (July 22nd )
+
 **SOCIAL
 18:00 - ..
 Informal get-together at The Grain and Hop Store (close to accommodation in Downing College)
 Join us for a drink and dinner (self-paying), and to meet your colleagues for the next few days
 http://www.grainandhopstore-cambridge.co.uk/ **
 
-### Materials
 **Note Training Room in Craik-Marshall building (1st Floor) will be open from 9am. **
+
 # Day 1 (July 23rd)
 
 - 09:30 [Course Introduction](Introduction/Session1-intro.html)
@@ -114,13 +115,12 @@ Day 1: Data processing for Next Generation Sequencing
 to teach this entire course in half a day. However, some concepts are covered in the Bulk RNASeq course and we provide
 access to the full materials. We will teach topics such as PCA which should be of interest even to those not interested in single-cell work.
 
-### SOCIAL: Punting trip - leave from Mill Lane punting site at 18:00 (~10 min walk from Craik-Marshall)
+**SOCIAL: Punting trip - leave from Mill Lane punting site at 18:00 (~10 min walk from Craik-Marshall)
 [Google Map](https://www.google.com/maps/dir/Craik-Marshall+Building,+Cambridge/Scudamore's+Mill+Lane+Punting+Station,+Mill+Ln,+Cambridge+CB2+1RS/@52.2021771,0.1169979,17z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x47d8709788f7fb6b:0x117c3858ab077fb0!2m2!1d0.1224918!2d52.2019233!1m5!1m1!1s0x47d870a335f0f833:0xdb33dae59780b590!2m2!1d0.115892!2d52.201511!3e3)
 
 # Day 4 (July 26th)
 
 - ChIP-seq data analysis
-
     + Lecture 5: [Introduction to ChIP-seq]() (9.30-10.00pm)
     + Lecture 6: [Peak Calling]() (10.00-11.00pm)
     + Practical 3: [Peak calling using MACS2]() (30 min)
@@ -135,7 +135,7 @@ access to the full materials. We will teach topics such as PCA which should be o
     + Practical 8: [Identifying direct targets of transcription factors with Rcade]() (30 min)
     + Lecture 10:: [Useful software utilities for the analysis of genomic data]() (4.30-5.00pm)
     
-### SOCIAL: Summer School evening meal & Reception at the nearby Downing College at 18:00 to 22:30.. If you do not wish to attend this meal (free to attendees) then please let us know ASAP. http://www.dow.cam.ac.uk  Downing College, Regent Street, Cambridge, CB2 1DQ
+**SOCIAL: Summer School evening meal & Reception at the nearby Downing College at 18:00 to 22:30.. If you do not wish to attend this meal (free to attendees) then please let us know ASAP. http://www.dow.cam.ac.uk  Downing College, Regent Street, Cambridge, CB2 1DQ
 
 - 09:30 - 10:00; [Introduction to ChIP-Seq (lecture)](ChIP/Materials/Lectures/Lecture4_Introduction_to_ChIP-seq_and_ATAC-seq_SS.pdf). 
 - 10:00 - 11:30; Peak calling and Visualisation  
@@ -156,8 +156,8 @@ access to the full materials. We will teach topics such as PCA which should be o
   + [Downstream analysis of ChIP-seq (practical)](ChIP/Materials/Practicals/Practical7_DownStreamAnalysis.pdf)
   
 # Day 5 (July 27th)
-- ATAC-seq and Epigenomics
 
+- ATAC-seq and Epigenomics
   +  Practical 9: [Useful software utilities for the analysis of genomic data]() (9.30-10.30am)
   +  Lecture 11 [ATAC-seq data analysis]() (10.30-11.30am)
   +  Practical 10: [ATAC-seq analysis]() (30 min)
