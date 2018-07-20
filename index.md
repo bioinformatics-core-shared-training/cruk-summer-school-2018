@@ -56,10 +56,11 @@ After the course you should be able to:-
 - Appreciate the differences between bulk and single-cell RNA-seq analyses, and why the same methodologies might not be applicable
 
 # Day 0 (July 22nd )
-18:00 - ..
+<p style="color:Tomato;">
+  18:00 - ..
 Informal get-together at The Grain and Hop Store (close to accommodation in Downing College)
 Join us for a drink and dinner (self-paying), and to meet your colleagues for the next few days
-http://www.grainandhopstore-cambridge.co.uk/
+http://www.grainandhopstore-cambridge.co.uk/ </P>
 
 # Materials
 Note Training Room in Craik-Marshall building (1st Floor) will be open from 9am.
