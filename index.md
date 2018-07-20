@@ -61,9 +61,8 @@ After the course you should be able to:-
 18:00 - ..
 Informal get-together at The Grain and Hop Store (close to accommodation in Downing College)
 Join us for a drink and dinner (self-paying), and to meet your colleagues for the next few days
-http://www.grainandhopstore-cambridge.co.uk/ **
-
-**Note Training Room in Craik-Marshall building (1st Floor) will be open from 9am. **
+http://www.grainandhopstore-cambridge.co.uk/ 
+Note that the Training Room in Craik-Marshall building (1st Floor) will be open from 9am. **
 
 # Day 1 (July 23rd)
 
@@ -93,6 +92,7 @@ Day 1: Data processing for Next Generation Sequencing
 
 **Please note we use several Rstudio Notebook html files as material for the RNAseq course. To obtain the source code
 (.Rmd file) you can simply click on the code button in the top right-hand corner).**
+
 - 09:00 - 09:30; [Introduction to RNA-seq](RNASeq2018/slides/rnaSeq_intro.pdf)
 - 09:30 - 11:00; 
   + [Counting](RNASeq2018/html/01_Read_Counts_with_Subread.html)
@@ -116,7 +116,7 @@ to teach this entire course in half a day. However, some concepts are covered in
 access to the full materials. We will teach topics such as PCA which should be of interest even to those not interested in single-cell work.
 
 **SOCIAL: Punting trip - leave from Mill Lane punting site at 18:00 (~10 min walk from Craik-Marshall)
-[Google Map](https://www.google.com/maps/dir/Craik-Marshall+Building,+Cambridge/Scudamore's+Mill+Lane+Punting+Station,+Mill+Ln,+Cambridge+CB2+1RS/@52.2021771,0.1169979,17z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x47d8709788f7fb6b:0x117c3858ab077fb0!2m2!1d0.1224918!2d52.2019233!1m5!1m1!1s0x47d870a335f0f833:0xdb33dae59780b590!2m2!1d0.115892!2d52.201511!3e3)
+[Google Map](https://www.google.com/maps/dir/Craik-Marshall+Building,+Cambridge/Scudamore's+Mill+Lane+Punting+Station,+Mill+Ln,+Cambridge+CB2+1RS/@52.2021771,0.1169979,17z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x47d8709788f7fb6b:0x117c3858ab077fb0!2m2!1d0.1224918!2d52.2019233!1m5!1m1!1s0x47d870a335f0f833:0xdb33dae59780b590!2m2!1d0.115892!2d52.201511!3e3) **
 
 # Day 4 (July 26th)
 
@@ -135,7 +135,7 @@ access to the full materials. We will teach topics such as PCA which should be o
     + Practical 8: [Identifying direct targets of transcription factors with Rcade]() (30 min)
     + Lecture 10:: [Useful software utilities for the analysis of genomic data]() (4.30-5.00pm)
     
-**SOCIAL: Summer School evening meal & Reception at the nearby Downing College at 18:00 to 22:30.. If you do not wish to attend this meal (free to attendees) then please let us know ASAP. http://www.dow.cam.ac.uk  Downing College, Regent Street, Cambridge, CB2 1DQ
+**SOCIAL: Summer School evening meal & Reception at the nearby Downing College at 18:00 to 22:30.. If you do not wish to attend this meal (free to attendees) then please let us know ASAP. http://www.dow.cam.ac.uk  Downing College, Regent Street, Cambridge, CB2 1DQ**
 
 - 09:30 - 10:00; [Introduction to ChIP-Seq (lecture)](ChIP/Materials/Lectures/Lecture4_Introduction_to_ChIP-seq_and_ATAC-seq_SS.pdf). 
 - 10:00 - 11:30; Peak calling and Visualisation  
