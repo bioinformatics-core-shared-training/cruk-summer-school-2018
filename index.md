@@ -2,7 +2,7 @@
 
 **23rd - 27th July 2018: Craik-Marshall Room, Downing Site, University of Cambridge**
 
-#3 Overview
+## Overview
 
 Functional genomics looks at the dynamic aspects of how the genome functions within cells,
 particularly in the form of gene expression (transcription) and gene regulation. This workshop surveys
