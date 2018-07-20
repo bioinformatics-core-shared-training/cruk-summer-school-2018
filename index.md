@@ -93,7 +93,7 @@ Day 1: Data processing for Next Generation Sequencing
 **Please note we use several Rstudio Notebook html files as material for the RNAseq course. To obtain the source code
 (.Rmd file) you can simply click on the code button in the top right-hand corner).**
 
-- 09:00 - 09:30; [Introduction to RNA-seq](RNASeq2018/slides/rnaSeq_intro.pdf)
+- 09:00 - 09:30; [Introduction to RNA-seq](RNASeq2018/html/00_Introduction_to_RNAseq_Analysis.html)
 - 09:30 - 11:00; 
   + [Counting](RNASeq2018/html/01_Read_Counts_with_Subread.html)
   + [Importing and QC of RNA-seq data](RNASeq2018/html/02_Preprocessing_Data.nb.html)
