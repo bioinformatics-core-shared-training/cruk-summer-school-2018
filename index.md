@@ -79,7 +79,7 @@ Note that the Training Room in Craik-Marshall building (1st Floor) will be open 
   + Lecture 3: [Quality control and artefact removal](Introduction/SS_DB/Materials/Lectures/L3_qualityControl_artefactRemoval_DB.pdf) (3.00- 3.45pm)
   + Practical 1: [learn to use FastQC and Cutadapt](ChIPSeq/Practicals/Practical1_fastQC_DB.html) (20 min) on a sample dataset
   + Lecture 4: [Short read alignment and Quality Control](Introduction/SS_DB/Materials/Lectures/L4_Short_Read_Alignment_to_a_Reference-Genome_SS.pdf) (3.45-5.00pm)
-  + Practical 2: [Alignment of a ChIP-seq dataset to a reference genome using BWA OR Bowtie2 and a RNA-seq dataset to STAR](ChIPSeq/Practicals/Practical2_alignment_SS.html (45 min)
+  + Practical 2: [Alignment of a ChIP-seq dataset to a reference genome using BWA OR Bowtie2 and a RNA-seq dataset to STAR](ChIPSeq/Practicals/Practical2_alignment_SS.html) (45 min)
     
 # Day 2 (July 24th)
 
