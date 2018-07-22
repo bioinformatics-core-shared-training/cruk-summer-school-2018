@@ -128,7 +128,9 @@ access to the full materials. We will teach topics such as PCA which should be o
     + Practical 8: [Identifying direct targets of transcription factors with Rcade](ChIPSeq/Practicals/Practical8_Rcade_SS.pdf) (30 min)
     + Lecture 10:: [Useful software utilities for the analysis of genomic data](ChIPSeq/Lectures/L10_Software_utilities_for_computational_genomics_SS.pdf) (4.30-5.00pm)
  
-**SOCIAL: Summer School evening meal & Reception at the nearby Downing College at 18:00 to 22:30.. If you do not wish to attend this meal (free to attendees) then please let us know ASAP. http://www.dow.cam.ac.uk  Downing College, Regent Street, Cambridge, CB2 1DQ**
+**SOCIAL: Summer School evening meal & Reception at the nearby Downing College at 18:00 to 22:30.. If you do not wish to attend this meal (free to attendees) then please let us know ASAP. http://www.dow.cam.ac.uk  Downing College, Regent Street, Cambridge, CB2 1DQ    
+Drinks Reception 18:00- 19:45 West Lodge    
+Dinner 19:45 -22:30 Grace Howard Room**    
 
 # Day 5 (July 27th)
 
