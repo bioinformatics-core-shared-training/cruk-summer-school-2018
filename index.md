@@ -77,9 +77,9 @@ Note that the Training Room in Craik-Marshall building (1st Floor) will be open 
   + Lecture 1: [Introduction to next generation sequencing](Introduction/SS_DB/Materials/Lectures/L1_Introduction_to_Next_Generation_Sequencing_SS.pdf) (2.30- 2.45pm)
   + Lecture 2: [Brief introduction to file formats](Introduction/SS_DB/Materials/Lectures/L2_fileFormats_DB.pdf) (2.45- 3.00pm)
   + Lecture 3: [Quality control and artefact removal](Introduction/SS_DB/Materials/Lectures/L3_qualityControl_artefactRemoval_DB.pdf) (3.00- 3.45pm)
-  + Practical 1: [learn to use FastQC and Cutadapt](Introduction/SS_DB/Materials/Practicals/Practical1_fastQC_DB.html) (20 min) on a sample dataset
+  + Practical 1: [learn to use FastQC and Cutadapt](ChIPSeq/Practicals/Practical1_fastQC_DB.html) (20 min) on a sample dataset
   + Lecture 4: [Short read alignment and Quality Control](Introduction/SS_DB/Materials/Lectures/L4_Short_Read_Alignment_to_a_Reference-Genome_SS.pdf) (3.45-5.00pm)
-  + Practical 2: [Alignment of a ChIP-seq dataset to a reference genome using BWA OR Bowtie2 and a RNA-seq dataset to STAR](Introduction/SS_DB/Materials/Practicals/Practical2_alignment_SS.html) (45 min)
+  + Practical 2: [Alignment of a ChIP-seq dataset to a reference genome using BWA OR Bowtie2 and a RNA-seq dataset to STAR](ChIPSeq/Practicals//Practical2_alignment_SS.html (45 min)
     
 # Day 2 (July 24th)
 
@@ -114,38 +114,31 @@ access to the full materials. We will teach topics such as PCA which should be o
 # Day 4 (July 26th)
 
 - ChIP-seq data analysis
-    + Lecture 5: [Introduction to ChIP-seq](ChIP/Materials/Lectures/Lecture4_Introduction_to_ChIP-seq_and_ATAC-seq_SS.pdf) (9.30-10.00pm)
-    + Lecture 6: [Peak Calling](ChIP/Materials/Lectures/Lecture5_Peak_Calling_SS.pdf) (10.00-11.00pm)
-    + Practical 3: [Peak calling using MACS2](ChIP/Materials/Practicals/) (30 min)
-    + Lecture 7: [Differential binding analysis](ChIP/Materials/Lectures/Lecture6_chipqc_DB.pdf) (11.00-12.30pm)
-    + Practical 4: [THOR (and Diffbind)](ChIP/Materials/Practicals/) (20 min)
-    + Lecture 8: [Quality control methods for ChIP-seq](ChIP/Materials/Lectures/) (1 hr)
-    + Practical 5: [ChIPQC package](ChIP/Materials/Practicals/) (30 min)
-    + Practical 6: [Integrative Genome Viewer](ChIP/Materials/Practicals/) (30 min)
+    + Lecture 5: [Introduction to ChIP-seq](ChIPSeq/Lectures//L5_Introduction_to_ChIP-seq_SS.pdf) (9.30-10.00pm)
+    + Lecture 6: [Peak Calling](ChIPSeq/Lectures/L6_Peak_Calling_SS.pdf) (10.00-11.00pm)
+    + Practical 3: [Peak calling using MACS2](ChIPSeq/Practicals/Practical3_peakcalling_SS.html) (30 min)
+    + Lecture 7: [Differential binding analysis](ChIPSeq/Lectures/L7_Differential_binding_analysis_DB.pdf) (11.00-12.30pm)
+    + Practical 4: [THOR (and Diffbind)](ChIPSeq/Practicals/Practical4_differentialBinding_DB.html) (20 min)
+    + Lecture 8: [Quality control methods for ChIP-seq](ChIPSeq/Lectures/L8_Quality_control_methods_for_ChIP-seq_DB.pdf) (1 hr)
+    + Practical 5: [ChIPQC package](ChIPSeq/Practicals/Practical5_ChIPQC_DB.html) (30 min)
+    + Practical 6: [Integrative Genome Viewer](ChIPSeq/Practicals/Practical6_IGV_DB.html) (30 min)
     LUNCH (12.30-1.30pm)
-    + Lecture 9: [Downstream analysis of ChIP-seq](ChIP/Materials/Lectures/Lecture_8_and_9_Downstream_Analysis_of_ChIPseq_SS.pdf) (1.30-3.15pm)
-    + Practical 7: [Downstream analysis of ChIP-seq](ChIP/Materials/Practicals/) (30 min)
-    + Practical 8: [Identifying direct targets of transcription factors with Rcade](ChIP/Materials/Practicals/) (30 min)
-    + Lecture 10:: [Useful software utilities for the analysis of genomic data](ChIP/Materials/Lectures/) (4.30-5.00pm)
+    + Lecture 9: [Downstream analysis of ChIP-seq](ChIPSeq/Lectures/L9_Downstream_Analysis_of_ChIP-seq_data_SS.pdf) (1.30-3.15pm)
+    + Practical 7: [Downstream analysis of ChIP-seq](ChIPSeq/Practicals/Practical7_Downstream_Analysis_of_ChIP-seq_SS.html) (30 min)
+    + Practical 8: [Identifying direct targets of transcription factors with Rcade](ChIPSeq/Practicals/Practical8_Rcade_SS.pdf) (30 min)
+    + Lecture 10:: [Useful software utilities for the analysis of genomic data](ChIP/Materials/Lectures/L10_Software_utilities_for_computational_genomics_SS.pdf) (4.30-5.00pm)
  
 **SOCIAL: Summer School evening meal & Reception at the nearby Downing College at 18:00 to 22:30.. If you do not wish to attend this meal (free to attendees) then please let us know ASAP. http://www.dow.cam.ac.uk  Downing College, Regent Street, Cambridge, CB2 1DQ**
-  
+
 # Day 5 (July 27th)
 
 - 09:30 - 12:30; 
 - ATAC-seq and Epigenomics
-  +  Practical 9: [Useful software utilities for the analysis of genomic data](ChIP/Materials/Practicals/) (9.30-10.30am)
-  +  Lecture 11 [ATAC-seq data analysis](ChIP/Materials/Lectures/) (10.30-11.30am)
-  +  Practical 10: [ATAC-seq analysis](ChIP/Materials/Practicals/) (30 min)
-  +  Lecture 12 [Introduction to Epigenomics and Chromatin Interactions](ChIP/Materials/Lectures/Lecture11_Intro_to_Epigenomics_SS.pdf) (11.30-12.30)
+  +  Practical 9: [Useful software utilities for the analysis of genomic data](ChIPSeq/Practicals/Practical9_Useful_software_utilities_for_the_analysis_of_genomic_data_SS.html) (9.30-10.30am)
+  +  Lecture 11 [ATAC-seq data analysis](ChIPSeq/Lectures/L11_Introduction to ATAC-seq_SS.pdf) (10.30-11.30am)
+  +  Practical 10: [ATAC-seq analysis](ChIPSeq/Practicals/) (30 min)
+  +  Lecture 12 [Introduction to Epigenomics and Chromatin Interactions](ChIPSeq/Lectures/L12_Introduction_to_Epigenomics_SS.pdf) (11.30-12.30)
 
-- 09:30 - 10:30;  
-  + [Identifying direct targets of Transcription Factors (practical)](ChIP/Materials/Practicals/Practical8_Rcade_SS.pdf)
-- 10:30 - 11:30;  
-  + [Differential binding analysis (lecture)](ChIP/Materials/Lectures/Lecture10_Differential_binding.pdf)
-  + [Differential binding analysis (practical)](ChIP/Materials/Practicals/Practical9_diffbind_DB.pdf)
-- 11:30 - 12:30; 
-  + [Introduction to Epigenomics and Chromatin Interactions (lecture)](ChIP/Materials/Lectures/Lecture11_Intro_to_Epigenomics_SS.pdf)
 - 12:30 - 13:30; LUNCH
 - Safe Journey home (Thank you for participating in the Summer School)
   
