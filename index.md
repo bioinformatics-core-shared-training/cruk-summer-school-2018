@@ -79,7 +79,7 @@ Note that the Training Room in Craik-Marshall building (1st Floor) will be open 
   + Lecture 3: [Quality control and artefact removal](Introduction/SS_DB/Materials/Lectures/L3_qualityControl_artefactRemoval_DB.pdf) (3.00- 3.45pm)
   + Practical 1: [learn to use FastQC and Cutadapt](ChIPSeq/Practicals/Practical1_fastQC_DB.html) (20 min) on a sample dataset
   + Lecture 4: [Short read alignment and Quality Control](Introduction/SS_DB/Materials/Lectures/L4_Short_Read_Alignment_to_a_Reference-Genome_SS.pdf) (3.45-5.00pm)
-  + Practical 2: [Alignment of a ChIP-seq dataset to a reference genome using BWA OR Bowtie2 and a RNA-seq dataset to STAR](ChIPSeq/Practicals//Practical2_alignment_SS.html (45 min)
+  + Practical 2: [Alignment of a ChIP-seq dataset to a reference genome using BWA OR Bowtie2 and a RNA-seq dataset to STAR](ChIPSeq/Practicals/Practical2_alignment_SS.html (45 min)
     
 # Day 2 (July 24th)
 
@@ -126,7 +126,7 @@ access to the full materials. We will teach topics such as PCA which should be o
     + Lecture 9: [Downstream analysis of ChIP-seq](ChIPSeq/Lectures/L9_Downstream_Analysis_of_ChIP-seq_data_SS.pdf) (1.30-3.15pm)
     + Practical 7: [Downstream analysis of ChIP-seq](ChIPSeq/Practicals/Practical7_Downstream_Analysis_of_ChIP-seq_SS.html) (30 min)
     + Practical 8: [Identifying direct targets of transcription factors with Rcade](ChIPSeq/Practicals/Practical8_Rcade_SS.pdf) (30 min)
-    + Lecture 10:: [Useful software utilities for the analysis of genomic data](ChIP/Materials/Lectures/L10_Software_utilities_for_computational_genomics_SS.pdf) (4.30-5.00pm)
+    + Lecture 10:: [Useful software utilities for the analysis of genomic data](ChIPSeq/Lectures/L10_Software_utilities_for_computational_genomics_SS.pdf) (4.30-5.00pm)
  
 **SOCIAL: Summer School evening meal & Reception at the nearby Downing College at 18:00 to 22:30.. If you do not wish to attend this meal (free to attendees) then please let us know ASAP. http://www.dow.cam.ac.uk  Downing College, Regent Street, Cambridge, CB2 1DQ**
 
