@@ -31,7 +31,8 @@ Huge thanks too to Kelly O'Reilly (CRUK) for admin support, and Gabriella, Paul 
 
 # Who are you?
 
-#```{r echo=FALSE, message=FALSE,fig.width=12,fig.height=8}
+<!--
+```{r echo=FALSE, message=FALSE,fig.width=12,fig.height=8}
 #library(dplyr)
 #library(ggplot2)
 #library(gridExtra)
@@ -44,6 +45,8 @@ Huge thanks too to Kelly O'Reilly (CRUK) for admin support, and Gabriella, Paul 
 #p3
 
 ```
+-->
+
 ![](images/2018_Inst.png)
 ![](images/2018_position.png)
 
