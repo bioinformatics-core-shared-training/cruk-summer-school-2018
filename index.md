@@ -79,9 +79,9 @@ School etherpad (E-whiteboard) is [here](https://public.etherpad-mozilla.org/p/2
   + Lecture 1: [Introduction to next generation sequencing](Introduction/SS_DB/Materials/Lectures/L1_Introduction_to_Next_Generation_Sequencing_SS.pdf) (2.30- 2.45pm)
   + Lecture 2: [Brief introduction to file formats](Introduction/SS_DB/Materials/Lectures/L2_fileFormats_DB.pdf) (2.45- 3.00pm)
   + Lecture 3: [Quality control and artefact removal](Introduction/SS_DB/Materials/Lectures/L3_qualityControl_artefactRemoval_DB.pdf) (3.00- 3.45pm)
-  + Practical 1: [learn to use FastQC and Cutadapt](ChIPSeq/Practicals/Practical1_fastQC_DB.html) (20 min) on a sample dataset
+  + Practical 1: [learn to use FastQC and Cutadapt](Introduction/SS_DB/Materials/Practicals/Practical1_fastQC_DB.html) (20 min) on a sample dataset
   + Lecture 4: [Short read alignment and Quality Control](Introduction/SS_DB/Materials/Lectures/L4_Short_Read_Alignment_to_a_Reference-Genome_SS.pdf) (3.45-5.00pm)
-  + Practical 2: [Alignment of a ChIP-seq dataset to a reference genome using BWA OR Bowtie2 and a RNA-seq dataset to STAR](ChIPSeq/Practicals/Practical2_alignment_SS.html) (45 min)
+  + Practical 2: [Alignment of a ChIP-seq dataset to a reference genome using BWA OR Bowtie2 and a RNA-seq dataset to STAR](Introduction/SS_DB/Materials/Practicals/Practical2_alignment_SS.html) (45 min)
     
 # Day 2 (July 24th)
 
