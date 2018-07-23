@@ -64,7 +64,7 @@ Join us for a drink and dinner (self-paying), and to meet your colleagues for th
 http://www.grainandhopstore-cambridge.co.uk/ 
 
 **Note that the Training Room in Craik-Marshall building (1st Floor) will be open from 9am. 
-School etherpad (E-whiteboard) is at https://public.etherpad-mozilla.org/p/2018-07-23-functional-genomics **
+School etherpad (E-whiteboard) is [here](https://public.etherpad-mozilla.org/p/2018-07-23-functional-genomics) **
 
 # Day 1 (July 23rd)
 
