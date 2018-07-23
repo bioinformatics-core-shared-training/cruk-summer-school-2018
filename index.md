@@ -62,7 +62,9 @@ After the course you should be able to:-
 Informal get-together at The Grain and Hop Store (close to accommodation in Downing College)
 Join us for a drink and dinner (self-paying), and to meet your colleagues for the next few days
 http://www.grainandhopstore-cambridge.co.uk/ 
-Note that the Training Room in Craik-Marshall building (1st Floor) will be open from 9am. **
+
+**Note that the Training Room in Craik-Marshall building (1st Floor) will be open from 9am. 
+School etherpad (E-whiteboard) is at https://public.etherpad-mozilla.org/p/2018-07-23-functional-genomics **
 
 # Day 1 (July 23rd)
 
