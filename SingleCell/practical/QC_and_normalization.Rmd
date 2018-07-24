@@ -102,9 +102,9 @@ library(Matrix)
 library(biomaRt)
 library(irlba)
 
-sample1.path <- "~/CI_filesystem/mnt/nas2-data/jmlab/shared_folders/bioinformatics/20180516_FernandesM_ME_crukBioinfSumSch2018/HumanBreastTCells/GRCh38/Tils20_1/outs/filtered_gene_bc_matrices/GRCh38/"
-sample2.path <- "~/CI_filesystem/mnt/nas2-data/jmlab/shared_folders/bioinformatics/20180516_FernandesM_ME_crukBioinfSumSch2018/HumanBreastTCells/GRCh38/Tils20_2/outs/filtered_gene_bc_matrices/GRCh38/"
-sample3.path <- "~/CI_filesystem/mnt/nas2-data/jmlab/shared_folders/bioinformatics/20180516_FernandesM_ME_crukBioinfSumSch2018/HumanBreastTCells/GRCh38/Tils32/outs/filtered_gene_bc_matrices/GRCh38/"
+sample1.path <- "~/Course_Material/SinglecellToUse/HumanBreastTCells/GRCh38/Tils20_1/outs/filtered_gene_bc_matrices/GRCh38/"
+sample2.path <- "~/Course_Material/SinglecellToUse//HumanBreastTCells/GRCh38/Tils20_2/outs/filtered_gene_bc_matrices/GRCh38/"
+sample3.path <- "~/Course_Material/SinglecellToUse//HumanBreastTCells/GRCh38/Tils32/outs/filtered_gene_bc_matrices/GRCh38/"
 ```
 
 # Loading the data
@@ -535,16 +535,16 @@ the potential drawbacks?
 
 ```{r}
 saveRDS(nz.sce,
-        file="~/CI_filesystem/mnt/nas2-data/jmlab/shared_folders/bioinformatics/20180516_FernandesM_ME_crukBioinfSumSch2018/HumanBreastTCells/Tcells_SCE.Rds")
+        file="~/Course_Material/SinglecellToUse//HumanBreastTCells/Tcells_SCE.Rds")
 
 saveRDS(sample1.nz.sce,
-        file="~/CI_filesystem/mnt/nas2-data/jmlab/shared_folders/bioinformatics/20180516_FernandesM_ME_crukBioinfSumSch2018/HumanBreastTCells/Tils20.1_SCE.Rds")
+        file="~/Course_Material/SinglecellToUse//HumanBreastTCells/Tils20.1_SCE.Rds")
 
 saveRDS(sample2.nz.sce,
-        file="~/CI_filesystem/mnt/nas2-data/jmlab/shared_folders/bioinformatics/20180516_FernandesM_ME_crukBioinfSumSch2018/HumanBreastTCells/Tils20.2_SCE.Rds")
+        file="~/Course_Material/SinglecellToUse//HumanBreastTCells/Tils20.2_SCE.Rds")
 
 saveRDS(sample3.nz.sce,
-        file="~/CI_filesystem/mnt/nas2-data/jmlab/shared_folders/bioinformatics/20180516_FernandesM_ME_crukBioinfSumSch2018/HumanBreastTCells/Tils32_SCE.Rds")
+        file="~/Course_Material/SinglecellToUse//HumanBreastTCells/Tils32_SCE.Rds")
 
 ```
 
