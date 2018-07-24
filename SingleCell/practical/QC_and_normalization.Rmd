@@ -1,0 +1,564 @@
+---
+title: "CRUK-CI Bioinformatics Summer School Single Cell RNA-sequencing"
+author: "Mike Morgan & Stephane Ballereau"
+date: "6/27/2018"
+output: html_document
+---
+
+# Preamble
+This tutorial is primarily concerned with understanding how to quality control and normalise single cell RNA sequencing data.  We will be using data from 
+a droplet-based platform (10X Genomics).  Many of the principals and steps, such as quality control and normalization factor estimation, will also hold true for 
+data derived from plate-based or microfluidics technologies, such as SMART-seq2.
+
+We will use data derived from the paper: 
+[Single-cell profiling of breast cancer T cells reveals a tissue-resident memory subset associated with improved prognosis](https://www.nature.com/articles/s41591-018-0078-7). These are specifically CD3+CD45+ T cells derived from two patients with triple negative breast 
+cancer. There are more specific details in the paper, but they have sequenced ~6000 cells.  
+
+# The raw ingredients
+We have already undertaken the first steps in processing the data for the sake of time.  Namely, getting from the raw BCL files, converting to FASTQ files and 
+then to a matrix of gene expression.  Normally we would work initially from FASTQ files, but in this case only the BCL files were made publicly available.  We have 
+used the cellranger pipeline, which is executed from the command line.  Specifically we used the following sets of commands to convert the BCL files to FASTQ,
+then to get the gene expression matrix from the FASTQ files:
+
+```{}
+cellranger mkfastq \
+    --run=/ \
+    --id=  \
+    --sample-sheet= \
+    --localcores=24 \
+    --localmem=48 \
+    --maxjobs=12 \
+```
+
+The first part `cellranger mkfastq` calls the cellranger binary tells it that we will be using the `mkfastq` tool. The full documentation for the cellranger 
+pipeline is available [here](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger).  Most of the time this 
+first step isn't required as you are likely to receive your data in FASTQ format.  We then define the name of the sample (`--id`) and the location of the BCL files 
+as an absolute path (`--run`).  It is necessary to provide a mapping between the different BCL file IDs and the various sample indexes used in the experiment 
+(`--samplesheet`).  The extra flags are to control the amount of cluster resources used to convert to FASTQ files.
+
+```{}
+cellranger count --sample="" \
+                 --id="" \
+                 --transcriptome="" \
+                 --fastqs="" \
+                 --lanes="" \
+                 --localcores=24 \
+                 --localmem=48 \
+                 --maxjobs=12
+```
+
+Once we have FASTQ files (3 per sample, i.e. Read 1, Read 2 and Indices), we can begin the task of aligning the reads, deduplication and quantifying gene expression 
+using the UMIs.  The first part `cellranger count` calls the cellranger binary and tells it that we will be using the `count` tool, we can also pass an ID to 
+cellranger that makes sense to us as the user (`--id`).  We have to provide cellranger with the location of both our genome and the genome annotation used so we can 
+assign reads to genes (`--transcriptome`), and the location of the FASTQ files (`--fastqs`).
+
+The final output of the cellranger pipeline, amongst other things, is a folder which contains the raw and filtered data.  The raw data contains all cell barcodes 
+that were included for that sample on the 10X chip, whilst the filtered data contains only data for cells which have been called valid by the cellranger pipeline.  
+There is some argument to using alternative methods to reclaim more cells as the the cellranger algorithm is generally conservative.  However, more cells may come 
+at the expense of lower quality.  For now we'll trust the cellranger algorithm to call the cells properly, and use the filtered data.
+
+The directory structure of the pipeline output is as follows:
+
+```{}
+<SAMPLE>
+   | outs/
+      -- filtered_gene_bc_matrices_h5.h5
+      -- metrics_summary.csv
+      -- molecule_info.h5
+      -- possorted_genome_bam.bam
+      -- possorted_genome_bam.bam.bai
+      -- raw_gene_bc_matrices_h5.h5
+      -- web_summary.html
+      | analysis/
+      | filtered_gene_bc_matrices/
+          | <genome>/
+              -- barcodes.tsv
+              -- genes.tsv
+              -- matrix.mtx
+      | raw_gene_bc_matrices/
+          | <genome>/
+              -- barcodes.tsv
+              -- genes.tsv
+              -- matrix.mtx
+```
+
+The parts we are most interested in are contained in the directory `filtered_gene_bc_matrices`.  There are also a couple of other files that makes use of a format 
+called HDF5.  This is an efficient file format for storing large amounts of data on disk in a directory-like structure (__NB__: the structure is internal to the 
+file so you'll never see it explicitly in the standard filesystem).  The standard `cellrangerRkit` library can access these data from the HDF5 format, or we can 
+use an alternative library that uses the files in the `filtered_gene_bc_matrices` subfolder directory.  We'll opt for the latter as it is a more flexible option.
+
+# Setting up our R session
+
+Before we begin on our single-cell journey, we need to load in several packages.  These come from either the Bioconductor community, or directly from CRAN.
+
+```{r, results='hide', message=FALSE}
+library(scran)
+library(scater)
+library(DropletUtils)
+library(ggplot2)
+library(SingleCellExperiment)
+library(igraph)
+library(Matrix)
+library(biomaRt)
+library(irlba)
+
+sample1.path <- "~/Course_Material/SinglecellToUse/HumanBreastTCells/GRCh38/Tils20_1/outs/filtered_gene_bc_matrices/GRCh38/"
+sample2.path <- "~/Course_Material/SinglecellToUse//HumanBreastTCells/GRCh38/Tils20_2/outs/filtered_gene_bc_matrices/GRCh38/"
+sample3.path <- "~/Course_Material/SinglecellToUse//HumanBreastTCells/GRCh38/Tils32/outs/filtered_gene_bc_matrices/GRCh38/"
+```
+
+# Loading the data
+
+To load the data into our R session, we will make use of the `DropletUtils` package developed by Aaron Lun, Jonny Griffiths and Davis McCarthy.  This has several 
+useful functions, the one which we are interested in is `read10XCounts()`.  This will create an object called a `SingleCellExperiment`, that is based on the 
+`ExpressionSet` objects you may have used for other bulk RNAseq analyses.  It is a convenient way for us to store information on a single experiment, including 
+meta-data on the samples and cells, as well as QC information, and feature annotations.  
+
+We'll read in each sample separately, as we will show the effects of normalizing the samples together, and separately.  Samples Tils20_1 and Tils20_2 are 
+separate runs from the same donor, so it makes sense to combine them for normalization, but is this also true for our other sample, Tils32?
+
+```{r}
+sample1.sce <- read10xCounts(sample1.path)
+sample2.sce <- read10xCounts(sample2.path)
+sample3.sce <- read10xCounts(sample3.path)
+
+# we can inspect the SingleCellExperiment object
+sample1.sce
+```
+
+Internally there is a sparse matrix representation of the data, where the columns are the cells (cell barcodes), and the rows are the genes.  In this case we make 
+use of the Ensembl gene IDs as they are unique to each gene annotation.  Specifically the sparse matrix is a `dgCMatrix` object from the `Matrix` package.  The 
+basis for using this object is that 0's are not stored explicitly, therefore reducing the overall memory burden for large data.
+
+__NB__: As soon as we start to normalize and transform the matrix, it becomes a dense matrix because we will add a small pseudocount value to each cell (the 
+logarithm of 0 is undefined); functions in `scran` and `SingleCellExperiment` help to maintain the sparse matrix format.
+
+For the purposes of QC, we almost certainly want to combine our samples together, so that they all have the same genes, and that we apply the sample thresholds 
+across samples.  The easiest way to do this is to create a single large matrix for all of the cells, and create the relevant meta-data for these samples as well.  
+This meta-data can then be saved and used for later data-exploration if needed.
+
+```{r}
+samp1.counts <- counts(sample1.sce)
+samp2.counts <- counts(sample2.sce)
+samp3.counts <- counts(sample3.sce)
+
+# first check that all of these samples have the genes in the same order
+all(c(rownames(samp1.counts) == rownames(samp2.counts), rownames(samp2.counts) == rownames(samp3.counts)))
+```
+
+As the rownames and of sample 1 and sample 2 are identical (and in the same order), and the rownames of sample 2 and sample 3 are identical (and in the same order), 
+it logically follows that the rownames of samples 1 and 3 are also identical, and in the same order.  This massively simplifies merging the three matrices together. 
+We could specifically merge the matrices together based on their rownames, if they were not in the same order, but this is computationally more expensive than 
+just gluing the columns together.  __NB__: Always check that the rownames match up properly before merging, this has the potential to introduce some truly horrific 
+problems if they are not.
+
+```{r}
+# we'll iteratively combine the matrix columns together, and create a new SingleCellExperiment object
+all.genes <- rownames(samp1.counts)
+all.counts <- do.call(cbind,
+                      list("Tils20_1"=samp1.counts,
+                           "Tils20_2"=samp2.counts,
+                           "Tils32"=samp3.counts))
+# set the rownames as the gene IDs
+rownames(all.counts) <- all.genes
+
+# create a bit of meta-data for our cells
+sample.id <- c(rep("Tils20_1", ncol(samp1.counts)), 
+               rep("Tils20_2", ncol(samp2.counts)), 
+               rep("Tils32", ncol(samp3.counts)))
+
+sample.cells <- c(colData(sample1.sce)$Barcode, 
+                  colData(sample2.sce)$Barcode, 
+                  colData(sample3.sce)$Barcode)
+
+tcell.sce <- SingleCellExperiment(list(counts=all.counts), 
+                                  colData=data.frame("Sample"=sample.id, "Barcode"=as.character(sample.cells)))
+
+rowData(tcell.sce) <- data.frame("Gene"=all.genes)
+rowData(tcell.sce)$Gene <- as.character(rowData(tcell.sce)$Gene)
+tcell.sce
+```
+
+We now have a single object for all ~6000 cells and 33,000 genes.  First we want to remove superflous genes, i.e. those with no expression at all.
+
+```{r}
+not.expressed <- rowSums(counts(tcell.sce)) == 0
+table(not.expressed)
+```
+
+We can straight away remove ~14,500 genes which are completely useless to us.
+
+```{r}
+# store the cell-wise information
+cols.meta <- colData(tcell.sce)
+rows.meta <- rowData(tcell.sce)
+
+nz.counts <- counts(tcell.sce)[!not.expressed, ]
+tcell.sce <- SingleCellExperiment(list(counts=nz.counts))
+
+# reset the column data on the new object
+colData(tcell.sce) <- cols.meta
+rowData(tcell.sce) <- rows.meta[!not.expressed, ]
+```
+
+We want to provide some information on each gene, for instance where its genome position is and which chromosome it is encoded on.  We can also add a mapping 
+between the Ensembl gene IDs and the more familiar HGNC gene symbols.  We'll use `biomaRt` to retrieve the relevant information from the Ensembl database.
+
+```{r, results='hide'}
+# retrieve the feature information
+gene.info <- rowData(tcell.sce)
+
+# setup the biomaRt connection to Ensembl using the correct species genome (hsapiens_gene_ensembl)
+ensembl <- useEnsembl(biomart='ensembl', dataset='hsapiens_gene_ensembl')
+
+# retrieve the attributes of interest from biomaRt using the Ensembl gene ID as the key
+# beware that this will only retrieve information for matching IDs
+gene_symbol <- getBM(attributes=c('ensembl_gene_id', 'external_gene_name',
+                                  'chromosome_name', 'start_position',
+                                  'end_position', 'strand'),
+                     filters='ensembl_gene_id', mart=ensembl,
+                     values=gene.info[, 1])
+
+# create a new data frame of the feature information
+gene.merge <- merge(gene_symbol, gene.info, by.x=c('ensembl_gene_id'), by.y=c('value'), all.y=TRUE)
+rownames(gene.merge) <- gene.merge$ensembl_gene_id
+
+# set the order for the same as the original gene information
+gene.merge <- gene.merge[gene.info[, 1], ]
+
+# reset the rowdata on the SCE object to contain all of this information
+rowData(tcell.sce) <- gene.merge
+```
+
+We can quickly inspect the distribution of gene expression across the different chromosomes:
+
+```{r}
+table(rowData(tcell.sce)$chromosome_name)
+```
+
+Most of the chromosome names will be familiar, i.e. 1-22, X, Y, MT.  However, there are also a couple of other chromosomes with strange names.  These are 
+alternative or unfinished contigs.  Quite often these represent complex regions of the genome, such as the great diversity of different haplotypes across the MHC 
+region.  Generally speaking we do not use these genes in our analyses.  For the moment we will retain them, but they will most likely be removed during the 
+following quality control steps.
+
+# Quality Control
+
+There are 2 principal steps to quality control on single cell data:
+
+* remove poor quality cells
+* remove genes with _very_ sparse information
+
+Single-cell RNA sequencing data are inherently sparse, that means that for any given gene there will be many cells where there is no observed expression.  This can 
+arise for 2 reasons: transcriptional bursting, or stochastic dropout.  The first of these is an interesting biological phenomenon, the other is a consequence of 
+the low input material (each single cell contains ~10-30pg of RNA).  In order to properly estimate the normalization factors for each cell we need to reduce 
+the number of 0's contained in each cell, without discarding too many genes as this is precious information.  The easiest way is to just remove genes with 
+all 0-values, i.e. no evidence of expression in any cell.  We can also set a more conservative threshold, where a gene must be expressed in at least N cells.
+
+We can judge the quality of a cell by several metrics:
+
+* Total sequencing coverage, i.e. per-cell library size, this is also proportional to the amount of RNA recovered from each cell.
+* Mitochondrial content - cells with high mitochondrial content may have already lysed prior to encapsulation.
+* Cell sparsity - i.e. proportion of genes in a cell with 0-values
+
+To aid us in our quality control, we will use some functionality from `scater`, namely the `calculateQCMetrics()` function.
+
+```{r}
+tcell.sce <- calculateQCMetrics(tcell.sce, 
+                                feature_controls=list(Mito=which(rowData(tcell.sce)$chromosome_name == "MT")))
+```
+
+The easiest way to assess the quality of our data is to graphicaly visualise them.  We can plot the distribution of library sizes (i.e. total number of reads per 
+cell), and the mitochondrial content of cells.
+
+```{r}
+par(mfrow=c(1, 2))
+hist(tcell.sce$log10_total_counts, breaks=20, col="grey80", 
+     xlab="Log-total UMI count", main="")
+
+hist(tcell.sce$pct_counts_Mito, breaks=20, col="grey80", 
+     xlab="Proportion of reads in mitochondrial genes", main="")
+abline(v=20, lty=2, col='purple')
+```
+
+We can see that the distribution of UMI counts (left plot) is unimodal and fairly well spread between 3.0 and ~4.0, which means that most cells contain > 1000 and 
+< 10,000 UMIs.  I don't seen much call for removing cells on the basis that they are not sequenced deeply enough  here.  For other data sets there is a strong 
+argument for removing cells based on sequencing depth; you don't wan't to retain cells with very little RNA or information as these may bias down-stream analyses. 
+The right-hand plot shows the distribution of UMIs assigned to mitochondrial genes.  Remember that high mitochondrial content is indicative of poor-quality cells. 
+The vast majority of cells have quite a low content, so we'll use a cut-off at 20% to eliminate poor quality cells (shown by the vertical purple line).
+
+```{r}
+cell_sparsity <- apply(counts(tcell.sce) == 0, 2, sum)/nrow(counts(tcell.sce))
+gene_sparsity <- apply(counts(tcell.sce) == 0, 1, sum)/ncol(counts(tcell.sce))
+
+par(mfrow=c(1, 2))
+hist(cell_sparsity, breaks=20, col="grey80", xlab="Cell sparsity", main="")
+
+hist(gene_sparsity, breaks=20, col="grey80", xlab="Gene sparsity", main="")
+abline(v=40, lty=2, col='purple')
+```
+
+The plot on the left shows the number of 0's per cell.  We can see that broadly cells have between 75% and 99% 0's, this is a typical distribution, we only need 
+to remove a few cells with > 98% 0's.  The gene-wise picture is a little different, namely there are many, many genes with almost no observations.  We can instantly 
+discard any gene with all 0's, but what about some other genes?  For the sake of reducing the computational burden, and increasing the stability of the 
+normalization factor estimation, we'll require a gene to be expressed in at least 10 cells.
+
+So now that we have our QC criteria and thresholds we can remove problematic cells and genes.
+
+```{r}
+# the order of cells and genes is the same as it is in the SCE object
+sparse.cells <- cell_sparsity > 0.98
+mito.cells <- tcell.sce$pct_counts_Mito > 20
+
+min.cells <- 1 - (10/length(cell_sparsity))
+sparse.genes <- gene_sparsity < min.cells
+
+# remove cells from the SCE object that are poor quality
+tcell.sce <- tcell.sce[, !sparse.cells | !mito.cells]
+
+# remove the sparse genes, then re-set the counts and row data accordingly
+nz.counts <- counts(tcell.sce)[sparse.genes, ]
+nz.sce <- SingleCellExperiment(assays=list(counts=nz.counts))
+colData(nz.sce) <- colData(tcell.sce)
+rowData(nz.sce) <- rowData(tcell.sce)[sparse.genes, ]
+nz.sce
+```
+
+We now have an SCE object that contains the cells and genes that pass QC, in this case `r nrow(nz.sce)` genes and `r ncol(nz.sce)` cells.
+
+__Challenge__: What are the consequences of altering the different QC thresholds?  For instance, if we keep more cells with sparse data, how does this affect the 
+size factor estimation and normalization?
+
+__Challenge__: The `calculateQCMetrics()` function creates a data frame in the `colData()` slot of the SCE object.  Explore some of the other QC metrices that it 
+calculates.  Can you find other metrics that you think are important for removing poor quality cells?
+
+# Normalization
+
+We are going to apply the deconvolution method for estimating the size factors for normalization, found in [Pooling across cells to normalize single-cell RNA sequencing data with many zero counts](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-0947-7).  First the cells will be roughly clustered 
+together, then we will repeateadly calculate within-pool size factors.  This creates a system of linear equations that can solved to deconvolute the contribution 
+of each cell to the pooled size factors.  In this way we can get an estimate for the size factor for each cell, whilst remaining robust to the presence of many 
+0's.  If we tried to directly calculate size factors, for instance as is used in `DESeq`, we would have factors distorted by the large numbers of 0's present in 
+each cell.
+
+The first step is to do the quick clustering.  Because we have many cells, classical hierarchical clustering algorithms can be a little slow at this 
+stage. Consequently, we'll use a graph-based algorithm that is much faster (this will be described in part 2).  These functions are all found in the `scran` package.
+
+We're going to do this in two parts, first normalizing all of the cells together, then normalizing the samples separately.  What do you think will be the 
+consequence of these two different approaches?
+
+```{r}
+clusters <- quickCluster(nz.sce, method="igraph")
+table(clusters)
+```
+
+
+```{r}
+nz.sce <- computeSumFactors(nz.sce, min.mean=0.1, cluster=clusters)
+summary(sizeFactors(nz.sce))
+```
+
+We can check that the size factors are well correlated with the library sizes.  We can also look at the effect of trying to estimate the size factors using the 
+approaches designed for bulk RNA sequencing.
+
+```{r}
+par(mfrow=c(1, 2))
+plot(nz.sce$total_counts, sizeFactors(nz.sce), log="xy",
+     xlab="Total library size", ylab="Deconvolution size factor")
+
+hist(sizeFactors(nz.sce), breaks=20, col="grey80", xlab="Deconvolution size factors")
+```
+
+There should be a very strong correlation between the size factors and the total library size, and very few size factors should be close to 0.
+Now compare this to the bulk RNA-sequencing approach for calculating size factors.
+
+```{r, message=FALSE, warning=FALSE}
+library(DESeq2)
+# set up a DESeq object
+dds <- DESeqDataSetFromMatrix(countData=as(counts(nz.sce), "matrix"), colData=colData(nz.sce), 
+                              design=~total_counts_endogenous)
+dds <- estimateSizeFactors(dds)
+
+par(mfrow=c(1, 2))
+plot(nz.sce$total_counts, sizeFactors(dds),
+     xlab="Total library size", ylab="Bulk size factor")
+
+hist(sizeFactors(dds), breaks=20, col="grey80", xlab="Bulk size factors")
+```
+
+We can see that these factors are a lot more dispersed than the deconvolution factors, and many more are close to 0 which will skew the subsequent normalization.
+
+The final step is just to use these size factors for normalization.  This will create an extra entry in the `assays()` slot of our object.
+
+```{r}
+nz.sce <- normalise(nz.sce)
+assays(nz.sce)
+```
+
+We can access these data using the `exprs()` function, which is what we'll use for all of our downstream analyses, such as clustering, dimensionality reduction and 
+visualisation.
+
+Now let's split the cells into the individual samples and re-perform the normalization separately.  We'll assesss the differences by using principal components 
+analysis (covered properly in part 2).
+
+```{r}
+# use the QC'd SCE object
+sample1.nz.sce <- SingleCellExperiment(list(counts=counts(nz.sce[, nz.sce$Sample %in% c("Tils20_1")])),
+                                       colData=colData(nz.sce[, nz.sce$Sample %in% c("Tils20_1")]))
+
+sample2.nz.sce <- SingleCellExperiment(list(counts=counts(nz.sce[, nz.sce$Sample %in% c("Tils20_2")])),
+                                       colData=colData(nz.sce[, nz.sce$Sample %in% c("Tils20_2")]))
+
+sample3.nz.sce <- SingleCellExperiment(list(counts=counts(nz.sce[, nz.sce$Sample %in% c("Tils32")])),
+                                       colData=colData(nz.sce[, nz.sce$Sample %in% c("Tils32")]))
+```
+
+Run through the normalisation of each sample separately.
+
+```{r}
+sample1.clusters <- quickCluster(sample1.nz.sce, method="igraph")
+sample1.nz.sce <- computeSumFactors(sample1.nz.sce, min.mean=0.1, cluster=sample1.clusters)
+sample1.nz.sce <- normalise(sample1.nz.sce)
+```
+
+
+```{r}
+sample2.clusters <- quickCluster(sample2.nz.sce, method="igraph")
+sample2.nz.sce <- computeSumFactors(sample2.nz.sce, min.mean=0.1, cluster=sample2.clusters)
+sample2.nz.sce <- normalise(sample2.nz.sce)
+```
+
+
+```{r}
+sample3.clusters <- quickCluster(sample3.nz.sce, method="igraph")
+sample3.nz.sce <- computeSumFactors(sample3.nz.sce, min.mean=0.1, cluster=sample3.clusters)
+sample3.nz.sce <- normalise(sample3.nz.sce)
+```
+
+Now we can use PCA to have a look at how the two normalization approchaes differ.
+
+```{r}
+# recombine the normalized samples together
+all.samp.exprs <- do.call(cbind,
+                          list("Tils20_1"=exprs(sample1.nz.sce),
+                               "Tils20_2"=exprs(sample2.nz.sce),
+                               "Tils32"=exprs(sample3.nz.sce)))
+colnames(all.samp.exprs) <- c(as.character(colData(sample1.nz.sce)$Barcode), 
+                              as.character(colData(sample2.nz.sce)$Barcode),
+                              as.character(colData(sample3.nz.sce)$Barcode))
+```
+
+For the PCA we want to quickly select the genes that are most informative.  To do this I'll just take the top 2000 genes with the highest variance.  There are much 
+more robust and stringent ways to perfrom this kind of feature selection, which will be covered in part 2.
+
+```{r}
+gene.variances <- apply(all.samp.exprs, 1, var)
+names(gene.variances) <- rownames(all.samp.exprs)
+highly.variable.genes <- names(gene.variances[order(gene.variances, decreasing=TRUE)])[1:2000]
+```
+
+
+```{r}
+# we need to use a fast approximate algorithm for PCA on large data sets
+# this algorithm has a stochastic component, so we need to fix the seed number to get the same result each time
+set.seed(42)
+separate.hvg.pca <- prcomp_irlba(t(all.samp.exprs[highly.variable.genes, ]), n=5) # we only need a few components
+separate.hvg.pcs <- as.data.frame(separate.hvg.pca$x) # extract the principal components
+separate.hvg.pcs$Cell <- colnames(all.samp.exprs) # set the sample column as the cell IDs
+
+# combine the PCs with the sample information into a single data frame for plotting
+samples.info <- data.frame("Cell"=colnames(all.samp.exprs),
+                           "Sample"=c(rep("Tils20_1", ncol(sample1.nz.sce)), 
+                                      rep("Tils20_2", ncol(sample2.nz.sce)), 
+                                      rep("Tils32", ncol(sample3.nz.sce))))
+
+# merge the two data frames together
+separate.pca.merge <- merge(separate.hvg.pcs, samples.info, by='Cell')
+
+```
+
+
+```{r}
+ggplot(separate.pca.merge, aes(x=PC1, y=PC2, fill=Sample)) +
+  geom_point(shape=21, size=3) +
+  theme_minimal()
+```
+
+The first thing that we notice is that there are two clusters of cells, which almost 100% overlap with the sample from which they were derived.  From this plot we 
+would conclude that there are potentially interesting differences between the two samples.  However, what happens when we do this on the samples that are 
+normalized together?
+
+```{r}
+tcell.exprs <- exprs(nz.sce)
+
+# give each cell a unique ID based on it's cell barcode
+colnames(tcell.exprs) <- gsub(colData(nz.sce)$Barcode, pattern="-", replacement=".")
+```
+
+
+```{r}
+gene.variances <- apply(tcell.exprs, 1, var)
+names(gene.variances) <- rownames(tcell.exprs)
+highly.variable.genes <- names(gene.variances[order(gene.variances, decreasing=TRUE)])[1:2000]
+```
+
+
+```{r}
+# we need to use a fast approximate algorithm for PCA on large data sets
+# this algorithm has a stochastic component, so we need to fix the seed number to get the same result each time
+set.seed(42)
+combined.hvg.pca <- prcomp_irlba(t(tcell.exprs[highly.variable.genes, ]), n=5) # we only need a few components
+combined.hvg.pcs <- as.data.frame(combined.hvg.pca$x) # extract the principal components
+combined.hvg.pcs$Cell <- colnames(tcell.exprs) # set the sample column as the cell IDs
+
+# combine the PCs with the sample information into a single data frame for plotting
+samples.info <- data.frame("Cell"=colnames(tcell.exprs),
+                           "Sample"=colData(nz.sce)$Sample)
+
+# merge the two data frames together
+combined.pca.merge <- merge(combined.hvg.pcs, samples.info, by='Cell')
+
+```
+
+
+```{r}
+ggplot(combined.pca.merge, aes(x=PC1, y=PC2, fill=Sample)) +
+  geom_point(shape=21, size=3) +
+  theme_minimal()
+```
+
+Now we can see that by normalizing all of the cells simulataneously we see a much greater mixing of cells from the two individuals.  Thus by normalizing the cells 
+from the two samples separately, we have actually _induced_ a batch effect!  This demonstrates the importance of normalizing samples together from the same 
+experiment, even if they are derived from different individuals.
+
+__Challenge__: Consider other types of normalization, such as CPM, RPKM, FPKM and/or TPM.  How do these compare to the deconvolution approach, and what are 
+the potential drawbacks?
+
+
+```{r}
+saveRDS(nz.sce,
+        file="~/Course_Material/SinglecellToUse//HumanBreastTCells/Tcells_SCE.Rds")
+
+saveRDS(sample1.nz.sce,
+        file="~/Course_Material/SinglecellToUse//HumanBreastTCells/Tils20.1_SCE.Rds")
+
+saveRDS(sample2.nz.sce,
+        file="~/Course_Material/SinglecellToUse//HumanBreastTCells/Tils20.2_SCE.Rds")
+
+saveRDS(sample3.nz.sce,
+        file="~/Course_Material/SinglecellToUse//HumanBreastTCells/Tils32_SCE.Rds")
+
+```
+
+__NB__: It is possible to normalise between samples by down-sampling the sequencing reads.  However, this involves throwing away data as you will always have to 
+down-sample to the lowest sequencing depth.
+
+# Resources and references
+
+[Hemberg lab single cell workshop](https://hemberg-lab.github.io/scRNA.seq.course/index.html)
+
+[Simple single cell workflows](https://bioconductor.org/packages/release/workflows/html/simpleSingleCell.html)
+
+[Single-cell profiling of breast cancer T cells reveals a tissue-resident memory subset associated with improved prognosis](https://www.nature.com/articles/s41591-018-0078-7)
+
+[Pooling across cells to normalize single-cell RNA sequencing data with many zero counts](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-0947-7)
+
+
