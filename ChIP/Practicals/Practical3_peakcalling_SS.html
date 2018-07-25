@@ -145,9 +145,8 @@ $(document).ready(function () {
 <div id="assess-the-quality-of-the-aligned-datasets" class="section level2">
 <h2><span class="header-section-number">1.1</span> Assess the quality of the aligned datasets</h2>
 <ul>
-<li>strand cross-correlation analysis.</li>
+<li>strand cross-correlaticross-correlation. It is based on the fact that a high-quality ChIP-seq experiment produces significant clustering of enriched DNA sequence tags at locations bound by the protein of interest, and that the sequence tag density accumulates on forward and reverse strands centered around the binding site. The cross-correlation metric is computed as the Pearson’s linear correlation between the Crick strand and the Watson strand, after shifting Watson by k base pairs. This typically produces two peaks when cross-correlation is plotted against the shift value</li>
 </ul>
-<p>A very useful ChIP-seq quality metric that is independent of peak calling is strand cross-correlation. It is based on the fact that a high-quality ChIP-seq experiment produces significant clustering of enriched DNA sequence tags at locations bound by the protein of interest, and that the sequence tag density accumulates on forward and reverse strands centered around the binding site. The cross-correlation metric is computed as the Pearson’s linear correlation between the Crick strand and the Watson strand, after shifting Watson by k base pairs. This typically produces two peaks when cross-correlation is plotted against the shift value</p>
 <p>The spp R package can be used for strand cross-correlation (not run in this practical). Two cross-correlation peaks are usually observed in a ChIP experiment, one corresponding to the read length (“phantom” peak) and one to the average fragment length of the library.</p>
 <p>see <strong><em>Landt et al., 2012, Genome Res. “ChIP-seq guidelines and practices of the ENCODE and modENCODE consortia”</em></strong> for more details.</p>
 <div class="figure">
@@ -166,11 +165,9 @@ $(document).ready(function () {
 <p>Some parameters to consider: * Adjust the sequence tags to better represent the original DNA fragment (by ‘shifting tags in the 3 prime direction’ or by ‘extending tags’ to the estimated length of the original fragment length) * Background model used * Use of strand dependent bimodality * fragment length, read length, replicates, duplication, total read count</p>
 <div id="filter-duplicates" class="section level3">
 <h3><span class="header-section-number">1.2.1</span> Filter duplicates</h3>
+<p>bash</p>
 <pre class="bash"><code>
-# change directory
-cd /home/participant/Course_Materials
 
-/home/participant/Course_Materials/ChIPSeq/Preprocessed/Alignment_BWA/
 
 # Filter duplicates
 # Write down the count of reads for each sample after duplicate removal
@@ -187,6 +184,7 @@ macs2 filterdup -i &quot;/home/participant/Course_Materials/ChIPSeq/Preprocessed
 </div>
 <div id="predict-fragment-length" class="section level3">
 <h3><span class="header-section-number">1.2.2</span> Predict fragment length</h3>
+<p>bash</p>
 <pre class="bash"><code>
 # predict fragment length
 # write down the fragment length for each sample
@@ -201,6 +199,7 @@ macs2 predictd -i /home/participant/Course_Materials/ChIPSeq/Materials/Peaks/inp
 </div>
 <div id="macs2-options" class="section level3">
 <h3><span class="header-section-number">1.2.3</span> MACS2 options</h3>
+<p>bash</p>
 <pre class="bash"><code>
 # MACS2 callpeak options
 macs2 callpeak -h
@@ -211,10 +210,12 @@ macs2 callpeak -h
 </div>
 <div id="standard-macs2-run-bash" class="section level3">
 <h3><span class="header-section-number">1.2.4</span> Standard MACS2 run (bash)</h3>
-<pre class="bash"><code>cd /home/participant/Course_Materials/ChIPSeq/Materials/Practicals
-
+<p>bash</p>
+<pre class="bash"><code>
 
 macs2 callpeak -t &quot;/home/participant/Course_Materials/ChIPSeq/Preprocessed/Alignment_BWA/tp53_r2.fastq_trimmed.fastq_sorted.bam&quot; -c &quot;/home/participant/Course_Materials/ChIPSeq/Preprocessed/Alignment_BWA/input.fastq_trimmed.fastq_sorted.bam&quot; -g hs -n tp53_r2.fastq_trimmed.fastq_sorted_standard -f BAM --keep-dup auto --bdg --outdir &quot;/home/participant/Course_Materials/ChIPSeq/Materials/Peaks/&quot;
+
+
 
 macs2 callpeak -t &quot;/home/participant/Course_Materials/ChIPSeq/Preprocessed/Alignment_BWA/TAp73beta_r2.fastq_trimmed.fastq_sorted.bam&quot; -c &quot;/home/participant/Course_Materials/ChIPSeq/Preprocessed/Alignment_BWA/input.fastq_trimmed.fastq_sorted.bam&quot; -g hs -n TAp73beta_r2.fastq_trimmed.fastq_sorted_standard -f BAM --keep-dup auto --bdg --outdir &quot;/home/participant/Course_Materials/ChIPSeq/Materials/Peaks/&quot;
 </code></pre>
@@ -229,10 +230,11 @@ macs2 callpeak -t &quot;/home/participant/Course_Materials/ChIPSeq/Preprocessed/
 </div>
 <div id="set-the-extsize-based-on-macs2-predictd-fragment-length" class="section level3">
 <h3><span class="header-section-number">1.2.5</span> set the –extsize based on MACS2 predictd fragment length</h3>
+<p>bash</p>
 <pre class="bash"><code>
-#use d calculated above for --extsize
+# use d calculated above for --extsize
 
-mkdir &quot;/home/participant/Course_Materials/ChIPSeq/Materials/Peaks/nomodel/&quot;
+# mkdir &quot;/home/participant/Course_Materials/ChIPSeq/Materials/Peaks/nomodel/&quot;
 
 macs2 callpeak -t &quot;/home/participant/Course_Materials/ChIPSeq/Preprocessed/Alignment_BWA/tp53_r2.fastq_trimmed.fastq_sorted.bam&quot; -c &quot;/home/participant/Course_Materials/ChIPSeq/Preprocessed/Alignment_BWA/input.fastq_trimmed.fastq_sorted.bam&quot; -g hs -n tp53_r2.fastq_trimmed.fastq_sorted_extended -f BAM --keep-dup auto --bdg --nomodel --extsize 113 --outdir &quot;/home/participant/Course_Materials/ChIPSeq/Materials/Peaks/nomodel/&quot;
 
@@ -243,6 +245,7 @@ macs2 callpeak -t &quot;/home/participant/Course_Materials/ChIPSeq/Preprocessed/
 <h2><span class="header-section-number">1.3</span> Working with peaks</h2>
 <p>MACS2 peak calls are written to the user specified output directory. the files have an “_peaks.xls&quot; extension.</p>
 <p>In addition this file contains information on samples and parameters used.</p>
+<p>R</p>
 <pre class="r"><code>#set working directory to where you saved peak files
 #setwd(&quot;/home/participant/Course_Materials/ChIPSeq/Materials/Peaks/&quot;)
 
@@ -250,10 +253,12 @@ peakfile &lt;-&quot;/home/participant/Course_Materials/ChIPSeq/Materials/Peaks/t
 peaks_DF &lt;- read.delim(peakfile, header=FALSE)
 peaks_DF[1:25,]</code></pre>
 <p>importing peaks into R</p>
+<p>R</p>
 <pre class="r"><code>peakfile &lt;- &quot;/home/participant/Course_Materials/ChIPSeq/Materials/Peaks/tp53_r2.fastq_trimmed.fastq_sorted_standard_peaks.xls&quot;
 peaks_DF &lt;- read.delim2(peakfile, comment.char=&quot;#&quot;)
 peaks_DF[1:3,]</code></pre>
 <p>Create GRanges object made of chromosome names and intervals stored as IRanges.</p>
+<p>R</p>
 <pre class="r"><code>#method1
 
 library(GenomicRanges)
@@ -277,9 +282,13 @@ extraCols_narrowPeak &lt;- c(signalValue = &quot;numeric&quot;, pValue = &quot;n
 
 gr_narrowPeak &lt;- import(file_narrowPeak, format = &quot;BED&quot;,
                         extraCols = extraCols_narrowPeak)</code></pre>
+<p>Explore the GRanges object</p>
+<p>R</p>
 <pre class="r"><code>seqnames(peaks_GR)</code></pre>
+<p>R</p>
 <pre class="r"><code>ranges(peaks_GR)</code></pre>
 <p>Compare peak sets</p>
+<p>R</p>
 <pre class="r"><code>peakfile1 &lt;- &quot;/home/participant/Course_Materials/ChIPSeq/Materials/Peaks/nomodel/tp53_r2.fastq_trimmed.fastq_sorted_extended_peaks.xls&quot;
 peaks_DF1 &lt;- read.delim2(peakfile1, comment.char=&quot;#&quot;)
 
@@ -303,6 +312,7 @@ peaks_DF2 &lt;- read.delim(peakfile2, comment.char=&quot;#&quot;)
   )
 ) </code></pre>
 <p>The number of peaks in first replicate overlapping those in second is different from number of second replicate peaks overlapping first. This is because 2 peaks from one replicate may overlap 1 peak in the other replicate (<code>Transitive</code> property of Venn operations between genomic ranges).</p>
+<p>R</p>
 <pre class="r"><code>OnlyfirstPeakSet &lt;- peaks_GR1[!peaks_GR1 %over% peaks_GR2]
 OnlySecondPeakSet &lt;- peaks_GR2[!peaks_GR2 %over% peaks_GR1]
 
@@ -315,6 +325,7 @@ length(OnlySecondPeakSet)
 length (firstANDsecondPeakSets) 
 length (secondANDfirstPeakSets)</code></pre>
 <p>Finally convert Granges to bed</p>
+<p>R</p>
 <pre class="r"><code>df &lt;- data.frame(seqnames=seqnames(peaks_GR1),
                  starts=start(peaks_GR1)-1,
                  ends=end(peaks_GR1))
