@@ -145,7 +145,7 @@ Dinner 19:45 -22:30 Grace Howard Room**
 - 09:30 - 12:30; 
 - ATAC-seq and Epigenomics
   +  Practical 9: [Useful software utilities for the analysis of genomic data](ChIP/Practicals/Practical9_Useful_software_utilities_for_the_analysis_of_genomic_data_SS.html) (9.30-10.30am)
-  +  Lecture 11 [ATAC-seq data analysis](ChIP/Lectures/L11_Introduction to ATAC-seq_SS.pdf) (10.30-11.30am)
+  +  Lecture 11 [ATAC-seq data analysis](ChIP/Lectures/L11_Introduction_to_ATAC-seq_SS.pdf) (10.30-11.30am)
   +  Practical 10: [ATAC-seq analysis](ChIP/Practicals/) (30 min)
   +  Lecture 12 [Introduction to Epigenomics and Chromatin Interactions](ChIP/Lectures/L12_Introduction_to_Epigenomics_SS.pdf) (11.30-12.30)
 
