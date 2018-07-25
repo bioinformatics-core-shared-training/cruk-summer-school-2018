@@ -238,6 +238,7 @@ head(rowData(nz.sce))
 # so rename that column now:
 colnames(rowData(nz.sce))[colnames(rowData(nz.sce)) == "strand"] <- "strandNum"
 
+# have sample name Tils20 for Tils20_1 and Tils20_2
 tmpBatch <- gsub("_[12]", "", colData(nz.sce)$Sample)
 colData(nz.sce)$Sample2 <- tmpBatch
 ```
@@ -248,7 +249,7 @@ colData(nz.sce)$Sample2 <- tmpBatch
 
 Perform PCA, keep outcome in new object.
 
-Display cells on a plot for the first 2 PCs, coloring by 'Sample' and setting size by 'total_features. Proximity of cells reflects similarity of their expression profiles.
+Display cells on a plot for the first 2 PCs, coloring by 'Sample' and setting size to match 'total_features'. Proximity of cells reflects similarity of their expression profiles.
 
 ```{r}
 nz.sce <- runPCA(nz.sce, ncomponents = 10, method = "irlba")
@@ -356,7 +357,7 @@ multiplot(tsne5, tsne30, tsne50, tsne100, cols=2)
 
 Challenge: t-SNE is a stochastic method. Change the seed with set.seed(), make and plot t-SNE. Try that a few times.
 
-### other methods
+### Other methods
 
 Several other dimensionality reduction techniques could also be used, e.g., multidimensional scaling, diffusion maps.
 
@@ -379,7 +380,7 @@ plotDiffusionMap(sce2, colour_by="Sample") # malformed factor
 
 <!-- play pca ? -->
 
-### correlation between PCs and the total number of features detected
+### Correlation between PCs and the total number of features detected
 
 The PCA plot above shows cells as symbols whose size depends on the total number of features or library size. It suggests there may be a correlation between PCs and these variables. Let's check:
 
