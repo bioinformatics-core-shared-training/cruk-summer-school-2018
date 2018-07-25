@@ -13,12 +13,12 @@ In part 1 we gathered the data, aligned reads, checked quality, and normalised r
 <img src="images/Andrews2017_Fig1.png" style="width: 75%; margin: 0 6em;"/>
 
 See https://f1000research.com/articles/5-2122/v2
-See https://hemberg-lab.github.io/scRNA.seq.course/biological-analysis.html#feature-selection
+See https://hemberg-lab.github.io/scRNA.seq.course/biological-analysis.html
 See https://master.bioconductor.org/packages/release/workflows/vignettes/simpleSingleCell
 
 ## Dimension reduction
 
-in a sigle cell RNA-seq (scRNASeq) data set, each cell is described by the expression level of thoushands of genes.
+In a sigle cell RNA-seq (scRNASeq) data set, each cell is described by the expression level of thoushands of genes.
 
 The total number of genes measured is referred to as dimensionality. Each gene measured is one dimension in the space characterising the data set. Many genes will little vary across cells and thus be uninformative when comparing cells. Also, because some genes will have correlated expression patterns, some information is redundant. Moreover, we can represent data in 3 dimensions, not more. So reducing the number of useful dimensions is necessary.
 
@@ -179,10 +179,11 @@ g <- g + geom_vline(xintercept=0)
 g
 ```
 
+Going from 2D to 3D:
+
 <img src="images/hemberg_pca.png" style="width: 75%; margin: 0 6em;"/>
 
 Now let's analyse our data set.
-
 
 ## Load packages
 
@@ -211,9 +212,6 @@ The R object keeping the normalised counts obtained at the end of part 1 was wri
 
 ```{r set_var}
 # dir
-#inpDir <- "/Users/baller01/MyData/CrukProjects/20180516_FernandesM_ME_crukBioinfSumSch2018/ScRnaSeqIntroPart2"
-#inpDir <- "/Users/baller01/MyProjectsSvn/SvnRepoForScRnaSeq/20180516_FernandesM_ME_crukBioinfSumSch2018/trunk/ScRnaSeqIntroPart2"
-#dataSubDir <- "Data/PopId_allCells"
 inpDir <- "/home/participant/Course_Materials/SinglecellToUse/HumanBreastTCells"
 dataSubDir <- "GRCh38"
 ```
