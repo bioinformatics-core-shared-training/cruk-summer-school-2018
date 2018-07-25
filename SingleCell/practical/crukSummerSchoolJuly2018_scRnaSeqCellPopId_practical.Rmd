@@ -50,7 +50,7 @@ About the mapping function from the old to the new space:
 - it is inverse, to restore the original space
 - it relies on orthogonal PCs so that the total variance remains the same.
 
-Two transformation of the data is necessary:
+Two transformations of the data are necessary:
 - center the data so that the sample mean for each column is 0 so the covariance matrix of the intial matrix takes a simple form
 - scale variance to 1, ie standardize to avoid PCA loading on variable with large variance.
 
@@ -70,8 +70,6 @@ library(ggplot2)
 Let's make and plot a data set.
 
 ```{r}
-#tmpList <- pcaExample()
-
 set.seed(123)            #sets the seed for random number generation.
  x <- 1:100              #creates a vector x with numbers from 1 to 100
  ex <- rnorm(100, 0, 30) #100 normally distributed rand. nos. w/ mean=0, s.d.=30
@@ -82,10 +80,6 @@ set.seed(123)            #sets the seed for random number generation.
  P <- cbind(x_obs,y_obs) #places points in matrix
  plot(P,asp=1,col=1) #plot points
  points(mean(x_obs),mean(y_obs),col=3, pch=19) #show center
- 
-#x <- tmpList$x
-#x_obs <- tmpList$x_obs
-#y_obs <- tmpList$y_obs
 ```
 
 Center the data and compute covariance matrix.
@@ -1038,9 +1032,10 @@ Save object.
 rObjFile <- "Tcells_SCE_comb_session.RData"
 
 # check file exists:
-tmpFileName <- file.path(inpDir, dataSubDir, rObjFile)
+#tmpFileName <- file.path(inpDir, dataSubDir, rObjFile)
+tmpFileName <- file.path(rObjFile)
 
-save.image(file=tmpFileName)
+# uncomment to save sesssion # save.image(file=tmpFileName)
 ```
 
 ## Other types of analyses beyond this brief introduction
