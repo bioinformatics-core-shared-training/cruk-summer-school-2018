@@ -265,7 +265,8 @@ g <- plotPCA(nz.sce,
 )         
 g
 rObjFile <- "Tcells_SCE_comb_plotQCA_1.png"
-tmpFileName <- file.path(inpDir, dataSubDir, rObjFile)
+#tmpFileName <- file.path(inpDir, dataSubDir, rObjFile)
+tmpFileName <- file.path(rObjFile)
 ggsave(plot=g, filename = tmpFileName)
 ```
 
@@ -277,7 +278,8 @@ One can also split the plot, say by sample.
 g <- g +  facet_grid(nz.sce$Sample ~ .)
 g
 rObjFile <- "Tcells_SCE_comb_plotQCA_2.png"
-tmpFileName <- file.path(inpDir, dataSubDir, rObjFile)
+#tmpFileName <- file.path(inpDir, dataSubDir, rObjFile)
+tmpFileName <- file.path(rObjFile)
 ggsave(plot=g, filename = tmpFileName)
 ```
 
@@ -396,7 +398,8 @@ g
 
 ```{r}
 rObjFile <- "Tcells_SCE_comb_plotQC_PC.png"
-tmpFileName <- file.path(inpDir, dataSubDir, rObjFile)
+#tmpFileName <- file.path(inpDir, dataSubDir, rObjFile)
+tmpFileName <- file.path(rObjFile)
 ggsave(plot=g, filename = tmpFileName)
 ```
 
@@ -452,7 +455,8 @@ curve(var.fit$trend(x), col="red", lwd=2, add=TRUE)
 
 ```{r save_var_trend_plot}
 rObjFile <- "Tcells_SCE_comb_fit.png"
-tmpFileName <- file.path(inpDir, dataSubDir, rObjFile)
+#tmpFileName <- file.path(inpDir, dataSubDir, rObjFile)
+tmpFileName <- file.path(rObjFile)
 png(tmpFileName)
 plot(var.fit$mean, var.fit$total, pch=16, cex=0.6, xlab="Mean log-expression",  ylab="Variance of log-expression")
 #points(var.out$mean[isSpike(sce)], var.out$total[isSpike(sce)], col="red", pch=16)
@@ -515,7 +519,8 @@ alt.decomp <- decomposeVar(nz.sce, alt.fit)
 if(FALSE)
 {
 rObjFile <- "Tcells_SCE_comb_fitWiBatch.png"
-tmpFileName <- file.path(inpDir, dataSubDir, rObjFile)
+#tmpFileName <- file.path(inpDir, dataSubDir, rObjFile)
+tmpFileName <- file.path(rObjFile)
 png(tmpFileName)
 plot(alt.fit$mean, alt.fit$total, pch=16, cex=0.6, xlab="Mean log-expression", 
     ylab="Variance of log-expression")
@@ -572,7 +577,8 @@ g <- g + scale_x_discrete(breaks=rownames(var.out)[chosen.genes.index],
         labels=tmpName)
 g
 rObjFile <- "Tcells_nz.sce_comb_plotExpress_2.png"
-tmpFileName <- file.path(inpDir, dataSubDir, rObjFile)
+#tmpFileName <- file.path(inpDir, dataSubDir, rObjFile)
+tmpFileName <- file.path(rObjFile)
 ggsave(plot=g, filename = tmpFileName)
 ```
 
@@ -616,7 +622,8 @@ Logic: Compute the sum of the technical component across genes used in the PCA, 
 nz.sce.copy <- nz.sce # because nz.sce already keeps PCA.
 
 rObjFile <- "Tcells_SCE_comb_denoisePCA.Rds"
-tmpFileName <- file.path(inpDir, dataSubDir, rObjFile)
+#tmpFileName <- file.path(inpDir, dataSubDir, rObjFile)
+tmpFileName <- file.path(rObjFile)
 if(file.exists(tmpFileName))
 {
   readRDS(tmpFileName)
@@ -707,7 +714,7 @@ Let's count cells for each cluster and each sample.
 table(my.clusters, nz.sce$Sample)
 ```
 
-Clusters mostly include cell from one sample or the other. This suggests that the two samples differ, and/or the presence of batch effect.
+Clusters mostly include cells from one sample or the other. This suggests that the two samples differ, and/or the presence of batch effect.
 
 Let's show cluster assignemnts on the t-SNE. Cells in the same area are not all assigned to the same cluster.
 
@@ -913,7 +920,8 @@ tmpDf2 <- base::merge(tmpDf, rowData(nz.sce), by="ensembl_gene_id", all.x=TRUE, 
 
 ```{r}
 rObjFile <- "Tcells_nz.sce_comb_clu1_deg.tsv"
-tmpFileName <- file.path(inpDir, dataSubDir, rObjFile)
+#tmpFileName <- file.path(inpDir, dataSubDir, rObjFile)
+tmpFileName <- file.path(rObjFile)
 write.table(tmpDf2, file=tmpFileName, sep="\t", quote=FALSE, row.names=FALSE)
 ```
 
