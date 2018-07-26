@@ -143,7 +143,7 @@ Dinner 19:45 -22:30 Grace Howard Room](https://www.google.com/url?sa=i&rct=j&q=&
 
 # Day 5 (July 27th)
 
-- 09:30 - 12:30; 
+- 09:30 - 12:30; **A room in C-M building will be available for storing your baggage (There will be signage)
 - ATAC-seq and Epigenomics
   +  Practical 9: [Useful software utilities for the analysis of genomic data](ChIP/Practicals/Practical9_Useful_software_utilities_for_the_analysis_of_genomic_data_SS.html) (9.30-10.30am)
   +  Lecture 11 [ATAC-seq data analysis](ChIP/Lectures/L11_Introduction_to_ATAC-seq_SS.pdf) (10.30-11.30am)
