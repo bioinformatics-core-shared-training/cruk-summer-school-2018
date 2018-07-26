@@ -137,8 +137,9 @@ NB We do not have sufficient time to teach this entire course in half a day. How
     + Lecture 10:: [Useful software utilities for the analysis of genomic data](ChIP/Lectures/L10_Software_utilities_for_computational_genomics_SS.pdf) (4.30-5.00pm)
  
 **SOCIAL: Summer School evening meal & Reception at the nearby Downing College at 18:00 to 22:30.. If you do not wish to attend this meal (free to attendees) then please let us know ASAP. http://www.dow.cam.ac.uk  Downing College, Regent Street, Cambridge, CB2 1DQ    
-Drinks Reception 18:00- 19:45 West Lodge    
-Dinner 19:45 -22:30 Grace Howard Room**    
+[Drinks Reception 18:00- 19:45 West Lodge    
+Dinner 19:45 -22:30 Grace Howard Room](https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&ved=2ahUKEwiptLD_s7zcAhXEy4UKHU0CDgkQjRx6BAgBEAU&url=https%3A%2F%2Fwww.downing-conferences-cambridge.co.uk%2Fabout-us%2Fvisitor-map&psig=AOvVaw1kbZkL02AvKqsWtNfNzNTJ&ust=1532682124262374) **    
+
 
 # Day 5 (July 27th)
 
