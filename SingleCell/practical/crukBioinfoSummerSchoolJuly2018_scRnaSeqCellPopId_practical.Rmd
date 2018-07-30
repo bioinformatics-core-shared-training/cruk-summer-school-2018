@@ -1,0 +1,1090 @@
+---
+title: "CRUK Bioinformatics Summer School 2018 - Single cell RNA-seq - cell population identification"
+author: "Stephane Ballereau and Michael Morgan"
+#date: '`r strftime(Sys.time(), format = "%B %d, %Y")`'
+date: Wed 25 July 2018
+bibliography: bibliography.bib
+csl: biomed-central.csl
+output:
+  html_document:
+    number_sections: yes
+    toc: yes
+    toc_float: yes
+    fig_caption: yes
+    self_contained: true
+    keep_md: true
+    fig_width: 6
+    fig_height: 4
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+# First, set some variables:
+knitr::opts_chunk$set(echo = TRUE)
+options(stringsAsFactors = FALSE)
+set.seed(123) # for reproducibility
+knitr::opts_chunk$set(eval = FALSE) 
+```
+
+# Identification of cell populations
+
+## Preamble
+
+In part 1 we gathered the data, aligned reads, checked quality, and normalised read counts. We will now identify genes to focus on, use visualisation to explore the data, collapse the data set, cluster cells by their expression profile and identify genes that best characterise these cell populations. These main steps are shown below [@ANDREWS2018114]. 
+
+<img src="images/Andrews2017_Fig1.png" style="margin:auto; display:block" />
+
+This practical explains how to identify cell populations using R and draws on several sources [@10.12688/f1000research.9501.2; @simpleSingleCell; @hembergScRnaSeqCourse].
+
+We'll first explain dimension reduction using Principal Component Analysis.
+
+## Principal Component Analysis
+
+In a single cell RNA-seq (scRNASeq) data set, each cell is described by the expression level of thoushands of genes.
+
+The total number of genes measured is referred to as dimensionality. Each gene measured is one dimension in the space characterising the data set. Many genes will little vary across cells and thus be uninformative when comparing cells. Also, because some genes will have correlated expression patterns, some information is redundant. Moreover, we can represent data in three dimensions, not more. So reducing the number of useful dimensions is necessary.
+
+### Description
+
+The data set: a matrix with one row per sample and one variable per column. Here samples are cells and each variable is the normalised read count for a given gene.
+
+The space: each cell is associated to a point in a multi-dimensional space where each gene is a dimension.
+
+The aim: to find a new set of variables defining a space with fewer dimensions while losing as little information as possible.
+
+Out of a set of variables (read counts), PCA defines new variables called Principal Components (PCs) that best capture the variability observed amongst samples (cells), see [@field2012discovering] for example.
+
+The number of variables does not change. Only the fraction of variance captured by each variable differs.
+The first PC explains the highest proportion of variance possible (bound by prperties of PCA).
+The second PC explains the highest proportion of variance not explained by the first PC.
+PCs each explain a decreasing amount of variance not explained by the previous ones.
+Each PC is a dimension in the new space.
+
+The total amount of variance explained by the first few PCs is usually such that excluding remaining PCs, ie dimensions, loses little information. The stronger the correlation between the initial variables, the stronger the reduction in dimensionality. PCs to keep can be chosen as those capturing at least as much as the average variance per initial variable or using a scree plot, see below.
+
+PCs are linear combinations of the initial variables. PCs represent the same amount of information as the initial set and enable its restoration. The data is not altered. We only look at it in a different way.
+
+About the mapping function from the old to the new space:
+
+- it is linear
+- it is inverse, to restore the original space
+- it relies on orthogonal PCs so that the total variance remains the same.
+
+Two transformations of the data are necessary:
+
+- center the data so that the sample mean for each column is 0 so the covariance matrix of the intial matrix takes a simple form
+- scale variance to 1, ie standardize, to avoid PCA loading on variables with large variance.
+
+### Example
+
+Here we will make a simple data set of 100 samples and 2 variables, perform PCA and visualise on the initial plane the data set and PCs [@pca_blog_Patcher2014].
+
+```{r load_packages}
+library(ggplot2)
+```
+
+Let's make and plot a data set.
+
+```{r pca_toy_set}
+set.seed(123)            #sets the seed for random number generation.
+ x <- 1:100              #creates a vector x with numbers from 1 to 100
+ ex <- rnorm(100, 0, 30) #100 normally distributed rand. nos. w/ mean=0, s.d.=30
+ ey <- rnorm(100, 0, 30) # " " 
+ y <- 30 + 2 * x         #sets y to be a vector that is a linear function of x
+ x_obs <- x + ex         #adds "noise" to x
+ y_obs <- y + ey         #adds "noise" to y
+ P <- cbind(x_obs,y_obs) #places points in matrix
+ plot(P,asp=1,col=1) #plot points
+ points(mean(x_obs),mean(y_obs),col=3, pch=19) #show center
+```
+
+Center the data and compute covariance matrix.
+
+```{r pca_cov_var}
+M <- cbind(x_obs - mean(x_obs), y_obs - mean(y_obs)) #centered matrix
+MCov <- cov(M)          #creates covariance matrix
+```
+
+Compute the principal axes, ie eigenvectors and corresponding eigenvalues.
+
+An eigenvector is a direction and an eigenvalue is a number measuring the spread of the data in that direction. The eigenvector with the highest eigenvalue is the first principal component.
+
+The eigenvectors of the covariance matrix provide the principal axes, and the eigenvalues quantify the fraction of variance explained in each component.
+
+```{r pca_eigen}
+eigenValues <- eigen(MCov)$values       #compute eigenvalues
+eigenVectors <- eigen(MCov)$vectors     #compute eigenvectors
+
+# or use 'singular value decomposition' of the matrix
+d <- svd(M)$d          #the singular values
+v <- svd(M)$v          #the right singular vectors
+```
+
+Let's plot the principal axes.
+
+First PC:
+
+```{r pca_show_PC1}
+# PC 1:
+ plot(P,asp=1,col=1) #plot points
+ points(mean(x_obs),mean(y_obs),col=3, pch=19) #show center
+lines(x_obs,eigenVectors[2,1]/eigenVectors[1,1]*M[x]+mean(y_obs),col=8)
+```
+
+Second PC:
+
+```{r pca_show_PC2}
+ plot(P,asp=1,col=1) #plot points
+ points(mean(x_obs),mean(y_obs),col=3, pch=19) #show center
+# PC 1:
+lines(x_obs,eigenVectors[2,1]/eigenVectors[1,1]*M[x]+mean(y_obs),col=8)
+# PC 2:
+lines(x_obs,eigenVectors[2,2]/eigenVectors[1,2]*M[x]+mean(y_obs),col=8)
+```
+
+Add the projections of the points onto the first PC:
+
+```{r pca_add_projection_onto_PC1}
+plot(P,asp=1,col=1) #plot points
+points(mean(x_obs),mean(y_obs),col=3, pch=19) #show center
+# PC 1:
+lines(x_obs,eigenVectors[2,1]/eigenVectors[1,1]*M[x]+mean(y_obs),col=8)
+# PC 2:
+lines(x_obs,eigenVectors[2,2]/eigenVectors[1,2]*M[x]+mean(y_obs),col=8)
+# add projecions:
+trans <- (M%*%v[,1])%*%v[,1] #compute projections of points
+P_proj <- scale(trans, center=-cbind(mean(x_obs),mean(y_obs)), scale=FALSE) 
+points(P_proj, col=4,pch=19,cex=0.5) #plot projections
+segments(x_obs,y_obs,P_proj[,1],P_proj[,2],col=4,lty=2) #connect to points
+```
+
+Could use prcomp():
+
+Compute PCs with prcomp().
+
+```{r pca_prcomp}
+pca_res <- prcomp(M)
+```
+
+Check amount of variance captured by PCs on a scree plot.
+
+```{r pca_scree}
+# Show scree plot:
+plot(pca_res)
+# (calls screeplot())
+```
+
+Plot with ggplot.
+
+```{r pca_show_PC_plane_with_ggplot}
+df_pc <- data.frame(pca_res$x)
+g <- ggplot(df_pc, aes(PC1, PC2)) + 
+  geom_point(size=2) +   # draw points
+  labs(title="PCA", 
+       subtitle="With principal components PC1 and PC2 as X and Y axis") + 
+  coord_cartesian(xlim = 1.2 * c(min(df_pc$PC1), max(df_pc$PC1)), 
+                  ylim = 1.2 * c(min(df_pc$PC2), max(df_pc$PC2)))
+g <- g + geom_hline(yintercept=0)
+g <- g + geom_vline(xintercept=0)
+g
+```
+
+Or use ggfortify autoplot().
+
+```{r pca_show_PC_plane_with_ggfortify}
+# ggfortify
+library(ggfortify)
+g <- autoplot(pca_res)
+g <- g + geom_hline(yintercept=0)
+g <- g + geom_vline(xintercept=0)
+g
+```
+
+Going from 2D to 3D (figure from [@nlpcaPlot]):
+
+<img src="images/hemberg_pca.png" style="margin:auto; display:block" />
+
+
+Now let's analyse our data set.
+
+## Load packages
+
+```{r packages, results='hide', message=FALSE, warning=FALSE}
+library(scater) # for QC and plots
+library(scran) # for normalisation
+library(dynamicTreeCut)
+library(cluster)
+library(broom)
+library(tibble)
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(pheatmap)
+library(RColorBrewer)
+library(viridis)
+```
+
+Set font size for plots.
+
+```{r set_ggplot_fontsize}
+fontsize <- theme(axis.text=element_text(size=12), axis.title=element_text(size=16))
+```
+
+## Load normalised counts
+
+The R object keeping the normalised counts obtained at the end of part 1 was written to a file for you: Tcells_SCE.Rds. Let's load this file.
+
+```{r set_dir_var}
+# dir
+inpDir <- "/home/participant/Course_Materials/SinglecellToUse/HumanBreastTCells"
+dataSubDir <- "GRCh38"
+```
+
+```{r load_normalised_counts}
+# file
+rObjFile <- "Tcells_SCE.Rds"
+
+# check dir exist:
+if(! dir.exists(inpDir))
+{ stop(sprintf("Cannot find dir inpDir '%s'", inpDir)) }
+if(! dir.exists(file.path(inpDir, dataSubDir)))
+{ stop(sprintf("Cannot find dir dataSubDir '%s'", file.path(inpDir, dataSubDir))) }
+
+# check file exists:
+tmpFileName <- file.path(inpDir, dataSubDir, rObjFile)
+if(! file.exists(tmpFileName))
+{ stop(sprintf("Cannot find dir tmpFileName '%s'", tmpFileName)) }
+
+setwd(file.path(inpDir, dataSubDir))
+
+# load file:
+# Remember name of object saved in the file, or make up a new one
+nz.sce <- readRDS(tmpFileName)
+
+# check:
+nz.sce
+# features data:
+head(rowData(nz.sce))
+#any(duplicated(rowData(nz.sce)$ensembl_gene_id))
+# some function(s) used below complain about 'strand' already being used in row data,
+# so rename that column now:
+colnames(rowData(nz.sce))[colnames(rowData(nz.sce)) == "strand"] <- "strandNum"
+
+# have sample name Tils20 for Tils20_1 and Tils20_2
+colData(nz.sce)$Sample2 <- gsub("_[12]", "", colData(nz.sce)$Sample)
+```
+
+## Data exploration with dimensionality reduction
+
+### PCA
+
+Perform PCA, keep outcome in new object.
+
+```{r sce_pca_comp}
+nbPcToComp <- 50
+# compute PCA:
+nz.sce <- runPCA(nz.sce, ncomponents = nbPcToComp, method = "irlba")
+```
+
+Display scree plot.
+
+```{r sce_pca_scree_plot}
+# with reducedDim
+nz.sce.pca <- reducedDim(nz.sce, "PCA")
+attributes(nz.sce.pca)$percentVar
+barplot(attributes(nz.sce.pca)$percentVar,
+        main=sprintf("Scree plot for the %s first PCs", nbPcToComp),
+        names.arg=1:nbPcToComp,
+        cex.names = 0.8)
+```
+
+```{r pca_feat_select, include=FALSE}
+# first select genes that vary the most across samples to reduce noise and speed computation:
+
+# compute variance across cells for each gene:
+#vars <- assay(nz.sce, "counts") %>% log1p %>% Matrix::rowVars
+vars <- DelayedMatrixStats::rowVars(log1p(DelayedArray(assay(nz.sce, "counts"))))
+# copy gene names:
+names(vars) <- rownames(nz.sce)
+# sort genes by decreasing order of variance:
+vars <- sort(vars, decreasing = TRUE)
+# subset the top 100 most variables genes:
+sce_sub <- nz.sce[names(vars[1:100]),]
+sce_sub
+#require(knitr); knit_exit()
+```
+
+```{r pca_sce_sub_runPCA_screeplot, include=FALSE}
+sce_sub <- runPCA(sce_sub, ncomponents = nbPcToComp-1, method = "irlba")
+attributes(nz.sce.pca)$percentVar
+barplot(attributes(nz.sce.pca)$percentVar,
+        main=sprintf("Scree plot for the %s first PCs", nbPcToComp),
+        names.arg=1:nbPcToComp,
+        cex.names = 0.8)
+```
+
+```{r pca_sce_sub_prcomp_screeplot, include=FALSE}
+# perform PCA:
+pca_data <- prcomp(t(log1p(assay(sce_sub))))
+# display scree plot:
+plot(pca_data) 
+
+# compute proportion of the total variance captured by each PC:
+std_dev <- pca_data$sdev
+pr_var <- std_dev^2
+prop_varex <- pr_var/sum(pr_var)
+# display scree plot:
+plot(prop_varex)
+barplot(prop_varex[1:nbPcToComp],
+        main=sprintf("Scree plot for the %s first PCs", nbPcToComp),
+        names.arg=1:nbPcToComp,
+        xlab="proportion of variance",
+        ylab="principal component",
+        cex.names = 0.8)
+```
+
+Display cells on a plot for the first 2 PCs, colouring by 'Sample' and setting size to match 'total_features'.
+
+The proximity of cells reflects the similarity of their expression profiles.
+
+```{r pca_plotPCA}
+# plot PCA with plotPCA():
+g <- plotPCA(nz.sce)
+#sce3 <- runPCA(nz.sce, ncomponents = 10, method = "prcomp")
+#plotPCA(sce3)
+```
+
+```{r sce_pca_plotColorBySample, include=TRUE}
+g <- plotPCA(nz.sce,
+		colour_by = "Sample",
+		size_by = "total_features"
+)         
+g
+
+#require(knitr); knit_exit()
+```
+
+Any observation?
+
+One can also split the plot, say by sample.
+
+```{r sce_pca_plotColorBySample_facetBySample, fig.width=6, fig.height=18}
+g <- g +  facet_grid(nz.sce$Sample ~ .)
+g
+```
+
+Or plot several PCs at once, using plotReducedDim():
+
+```{r sce_pca_plotReducedDim}
+plotReducedDim(nz.sce, use_dimred="PCA", ncomponents=3, 
+		colour_by = "Sample",
+		size_by = "total_features") + fontsize
+```
+
+### Correlation between PCs and the total number of features detected
+
+The PCA plot above shows cells as symbols whose size depends on the total number of features or library size. It suggests there may be a correlation between PCs and these variables. Let's check:
+
+```{r sce_pca_plotQC_total_features}
+g <- plotQC(
+    nz.sce,
+    type = "find-pcs",
+    exprs_values = "logcounts",
+    variable = "total_features"
+)
+g
+```
+
+These plots show that PC2 and PC1 correlate with the number of detected genes. This correlation is often observed.
+
+__Challenge__: Check correlation of PCs with library size. Was the outcome expected?
+
+```{r sce_pca_plotQC_total_counts}
+g <- plotQC(
+    nz.sce,
+    type = "find-pcs",
+    exprs_values = "logcounts",
+    variable = "total_counts"
+)
+g
+```
+
+### t-SNE
+
+PCA represents relationships in the high-dimensional space linearly, while t-SNE allows non-linear relationships and thus usually separates cells from diverse populations better.
+
+t-SNE stands for "T-distributed stochastic neighbor embedding". It is a stochastic method to visualise large high dimensional datasets by preserving local structure amongst cells. 
+
+Two characteristics matter:
+
+- perplexity, to indicate the relative importance of the local and global patterns in structure of the data set, usually use a value of 50,
+- stochasticity; running the analysis will produce a different map every time, unless the seed is set.
+
+See [misread-tsne](https://distill.pub/2016/misread-tsne/).
+
+#### Perplexity
+
+Compute t-SNE with default perplexity, ie 50.
+
+```{r runTSNE_perp50}
+# runTSNE default perpexity if min(50, floor(ncol(object)/5))
+nz.sce <- runTSNE(nz.sce, use_dimred="PCA", perplexity=50, rand_seed=123)
+```
+
+Plot t-SNE:
+
+```{r plotTSNE_perp50}
+tsne50 <- plotTSNE(nz.sce,
+		   colour_by="Sample",
+		   size_by="total_features") + 
+	     fontsize + 
+	     ggtitle("Perplexity = 50")
+tsne50
+```
+
+Split by sample:
+
+```{r plotTSNE_perp50_facetBySample, fig.width=12, fig.height=6}
+g <- tsne50 + facet_grid(. ~ nz.sce$Sample2)
+g
+```
+
+Compute t-SNE for several perplexity values: 
+
+```{r runTSNE_perpRange}
+tsne5.run <- runTSNE(nz.sce, use_dimred="PCA", perplexity=5, rand_seed=123)
+tsne5 <- plotTSNE(tsne5.run, colour_by="Sample") + fontsize + ggtitle("Perplexity = 5")
+
+tsne1000.run <- runTSNE(nz.sce, use_dimred="PCA", perplexity=1000, rand_seed=123)
+tsne1000 <- plotTSNE(tsne1000.run, colour_by="Sample") + fontsize + ggtitle("Perplexity = 1000")
+```
+
+```{r plotTSNE_perpRange, fig.width=6, fig.height=6}
+#multiplot(tsne5, tsne50, tsne1000, cols=1)
+tsne50.1 <- plotTSNE(nz.sce, colour_by="Sample") + fontsize + ggtitle("Perplexity = 50")
+tsne5
+tsne50.1
+tsne1000
+```
+
+__Challenge__: t-SNE is a stochastic method. Change the seed with 'rand_seed=', compute and plot t-SNE. Try that a few times.
+
+```{r runTSNE_seedRange, fig_.width=6, fig.height=6}
+tsne50.run500 <- runTSNE(nz.sce, use_dimred="PCA", perplexity=50, rand_seed=500)
+tsne50.500 <- plotTSNE(tsne50.run500, colour_by="Sample") +  fontsize + ggtitle("Perplexity = 50, seed 500")
+#multiplot(tsne50, tsne50.500, cols=1)
+tsne50.1
+tsne50.500
+```
+
+### Other methods
+
+Several other dimensionality reduction techniques could also be used, e.g., multidimensional scaling, diffusion maps [@ANDREWS2018114].
+
+## Feature selection
+
+scRNASeq measures the expression of thousands of genes in each cell. The biological question asked in a study will most often relates to a fraction of these genes only, linked for example to differences between cell types, drivers of differentiation, or response to perturbation.
+
+Most high-throughput molecular data include variation created by the assay itself, not biology, i.e. technical noise, for example caused by sampling during RNA capture and library preparation. In scRNASeq, this technical noise will result in most genes being detected at different levels. This noise may hinder the detection of the biological signal.
+
+Let's identify Highly Variables Genes (HVGs) with the aim to find those underlying the heterogeneity observed across cells.
+
+### Modelling and removing technical noise
+
+Some assays allow the inclusion of known molecules in a known amount covering a wide range, from low to high abundance: spike-ins. The technical noise is assessed based on the amount of spike-ins used, the corresponding read counts obtained and their variation across cells. The variance in expression can then be decomposed into the biolgical and technical components. 
+
+UMI-based assays do not (yet?) allow spike-ins. But one can still identify HVGs, that is genes with the highest biological component. Assuming that expression does not vary across cells for most genes, the total variance for these genes mainly reflects technical noise. The latter can thus be assessed by fitting a trend to the variance in expression. The fitted value will be the estimate of the technical component.
+
+Let's fit a trend to the variance, using trendVar(). 
+
+```{r fit_trend_to_var}
+var.fit <- trendVar(nz.sce, method="loess", use.spikes=FALSE, loess.args=list("span"=0.05)) 
+```
+
+Plot variance against mean of expression (log scale) and the mean-dependent trend fitted to the variance: 
+
+```{r plot_var_trend}
+plot(var.fit$mean, var.fit$var)
+curve(var.fit$trend(x), col="red", lwd=2, add=TRUE)
+```
+
+Decompose variance into technical and biological components:
+
+```{r decomposeVar}
+var.out <- decomposeVar(nz.sce, var.fit)
+```
+
+### Choosing some HVGs:
+
+Identify the top 20 HVGs by sorting genes in decreasing order of biological component.
+
+```{r HVGs}
+# order genes by decreasing order of biological component
+o <- order(var.out$bio, decreasing=TRUE)
+# check top and bottom of sorted table
+head(var.out[o,])
+tail(var.out[o,])
+# choose the top 20 genes with the highest biological component
+chosen.genes.index <- o[1:20]
+```
+
+Show the top 20 HVGs on the plot displaying the variance against the mean expression: 
+
+```{r plot_var_trend_HVGtop20}
+plot(var.fit$mean, var.fit$var)
+curve(var.fit$trend(x), col="red", lwd=2, add=TRUE)
+points(var.fit$mean[chosen.genes.index], var.fit$var[chosen.genes.index], col="orange")
+```
+
+Rather than choosing a fixed number of top genes, one may define 'HVGs' as genes with a positive biological component, ie whose variance is higher than the fitted value for the corresponding mean expression.
+
+Select and show these 'HVGs' on the plot displaying the variance against the mean expression: 
+
+```{r plot_var_trend_HVGbioCompPos}
+hvgBool <- var.out$bio > 0
+table(hvgBool)
+hvg.index <- which(hvgBool)
+plot(var.fit$mean, var.fit$var)
+curve(var.fit$trend(x), col="red", lwd=2, add=TRUE)
+points(var.fit$mean[hvg.index], var.fit$var[hvg.index], col="orange")
+```
+
+<!--
+Question: in experiments with spike-ins, the trend fitted would rely on their expression. In a sample with different cell types, how would you expect that trend to look?
+
+Answer: the variances for spike-ins should be lower than the variances of the endogenous genes.
+-->
+
+<!--
+Check ID of gene with very high variance
+-->
+
+```{r check_gene_with_high_variance, include=FALSE, eval=FALSE}
+tmpInd <- which(var.out$total == max(var.out$total))
+var(counts(nz.sce)[tmpInd,])
+var(logcounts(nz.sce)[tmpInd,])
+rowData(nz.sce) %>% as.data.frame %>% filter(ensembl_gene_id == rownames(nz.sce)[tmpInd])
+# ENSG00000271503 is CCL5
+```
+
+HVGs may be driven by outlier cells. So let's plot the distribution of expression values for the genes with the largest biological components.
+
+First, get gene names to replace ensembl IDs on plot. 
+
+```{r HVG_extName}
+# the count matrix rows are named with ensembl gene IDs. Let's label gene with their name instead:
+# row indices of genes in rowData(nz.sce)
+tmpInd <- which(rowData(nz.sce)$ensembl_gene_id %in% rownames(var.out)[chosen.genes.index])
+# check:
+rowData(nz.sce)[tmpInd,c("ensembl_gene_id","external_gene_name")]
+# store names:
+tmpName <- rowData(nz.sce)[tmpInd,"external_gene_name"]
+# the gene name may not be known, so keep the ensembl gene ID in that case:
+tmpName[tmpName==""] <- rowData(nz.sce)[tmpInd,"ensembl_gene_id"][tmpName==""]
+tmpName[is.na(tmpName)] <- rowData(nz.sce)[tmpInd,"ensembl_gene_id"][is.na(tmpName)]
+rm(tmpInd)
+```
+
+Now show a violin plot for each gene, using plotExpression() and label genes with their name:
+
+```{r plot_count_HVGtop20}
+g <- plotExpression(nz.sce, rownames(var.out)[chosen.genes.index], 
+    alpha=0.05, jitter="jitter") + fontsize
+g <- g + scale_x_discrete(breaks=rownames(var.out)[chosen.genes.index],
+        labels=tmpName)
+g
+```
+
+__Challenge__: Show violin plots for the 20 genes with the lowest biological component. How do they compare to the those for HVGs chosen above?
+
+```{r plot_count_violoin_HVGbot20, eval = FALSE}
+chosen.genes.index.tmp <- order(var.out$bio, decreasing=FALSE)[1:20]
+tmpInd <- (which(rowData(nz.sce)$ensembl_gene_id %in% rownames(var.out)[chosen.genes.index.tmp]))
+# check:
+rowData(nz.sce)[tmpInd,c("ensembl_gene_id","external_gene_name")]
+# store names:
+tmpName <- rowData(nz.sce)[tmpInd,"external_gene_name"]
+# the gene name may not be known, so keep the ensembl gene ID in that case:
+tmpName[tmpName==""] <- rowData(nz.sce)[tmpInd,"ensembl_gene_id"][tmpName==""]
+tmpName[is.na(tmpName)] <- rowData(nz.sce)[tmpInd,"ensembl_gene_id"][is.na(tmpName)]
+rm(tmpInd)
+g <- plotExpression(nz.sce, rownames(var.out)[chosen.genes.index.tmp], 
+			alpha=0.05, jitter="jitter") + fontsize
+g <- g + scale_x_discrete(breaks=rownames(var.out)[chosen.genes.index.tmp],
+        labels=tmpName)
+g
+rm(chosen.genes.index.tmp)
+```
+
+## Denoising expression values using PCA
+
+Aim: use the trend fitted above to identify PCs linked to biology.
+
+Assumption: biology drives most of the variance hence should be captured by the first PCs, while technical noise affects each gene independently, hence is captured by later PCs.
+
+Logic: Compute the sum of the technical component across genes used in the PCA, use it as the amount of variance not related to biology and that we should therefore remove. Later PCs are excluded until the amount of variance they account for matches that corresponding to the technical component. 
+
+```{r comp_denoisePCA, include=TRUE}
+# remove uninteresting PCs:
+nz.sce <- denoisePCA(nz.sce, technical=var.fit$trend, assay.type="logcounts", approximate=TRUE)
+#rObjFile <- "Tcells_SCE_comb_denoisePCA.Rds"; readRDS(rObjFile)
+# check assay names, should see 'PCA':
+assayNames(nz.sce)
+# check dimension of the PC table:
+dim(reducedDim(nz.sce, "PCA")) 
+
+nz.sce.pca <- reducedDim(nz.sce, "PCA") #??get copy of PCA matrix
+tmpCol <- rep("grey", nbPcToComp) #??set colours to show selected PCs in green
+tmpCol[1:dim(nz.sce.pca)[2]] <- "green"
+barplot(attributes(nz.sce.pca)$percentVar[1:nbPcToComp],
+        main=sprintf("Scree plot for the %s first PCs", nbPcToComp),
+        names.arg=1:nbPcToComp,
+        col=tmpCol,
+        cex.names = 0.8)
+
+# cumulative proportion of variance explained by selected PCs
+cumsum(attributes(nz.sce.pca)$percentVar)[1:dim(nz.sce.pca)[2]]
+
+#??plot on PC1 and PC2 plane:
+plotPCA(nz.sce, colour_by = "Sample")
+#require(knitr); knit_exit()
+rm(tmpCol)
+```
+
+Show cells on plane for PC1 and PC2:
+
+```{r plot_denoisePCA}
+plotReducedDim(nz.sce, use_dimred = "PCA", ncomponents = 3, 
+		colour_by = "Sample",
+		size_by = "total_features") + fontsize
+```
+
+## Visualise expression patterns of some HVGs
+
+On PCA plot:
+
+```{r plot_count_pca_HVGtop2}
+# make and store PCA plot for top HVG 1:
+pca1 <- plotReducedDim(nz.sce, use_dimred="PCA", colour_by=rowData(nz.sce)[chosen.genes.index[1],"ensembl_gene_id"]) + fontsize  # + coord_fixed()
+# make and store PCA plot for top HVG 2:
+pca2 <- plotReducedDim(nz.sce, use_dimred="PCA", colour_by=rowData(nz.sce)[chosen.genes.index[2],"ensembl_gene_id"]) + fontsize # + coord_fixed()
+
+pca1
+pca2
+```
+
+```{r plot_count_pca_HVGtop2_facet, fig.width=12, fig.height=6}
+# display plots next to each other:
+# multiplot(pca1, pca2, cols=2)
+
+pca1 + facet_grid(. ~ nz.sce$Sample2) + coord_fixed()
+pca2 + facet_grid(. ~ nz.sce$Sample2) + coord_fixed()
+
+# display plots next to each other, splitting each by sample:
+#multiplot(pca1 + facet_grid(. ~ nz.sce$Sample2),
+#          pca2 + facet_grid(. ~ nz.sce$Sample2),
+#          cols=2)
+```
+
+On t-SNE plot:
+
+```{r plot_count_tsne_HVGtop2}
+# plot TSNE, accessing counts for the gene of interest with the ID used to name rows in the count matrix:
+# make and store TSNE plot for top HVG 1:
+tsne1 <- plotTSNE(nz.sce, colour_by=rowData(nz.sce)[chosen.genes.index[1],"ensembl_gene_id"]) + fontsize
+# make and store TSNE plot for top HVG 2:
+tsne2 <- plotTSNE(nz.sce, colour_by=rowData(nz.sce)[chosen.genes.index[2],"ensembl_gene_id"]) + fontsize
+
+tsne1
+tsne2
+```
+
+```{r plot_count_tsne_HVGtop2_facet, fig.width=12, fig.height=6}
+# display plots next to each other:
+#multiplot(tsne1, tsne2, cols=2)
+
+tsne1 + facet_grid(. ~ nz.sce$Sample2)
+tsne2 + facet_grid(. ~ nz.sce$Sample2)
+
+# display plots next to each other, splitting each by sample:
+#multiplot(tsne1 + facet_grid(. ~ nz.sce$Sample2), tsne2 + facet_grid(. ~ nz.sce$Sample2), cols=2)
+```
+
+## Clustering cells into putative subpopulations
+
+<!--
+See https://hemberg-lab.github.io/scRNA.seq.course/index.html for three types of clustering.
+See https://www.ncbi.nlm.nih.gov/pubmed/27303057 for review
+-->
+
+### Defining cell clusters from expression data
+
+See [clustering methods](https://hemberg-lab.github.io/scRNA.seq.course/biological-analysis.html##clustering-methods) on the Hemberg lab material.
+
+We will use the denoised log-expression values to cluster cells.
+
+#### hierarchical clustering
+
+Here we'll use hierarchical clustering on the Euclidean distances between cells, using Ward D2 criterion to minimize the total variance within each cluster.
+
+This yields a dendrogram that groups together cells with similar expression patterns across the chosen genes.
+
+##### clustering
+
+Compute tree:
+
+```{r comp_hierar}
+# get PCs
+pcs <- reducedDim(nz.sce, "PCA")
+# compute distance:
+my.dist <- dist(pcs)
+# derive tree:
+my.tree <- hclust(my.dist, method="ward.D2")
+```
+
+Show tree:
+
+```{r plot_tree_hierar}
+plot(my.tree, labels = FALSE)
+```
+
+Clusters are identified in the dendrogram using a dynamic tree cut [@doi:10.1093/bioinformatics/btm563].
+
+```{r cutTree_hierar}
+# identify clustering by cutting branches, requesting a minimum cluster size of 20 cells.
+my.clusters <- unname(cutreeDynamic(my.tree, distM=as.matrix(my.dist), minClusterSize=20, verbose=0))
+```
+
+Let's count cells for each cluster and each sample.
+
+```{r table_hierar}
+table(my.clusters, nz.sce$Sample)
+```
+
+Clusters mostly include cells from one sample or the other. This suggests that the two samples differ, and/or the presence of batch effect.
+
+Let's show cluster assignments on the t-SNE.
+
+```{r plot_tsne_hierar, fig.width=6, fig.height=6}
+# store cluster assignemnt in SCE object:
+nz.sce$cluster <- factor(my.clusters)
+# make, store and show TSNE plot:
+g <- plotTSNE(nz.sce, colour_by = "cluster", size_by = "total_features")
+g
+```
+
+```{r plot_tsne_hierar_facet, fig.width=12, fig.height=6}
+# split by sample and show:
+g <- g + facet_grid(. ~ nz.sce$Sample2)
+g
+```
+
+Cells in the same area are not all assigned to the same cluster.
+
+##### Separatedness
+
+The congruence of clusters may be assessed by computing the sillhouette for each cell.
+The larger the value the closer the cell to cells in its cluster than to cells in other clusters.
+Cells closer to cells in other clusters have a negative value.
+Good cluster separation is indicated by clusters whose cells have large silhouette values.
+
+Compute silhouette: 
+
+```{r comp_silhouette_hierar}
+sil <- silhouette(my.clusters, dist = my.dist)
+```
+
+Plot silhouettes with one color per cluster and cells with a negative silhouette with the color of their closest cluster.
+Add the average silhouette for each cluster and all cells. 
+
+```{r plot_silhouette_hierar}
+# prepare colours:
+clust.col <- scater:::.get_palette("tableau10medium") # hidden scater colours
+sil.cols <- clust.col[ifelse(sil[,3] > 0, sil[,1], sil[,2])]
+sil.cols <- sil.cols[order(-sil[,1], sil[,3])]
+# 
+plot(sil, main = paste(length(unique(my.clusters)), "clusters"), 
+	border=sil.cols, col=sil.cols, do.col.sort=FALSE) 
+```
+
+The plot shows many cells with negative silhoutette indicating too many clusters were defined.
+The method and parameters used defined clusters with properties that may not fit the data set, eg clusters with the same diameter.
+
+#### k-means
+
+This approach assumes a pre-determined number of round equally-sized clusters.
+
+The dendogram built above suggests there may be 5 or 6 large populations.
+
+Let's define 6 clusters.
+
+```{r comp_kmeans_k6}
+# define clusters:
+kclust <- kmeans(pcs, centers=6)
+
+# compute silhouette
+require("cluster")
+sil <- silhouette(kclust$cluster, dist(pcs))
+
+# plot silhouette:
+clust.col <- scater:::.get_palette("tableau10medium") # hidden scater colours
+sil.cols <- clust.col[ifelse(sil[,3] > 0, sil[,1], sil[,2])]
+sil.cols <- sil.cols[order(-sil[,1], sil[,3])]
+plot(sil, main = paste(length(unique(kclust$cluster)), "clusters"), 
+    border=sil.cols, col=sil.cols, do.col.sort=FALSE) 
+```
+
+```{r plot_tSNE_kmeans_k6, fig.width=12, fig.height=6}
+tSneCoord <- as.data.frame(reducedDim(nz.sce, "TSNE"))
+colnames(tSneCoord) <- c("x", "y")
+p2 <- ggplot(tSneCoord, aes(x, y)) +
+	geom_point(aes(color = as.factor(kclust$cluster)))
+p2 + facet_wrap(~ nz.sce$Sample2)
+```
+
+To find the most appropriate number of clusters, one performs the analysis for a series of k values, computes a measure of fit of the clusters defined: the within cluster sum-of-square. This value decreases as k increases, by an amount that decreases with k. Choose k at the inflexion point of the curve. 
+
+```{r choose_kmeans}
+library(broom)
+require(tibble)
+require(dplyr)
+require(tidyr)
+library(purrr)
+points <- as.tibble(pcs)
+augment(kclust, points)
+
+kclusts <- tibble(k = 1:9) %>%
+  mutate(
+    kclust = map(k, ~kmeans(points, .x)),
+    tidied = map(kclust, tidy),
+    glanced = map(kclust, glance),
+    augmented = map(kclust, augment, points)
+  )
+
+kclusts
+
+clusters <- kclusts %>%
+  unnest(tidied)
+
+assignments <- kclusts %>% 
+  unnest(augmented)
+
+clusterings <- kclusts %>%
+  unnest(glanced, .drop = TRUE)
+```
+
+Plot the total within cluster sum-of-squares and decide on k.
+
+```{r plot_withinss}
+ggplot(clusterings, aes(k, tot.withinss)) +
+  geom_line()
+```
+
+
+Copy the cluster assignment to the SCE object.
+
+```{r copy_k5}
+df <- as.data.frame(assignments)
+nz.sce$kmeans5 <- as.numeric(df[df$k == 5, ".cluster"])
+```
+
+Check silhouette for a k of 5.
+
+```{r silhouette_kmeans_k5}
+library(cluster)
+clust.col <- scater:::.get_palette("tableau10medium") # hidden scater colours
+sil <- silhouette(nz.sce$kmeans5, dist = my.dist)
+sil.cols <- clust.col[ifelse(sil[,3] > 0, sil[,1], sil[,2])]
+sil.cols <- sil.cols[order(-sil[,1], sil[,3])]
+plot(sil, main = paste(length(unique(nz.sce$kmeans5)), "clusters"), 
+    border=sil.cols, col=sil.cols, do.col.sort=FALSE) 
+```
+
+#### graph-based clustering
+
+Let's build a shared nearest-neighbour graph using cells as nodes, then perform community-based clustering.
+
+Build graph, define clusters, check membership across samples, show membership on t-SNE.
+
+```{r comp_snn}
+#compute graph
+snn.gr <- buildSNNGraph(nz.sce, use.dimred="PCA")
+# derive clusters
+cluster.out <- igraph::cluster_walktrap(snn.gr)
+# count cell in each cluster for each sample
+my.clusters <- cluster.out$membership
+table(my.clusters, nz.sce$Sample)
+# store membership
+nz.sce$cluster <- factor(my.clusters)
+# shoe clusters on TSNE
+plotTSNE(nz.sce, colour_by="cluster") + fontsize
+```
+
+Compute modularity to assess clusters quality. The closer to 1 the better.
+
+```{r modularity_snn}
+igraph::modularity(cluster.out)
+```
+
+```{r clusterModularity_snn, include = FALSE}
+mod.out <- clusterModularity(snn.gr, my.clusters, get.values=TRUE)
+ratio <- mod.out$observed/mod.out$expected
+lratio <- log10(ratio + 1)
+
+library(pheatmap)
+pheatmap(lratio, cluster_rows=FALSE, cluster_cols=FALSE, 
+    color=colorRampPalette(c("white", "blue"))(100))
+```
+
+Show similarity between clusters on a network. 
+
+```{r plot_clusterNetwork_snn}
+cluster.gr <- igraph::graph_from_adjacency_matrix(ratio, 
+    mode="undirected", weighted=TRUE, diag=FALSE)
+plot(cluster.gr, edge.width=igraph::E(cluster.gr)$weight*10)  
+```
+
+### Detecting genes differentially expressed between clusters
+
+#### Differential expression analysis
+
+Let's identify genes for each cluster whose expression differ to that of other clusters, using findMarkers().
+It fits a linear model to the log-expression values for each gene using limma [@doi:10.1093/nar/gkv007] and allows testing for differential expression in each cluster compared to the others while accounting for known, uninteresting factors.
+ 
+```{r findMarkers}
+markers <- findMarkers(nz.sce, my.clusters)
+```
+
+Results are compiled in a single table per cluster that stores the outcome of comparisons against the other clusters.
+One can then select differentially expressed genes from each pairwise comparison between clusters.
+
+Let's define a set of genes for cluster 1 by selecting the top 10 genes of each comparison, and check test output, eg adjusted p-values and log-fold changes.
+
+```{r marker_set_clu1_get}
+# get output table for clsuter 1:
+marker.set <- markers[["1"]]
+head(marker.set, 10)
+
+# add gene annotation:
+tmpDf <- marker.set
+tmpDf$ensembl_gene_id <- rownames(tmpDf)
+tmpDf2 <- base::merge(tmpDf, rowData(nz.sce), by="ensembl_gene_id", all.x=TRUE, all.y=F, sort=F)
+```
+
+Write Table to file:
+
+```{r marker_set_clu1_write}
+rObjFile <- "Tcells_nz.sce_comb_clu1_deg.tsv"
+#tmpFileName <- file.path(inpDir, dataSubDir, rObjFile)
+tmpFileName <- file.path(rObjFile)
+write.table(tmpDf2, file=tmpFileName, sep="\t", quote=FALSE, row.names=FALSE)
+```
+
+Gene set enrichment analyses learnt earlier today may be used to characterise clusters further. 
+
+#### Heatmap
+
+As for bulk RNA, differences in expression profiles of the top genes can be visualised with a heatmap. 
+
+```{r marker_set_clu1_heatmap_unsorted}
+# select some top genes:
+top.markers <- rownames(marker.set)[marker.set$Top <= 10]
+
+# have matrix to annotate sample with cluster and sample:
+tmpData <- logcounts(nz.sce)[top.markers,]
+# concat sample and barcode names to make unique name across the whole data set
+tmpCellNames <- paste(colData(nz.sce)$Sample, colData(nz.sce)$Barcode, sep="_")
+# use these to namecolumn of matrix the show as heatmap:
+colnames(tmpData) <- tmpCellNames # colData(nz.sce)$Barcode                    
+
+# columns annotation with cell name:
+mat_col <- data.frame(cluster = nz.sce$cluster, sample = nz.sce$Sample)
+rownames(mat_col) <- colnames(tmpData)
+rownames(mat_col) <- tmpCellNames # colData(nz.sce)$Barcode
+
+# Prepare colours for clusters:
+colourCount = length(unique(nz.sce$cluster))
+getPalette = colorRampPalette(brewer.pal(9, "Set1"))
+
+mat_colors <- list(group = getPalette(colourCount))
+names(mat_colors$group) <- unique(nz.sce$cluster)
+
+# plot heatmap:
+pheatmap(tmpData,
+           border_color      = NA,
+  show_colnames     = FALSE,
+  show_rownames     = FALSE,
+  drop_levels       = TRUE,
+         annotation_col    = mat_col,
+         annotation_colors = mat_colors
+         )
+```
+
+One can sort both the gene and sample dendrograms to improve the heatmap.
+
+```{r marker_set_clu1_heatmap_sorted}
+library(dendsort)
+
+mat <- tmpData
+mat_cluster_cols <- hclust(dist(t(mat)))
+
+sort_hclust <- function(...) as.hclust(dendsort(as.dendrogram(...)))
+
+mat_cluster_cols <- sort_hclust(mat_cluster_cols)
+#plot(mat_cluster_cols, main = "Sorted Dendrogram", xlab = "", sub = "")
+
+mat_cluster_rows <- sort_hclust(hclust(dist(mat)))
+
+pheatmap(tmpData,
+           border_color      = NA,
+           show_colnames     = FALSE,
+           show_rownames     = FALSE,
+           drop_levels       = TRUE,
+           annotation_col    = mat_col,
+           annotation_colors = mat_colors,
+           cluster_cols      = mat_cluster_cols,
+           cluster_rows      = mat_cluster_rows
+         )
+```
+
+#### Challenges
+
+__Challenge?__ Compare t-SNE obtained here to that shown in the article and show expression level of reported markers genes on t-SNE plots.
+
+__Challenge?__ Identify genes that are upregulated in each cluster compared to others. 
+
+<!--
+"By setting direction="up", findMarkers will only return genes that are upregulated in each cluster compared to the others. This is convenient in highly heterogeneous populations to focus on genes that can immediately identify each cluster. While lack of expression may also be informative, it is less useful for positive identification."
+-->
+
+__Challenge?__ Identify genes differentially expressed between a cluster and all others.
+
+<!--
+" findMarkers can also be directed to find genes that are DE between the chosen cluster and all other clusters. This should be done by setting pval.type="all", which defines the p-value for each gene as the maximum value across all pairwise comparisons involving the chosen cluster. Combined with direction="up", this can be used to identify unique markers for each cluster. However, this is sensitive to overclustering, as unique marker genes will no longer exist if a cluster is split into two smaller subclusters."
+
+"It must be stressed that the (adjusted) p-values computed here cannot be properly interpreted as measures of significance. This is because the clusters have been empirically identified from the data. limma does not account for the uncertainty of clustering, which means that the p-values are much lower than they should be. This is not a concern in other analyses where the groups are pre-defined."
+-->
+
+__Challenge?__ Identify genes whose distribution of expression, rather than their average expression, differs between clusters (Hint: overlapExprs() may help).
+
+<!--
+"The overlapExprs function may also be useful here, to prioritize candidates where there is clear separation between the distributions of expression values of different clusters. This differs from findMarkers, which is primarily concerned with the log-fold changes in average expression between clusters."
+-->
+
+Save session to file.
+
+```{r save_session}
+rObjFile <- "Tcells_SCE_comb_session.RData"
+
+# check file exists:
+#tmpFileName <- file.path(inpDir, dataSubDir, rObjFile)
+tmpFileName <- file.path(rObjFile)
+
+# uncomment to save sesssion # 
+save.image(file=tmpFileName)
+```
+
+## Other types of analyses beyond this brief introduction
+
+Several tools for single cell analyses, eg Seurat [@seurat], were not covered in this brief introduction this afternoon. Please refer to links above for more information on these and more advanced analyses such as progress along a differentiation pathway, or pseudotime, with monocle [@pmid24658644] or TSCAN [@pmid27179027], and gene set enrichment analyses used for bulk data or designed single-cell methods like scde [@pmid26780092]. Please also refer to the article reporting the analysis of this data set, including batch correction [@pmid29942092].
+
+# References
