@@ -110,8 +110,8 @@ School etherpad (E-whiteboard) is [here](https://public.etherpad-mozilla.org/p/2
 - 13:30 - 16:30; Single Cell RNASeq 'taster'
   + [Introduction to single-cell sequencing](SingleCell/slides/2018-07-25_CRUK_CI_summer_school-scRNAseq.pdf)  
   + [QC and normalization Practical](SingleCell/practical/QC_and_normalization.html).  
-  + [Single cell population identification Practical (Rmd file)](SingleCell/practical/crukSummerSchoolJuly2018_scRnaSeqCellPopId_practical.Rmd)
-  + [Single cell population identification Practical (html file)](SingleCell/slides/crukSummerSchoolJuly2018_scRnaSeqCellPopId_practical.html)
+  + [Single cell population identification Practical (Rmd file)](SingleCell/practical/crukBioinfoSummerSchoolJuly2018_scRnaSeqCellPopId_practical.Rmd)
+  + [Single cell population identification Practical (html file)](SingleCell/practical/crukBioinfoSummerSchoolJuly2018_scRnaSeqCellPopId_practical_run.html)
 
 NB We do not have sufficient time to teach this entire course in half a day. However, some concepts are covered in the Bulk RNASeq course and we provide the [link to the full materials](https://hemberg-lab.github.io/scRNA.seq.course/index.html). Please note, that on occasions where all of the material was used, it resulted in a five-day course(!). We will teach topics that should be of interest even to those not interested in single-cell work.
 
