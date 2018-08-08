@@ -22,8 +22,9 @@ Enthusiastic and motivated wet-lab biologists who want to gain more of an unders
 - Unix
 - Introductory statistics
 
-**More specific requirements and references can be found [here](http://www.cruk.cam.ac.uk/bioinformatics-summer-school-prerequisites)**
+**More specific requirements and references can be found [here](http://www.cruk.cam.ac.uk/bioinformatics-summer-school-prerequisites)**   
 
+**Data files for course are [here](https://www.dropbox.com/sh/s4qb83mtuxjelg7/AAB0HIXL5_NGE8r20UxjG1v5a?dl=0). There is a zip-file for each course and a sizes.txt file with zip sizes (Warning: Single-cell one is BIG!)**   
 
 ### Instructors
 
